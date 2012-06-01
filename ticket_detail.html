@@ -9,7 +9,20 @@
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
-    <script type="text/javascript" src="cordova-1.7.0.js"></script>    
+    <script src="js/jquery.md5.min.js"></script>
+    <script>
+	$(document).bind("mobileinit", function(){
+	  $.extend(  $.mobile , {
+		defaultPageTransition: 'none'
+	  });
+	});
+	$( document ).delegate("#ticket_detail_main", "pageinit", function(){
+		$('.res-gravatar').each(function(){
+				var email = $.MD5($(this).data('gravatar'));			
+				$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email);
+			});				
+	});	
+	</script>
 	
 </head> 
 <body>  
