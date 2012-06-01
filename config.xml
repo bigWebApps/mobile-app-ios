@@ -7,20 +7,19 @@
 
     <!-- versionCode is optional and Android only -->
 
-    <name>HelpDesk</name>
+    <name>HD ios test</name>
 
     <description>
-        A mobile version of our great online app. 
+        Testing for ios 
     </description>
 
     <author href="http://helpdesk.bigwebapps.com" email="support@bigwebapps.com">
-        Patrick Clements
+        Jon Vickers
     </author>
 	
 	<preference name="orientation" value="portrait" />
 	<preference name="target-device" value="handset" />
-	<preference name="prerendered-icon" value="true" />
-	<preference name="android-minSdkVersion" value="10" />	
+	<preference name="prerendered-icon" value="true" />	
 	
 	<!-- IOS only icons -->
 	<icon src="img/icons/ios/icon.png" width="57" height="57" />
