@@ -1,0 +1,450 @@
+/*
+* jQuery Mobile Framework 1.1.0
+* http://jquerymobile.com
+*
+* Copyright 2011 (c) jQuery Project
+* Dual licensed under the MIT or GPL Version 2 licenses.
+* http://jquery.org/license
+*
+*/
+
+html {
+	-webkit-backface-visibility: hidden;
+	}
+
+/*--- Overrides ---*/
+.ui-page {
+	background: #ffffff;
+    -webkit-backface-visibility: hidden;
+	}
+.ui-footer {padding: 5px;}
+.ui-field-contain:first-child {
+border-top-width: 0;
+border-bottom-width: 0;
+} 
+.ui-li-desc {
+white-space: normal;
+}
+
+.ui-body-c, .ui-overlay-c {
+text-shadow: 0 0 0;
+}
+
+.ticket-det-footer {padding:0;}
+
+/*----- Custom Icons -----*/
+
+.ui-icon-app-transfer{
+	background-image: url("../img/icons/transfer.png");
+	}
+.ui-icon-app-respond{
+	background-image: url("../img/icons/respond.png");
+	}
+.ui-icon-app-more{
+	background-image: url("../img/icons/more.png");
+	}
+
+/*---- Home View --------*/
+
+.home_new_ticket{
+	margin-top: 65px;
+	}
+
+/*---- Create Ticket -----*/
+
+select {
+	padding: 12px;
+	font-size: 14px;
+	background: none;
+	width: 100%;
+	border: 1px solid #cccccc;	
+    -webkit-border-radius: 12px;    
+    border-radius: 12px; 
+	margin-bottom: 15px;   
+	}
+
+/*---- Ticket Lists -----*/
+
+ul.tickets {color: #222; font-size: 14px; width: 100%; margin: 0; padding: 0;}
+
+ul li.ticket-list  {border-bottom: 1px solid #CCC; width: 100%; margin: 0; padding: 5px 0; list-style: none;}
+li.ticket-list.new {background-color: #FAE6CB;}
+.ticket-list p {margin:0 0 3px; padding: 0;}
+.ticket-list table {width: 100%;}
+.ticket-list table tr {padding: 0; margin: 0;}
+
+.left {text-align: left;}
+.right {text-align: right;}
+
+.ticket-num,
+.ticket-subject {
+	font-weight: bold;
+	font-size: 16px;
+	}
+
+.customer, 
+.smalllabel, 
+.tech-name, 
+.account, 
+.class-name {color: #999;}
+
+.customer, 
+.account {font-weight: bold;}
+
+.status, .date.today {font-weight: bold;}
+
+.status.open {color:#090;}
+.status.closed {color: #900;}
+.status.onhold {color:#C60;}
+
+.date {color: #09F;}
+
+.smalllabel {font-size: 8px; margin: 0 0 3px 0 !important;}
+
+.tech-name,
+.class-name {font-size: 12px; color: #999;}
+
+
+
+/*------- Ticket Details ------*/
+
+#ticket_detail_main ul li {
+	-khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none; 
+	}
+
+.ticket-det-box {	
+	position: absolute;
+	top:-1px;
+	left: 10px;
+	padding: 5px 5px 8px;
+	min-width: 60px;
+	max-width: 70px;
+	text-align: center;
+	border-width: 1px;
+	border-bottom-style: solid;
+	}
+	.ticket-det-box.open {
+		background-color: #349a34;
+		border-color: #00580a;
+		}
+		
+	.ticket-det-box p {
+		padding: 0;
+		margin: 0;
+		color: #ffffff;		
+        text-shadow: 1px 1px 0px #222222;
+        filter: dropshadow(color=#222222, offx=1, offy=1);        
+		}
+		.status-det {
+			font-size: 12px;
+			padding-top: 6px;
+			}
+		.status-ticket-num {
+			font-size: 18px;
+			}
+		
+.ticket-det-head {
+	margin-left: 90px;
+	padding: 7px 0;	
+	}
+	.ticket-det-head h1, .ticket-det-head h2 {
+		margin: 0; 
+		padding: 0;
+		color: #fff;
+		text-shadow: 1px 1px 0px #999999;
+        filter: dropshadow(color=#999999, offx=1, offy=1);
+		}
+	.ticket-det-head h1 {
+		font-size: 14px;
+		}
+	.ticket-det-head h2 {
+		font-size: 12px;
+		}
+.ticket-tech-class {
+	width: 100%;
+	padding: 8px 10px 5px;
+	background-color: #ffdcaa;
+	color: #9c4d00;
+	border-top: 1px solid #d98700;
+	min-height: 30px;
+	}
+	.ticket-tech-class p {
+		margin: 0; 
+		padding: 0;
+		color: #9c4d00;
+		text-shadow: 0px 0px 0px #e4e4e4;
+     	filter: dropshadow(color=#e4e4e4, offx=0, offy=0);
+		}
+	.ticket-det-tech {
+		font-size: 12px;
+		width: 30%;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		float: left;
+		}	
+	.ticket-det-class {
+		font-size: 12px;
+		width: 60%;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		float: right;
+		}	
+.ticket-level-priority {
+	width: 100%;
+	padding: 4px 10px 5px;
+	background-color: #fc7700;
+	color: #ffffff;
+	text-shadow: 0px 0px 0px #9c4d00;
+    filter: dropshadow(color=#9c4d00, offx=0, offy=0);
+	border-top: 1px solid #9c4d00;
+	min-height: 15px;
+	}
+	.ticket-level-priority p {
+		padding: 0;
+		margin: 0 10px 0 0;
+		float: left;
+		font-size: 12px;
+		}
+		.ticket-level-priority p span {
+			font-weight: bold;
+			}
+		.ticket-level-priority p.det-date {
+			float: right;
+			padding-right: 10px;
+			}
+.ticket-det-subject {
+	font-weight: normal;
+	margin: -20px 0 30px 0;
+	}
+
+#footerSlideContainer {
+	position: fixed;
+	bottom:0;
+	width: 100%;
+	z-index: 9999999999;
+}
+#footerSlideContent {
+	width: 100%;
+	height: 0px;
+	background-color: rgba(0, 0, 0, 0.8);	
+}
+#footerSlideText {
+	padding: 20px 10px 0 10px;
+}
+
+/*---- Ticket Responses ----*/
+
+#ticket_detail_header{
+	width: 100%;
+	}
+.response-info {
+	padding: 2px 0;
+	margin: 0;
+	padding: 0 0 6px;
+	min-height: 30px;
+	}
+.response-info p {
+	font-size: 10px;
+	color: #999;
+	margin: 0;
+	padding: 0;
+	}
+	.response-info .response-name {
+		float: left;
+		}
+	.response-info .response-date {
+		float: right;
+		}
+	
+	.res-type {
+		font-size: 9px;
+		padding: 2px 5px 2px;
+		margin: -5px 0 5px;
+		background-color: #989898;
+		color: #ffffff;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+		font-weight: normal;	
+		width: auto;
+		text-shadow: 0px 0px 0px #989898;
+      	filter: dropshadow(color=#989898, offx=0, offy=0);	   
+		}
+	.response-text-img {
+		width: 100%;
+		min-height: 35px;
+		}
+	.res-gravatar {float: left; margin-right: 10px;}
+	.res-gravatar img {
+		padding: 2px;
+		background-color: #E8E8E8;
+		border: 1px solid #DADADA;
+		}
+	.res-text {
+		word-wrap: normal;
+		}
+	.res-text.ui-li-desc {
+		font-size: 12px;
+		margin: 0;
+		text-overflow: normal;
+		white-space: normal;
+		}
+/*------ More Menu -------*/
+#alert_menu {
+	background-color: #444444;
+	}	
+	
+#ticket-detail-more {
+	bottom: 55px;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+	}
+	
+/* H is for HelpDesk
+-----------------------------------------------------------------------------------------------------------*/
+
+.ui-bar-h {
+	border: none;
+	background: #ff9f00 /*{h-bar-background-color}*/;
+	color: #ffffff /*{h-bar-color}*/;
+	font-weight: normal;
+}
+
+.ui-bar-h .ui-link-inherit {
+	color: #ffffff /*{h-bar-color}*/;
+}
+.ui-bar-h .ui-link {
+	color: #7cc4e7 /*{h-bar-link-color}*/;
+	font-weight: bold;
+}
+
+.ui-bar-h .ui-link:hover {
+	color: #2489CE /*{h-bar-link-hover}*/;
+}
+
+.ui-bar-h .ui-link:active {
+	color: #ffffff /*{h-bar-link-active}*/;
+}
+
+.ui-bar-h .ui-link:visited {
+    color: #2489CE /*{h-bar-link-visited}*/;
+}
+
+.ui-bar-h,
+.ui-bar-h input,
+.ui-bar-h select,
+.ui-bar-h textarea,
+.ui-bar-h button {
+	 font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+}
+.ui-body-h,
+.ui-overlay-h {
+	border: 1px solid #aaaaaa /*{h-body-border}*/;
+	color: #333333 /*{h-body-color}*/;
+	background: #f9f9f9 /*{h-body-background-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #f9f9f9 /*{h-body-background-start}*/), to( #eeeeee /*{h-body-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #f9f9f9 /*{h-body-background-start}*/, #eeeeee /*{h-body-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #f9f9f9 /*{h-body-background-start}*/, #eeeeee /*{h-body-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #f9f9f9 /*{h-body-background-start}*/, #eeeeee /*{h-body-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #f9f9f9 /*{h-body-background-start}*/, #eeeeee /*{h-body-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #f9f9f9 /*{h-body-background-start}*/, #eeeeee /*{h-body-background-end}*/);
+}
+.ui-overlay-h {
+	background-image: none;
+	border-width: 0;
+}
+.ui-body-h,
+.ui-body-h input,
+.ui-body-h select,
+.ui-body-h textarea,
+.ui-body-h button {
+	 font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+}
+
+.ui-body-h .ui-link-inherit {
+	color: #333333 /*{h-body-color}*/;
+}
+
+.ui-body-h .ui-link {
+	color: #2489CE /*{h-body-link-color}*/;
+	font-weight: bold;
+}
+
+.ui-body-h .ui-link:hover {
+	color: #2489CE /*{h-body-link-hover}*/;
+}
+
+.ui-body-h .ui-link:active {
+	color: #2489CE /*{h-body-link-active}*/;
+}
+
+.ui-body-h .ui-link:visited {
+    color: #2489CE /*{h-body-link-visited}*/;
+}
+
+.ui-btn-up-h {
+	border: 1px solid #cccccc /*{h-bup-border}*/;
+	background: #eeeeee /*{h-bup-background-color}*/;
+	font-weight: bold;
+	color: #2F3E46 /*{h-bup-color}*/;
+	text-shadow: 0 /*{h-bup-shadow-x}*/ 0 /*{h-bup-shadow-y}*/ 0 /*{h-bup-shadow-radius}*/ 0 /*{h-bup-shadow-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #ffffff /*{h-bup-background-start}*/), to( #f1f1f1 /*{h-bup-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #ffffff /*{h-bup-background-start}*/, #f1f1f1 /*{h-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #ffffff /*{h-bup-background-start}*/, #f1f1f1 /*{h-bup-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #ffffff /*{h-bup-background-start}*/, #f1f1f1 /*{h-bup-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #ffffff /*{h-bup-background-start}*/, #f1f1f1 /*{h-bup-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #ffffff /*{h-bup-background-start}*/, #f1f1f1 /*{h-bup-background-end}*/);
+}
+.ui-btn-up-h a.ui-link-inherit {
+	color: #2F3E46 /*{h-bup-color}*/;
+}
+
+.ui-btn-hover-h {
+	border: 1px solid #bbbbbb /*{h-bhover-border}*/;
+	background: #dfdfdf /*{h-bhover-background-color}*/;
+	font-weight: bold;
+	color: #2F3E46 /*{h-bhover-color}*/;
+	text-shadow: 0 /*{h-bhover-shadow-x}*/ 1px /*{h-bhover-shadow-y}*/ 0 /*{h-bhover-shadow-radius}*/ #ffffff /*{h-bhover-shadow-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #f6f6f6 /*{h-bhover-background-start}*/), to( #e0e0e0 /*{h-bhover-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #f6f6f6 /*{h-bhover-background-start}*/, #e0e0e0 /*{h-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #f6f6f6 /*{h-bhover-background-start}*/, #e0e0e0 /*{h-bhover-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #f6f6f6 /*{h-bhover-background-start}*/, #e0e0e0 /*{h-bhover-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #f6f6f6 /*{h-bhover-background-start}*/, #e0e0e0 /*{h-bhover-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #f6f6f6 /*{h-bhover-background-start}*/, #e0e0e0 /*{h-bhover-background-end}*/);
+}
+.ui-btn-hover-h a.ui-link-inherit {
+	color: #2F3E46 /*{h-bhover-color}*/;
+}
+.ui-btn-down-h {
+	border: 1px solid #bbbbbb /*{h-bdown-border}*/;
+	background: #d6d6d6 /*{h-bdown-background-color}*/;
+	font-weight: bold;
+	color: #2F3E46 /*{h-bdown-color}*/;
+	text-shadow: 0 /*{h-bdown-shadow-x}*/ 1px /*{h-bdown-shadow-y}*/ 0 /*{h-bdown-shadow-radius}*/ #ffffff /*{h-bdown-shadow-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #d0d0d0 /*{h-bdown-background-start}*/), to( #dfdfdf /*{h-bdown-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #d0d0d0 /*{h-bdown-background-start}*/, #dfdfdf /*{h-bdown-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #d0d0d0 /*{h-bdown-background-start}*/, #dfdfdf /*{h-bdown-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #d0d0d0 /*{h-bdown-background-start}*/, #dfdfdf /*{h-bdown-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #d0d0d0 /*{h-bdown-background-start}*/, #dfdfdf /*{h-bdown-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #d0d0d0 /*{h-bdown-background-start}*/, #dfdfdf /*{h-bdown-background-end}*/);
+}
+.ui-btn-down-h a.ui-link-inherit {
+	color: #2F3E46 /*{h-bdown-color}*/;
+}
+.ui-btn-up-h,
+.ui-btn-hover-h,
+.ui-btn-down-h {
+	 font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	text-decoration: none;
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	

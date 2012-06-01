@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "K38L7HPDJV.com.bigwebapps.helpdesk"
+        versionCode="1" 
+        version   = "0.0.1">
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>HelpDesk</name>
+
+    <description>
+        A mobile version of our great online app. 
+    </description>
+
+    <author href="http://helpdesk.bigwebapps.com" email="support@bigwebapps.com">
+        Patrick Clements
+    </author>
+	
+	<preference name="orientation" value="portrait" />
+	<preference name="target-device" value="handset" />
+	<preference name="prerendered-icon" value="true" />
+	<preference name="android-minSdkVersion" value="10" />	
+	
+	<!-- IOS only icons -->
+	<icon src="img/icons/ios/icon.png" width="57" height="57" />
+	<icon src="img/icons/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
+	<icon src="img/icons/ios/icon_at_2x.png" width="114" height="114" />
+	
+	<!-- IOS only splash screens 
+	<gap:splash src="img/splash/ios/Default.png" width="320" height="480" />
+	<gap:splash src="img/splash/ios/Default_at_2x.png" width="640" height="960" />
+	<gap:splash src="img/splash/ios/Default-Portrait.png" width="768" height="1024" />-->
+
+</widget>

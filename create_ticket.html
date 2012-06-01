@@ -1,0 +1,59 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>HelpDesk</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" />    
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.1.0.min.js"></script>    
+</head> 
+<body> 
+
+<div data-role="page">	 
+	<div data-role="content" data-theme="d">
+    	<div align="center" style="margin-bottom: 30px;"><img src="img/helpdesk_logo.png"></div>		
+		<form action="home.html" method="post">
+          
+				  <select name="select-customer" id="customer" data-role="none">
+                    <option value="ben@bigwebapps.com">ben@bigwebapps.com</option>
+                    <option value="makemeuser">Make me the user</option>
+                    <option value="addnewuser">Add new user</option>
+				  </select>
+               <br>
+				  <select name="select-account" id="account" data-role="none">
+				     <option value="bigwebapps">bigWebApps</option>
+				     <option value="someoneelse">Someone Else</option>
+				     <option value="anothercompany">Another Company</option>
+				  </select>
+                <br>
+				  <select name="select-tech" id="tech" data-role="none">
+				     <option value="default">Tech (Default Routing)</option>
+				     <option value="someoneelse">Someone Else</option>
+				     <option value="anothercompany">Another Company</option>
+				  </select>                 
+         		<br>
+            	<label><input type="checkbox" name="alternate" /> Make me the alternate </label>
+                <br>              
+				<input type="text" name="subject" id="subject" value="" placeholder="Subject"/>
+				<br>
+				<textarea name="details" id="details" placeholder="Details"></textarea>
+				
+                <a href="home.html" data-role="button" data-inline="true">Cancel</a>
+				
+                <button type="submit" data-theme="b" data-inline="true" name="submit" value="submit-value" >
+					Submit Ticket
+				</button>
+                
+                
+                	
+			</form>
+	</div><!-- /content -->
+
+
+
+</div><!-- /page -->
+
+</body>
+</html>

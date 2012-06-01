@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>HelpDesk</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	
+	<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" />    
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script>
+	$(document).bind("mobileinit", function(){
+	  $.extend(  $.mobile , {
+		defaultPageTransition: 'none'
+	  });
+	});	
+	</script>
+	
+</head> 
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header" data-position="fixed" data-theme="h">
+		<h1>HelpDesk Views</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">		
+		<a href="login.html" data-role="button" data-transition="flip" data-theme="g" data-iconpos="right"  data-icon="arrow-r">Login to HelpDesk</a>	
+        <a href="home.html" data-role="button" data-transition="flip" data-theme="g" data-iconpos="right"  data-icon="arrow-r">Home View</a>
+        <p>This is just a temporary page for navigation through the app.</p>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-position="fixed" data-theme="h">
+	    <h1 data-inline="true">Temp Page</h1>
+	</div>
+
+</div><!-- /page -->
+
+</body>
+</html>

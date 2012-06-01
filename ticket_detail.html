@@ -1,0 +1,416 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>HelpDesk</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">    
+	
+	<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" />    
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script type="text/javascript" src="cordova-1.7.0.js"></script>
+    <script src="js/jquery.md5.min.js"></script>
+    <script>
+	$(document).bind("mobileinit", function(){
+	  $.extend(  $.mobile , {
+		defaultPageTransition: 'none'
+	  });
+	});
+	$( document ).delegate("#ticket_detail_main", "pageinit", function(){
+		$('.res-gravatar').each(function(){
+				var email = $.MD5($(this).data('gravatar'));			
+				$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email);
+			});				
+	});	
+	</script>
+	
+</head> 
+<body>  
+<div data-role="page" id="ticket_detail_main">
+	<div data-role="header" id="ticket_detail_header" data-position="fixed" data-theme="h">
+    	<div class="ticket-det-box open">
+    		<p class="status-det">Open</p>
+            <p class="status-ticket-num">#345</p>
+    	</div>
+        <div class="ticket-det-head">
+        	<h1>Jim Mora</h1>
+            <h2>Filmore United Schools</h2>
+        </div>
+        <div class="ticket-tech-class">
+        	<div class="ticket-det-tech">
+            	<p class="smalllabel">TECH</p>
+                <p>Al Petersen</p>
+            </div>
+            <div class="ticket-det-class">
+            	<p class="smalllabel">CLASS</p>
+                <p>Top Level > Printer Issue</p>
+            </div>
+        </div>
+		<div class="ticket-level-priority">
+        	<p class="det-icon">&nbsp;</p>
+            <p class="det-level">Level: <span>1</span></p>
+            <p class="det-priority">Priority: <span>1</span></p>
+            <p class="det-date">12/29/2011</p>
+        </div>
+	</div><!-- /header -->   
+    
+	<div data-role="content">
+    	<div class="ticket-det-subject">
+        	<h3>Auto email alert is completely foobar'd  - blah blah blah blah blah</h3>
+        </div>		
+		
+        
+        <ul data-role="listview" data-theme="b">
+        	<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
+                <div class="response-info">
+                	<div class="response-date">
+                    	<p>12/29/2012 10:45AM (UTC-5)</p>
+                    </div>
+                	<div class="response-name">
+                    	<p class="res-name">Ben Pfohl</p>
+                        <span class="res-type">Response</span>
+                    </div>                    
+                </div>
+                <div class="response-text-img">
+                	<div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
+                    <p class="res-text">
+                        This is just another response to check the scrolling out.
+                    </p>                    
+                </div>
+			</li>
+          	<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
+                <div class="response-info">
+                	<div class="response-date">
+                    	<p>12/29/2012 10:30AM (UTC-5)</p>
+                    </div>
+                	<div class="response-name">
+                    	<p class="res-name">Patrick Clements</p>
+                        <span class="res-type">Response</span>
+                    </div>                    
+                </div>
+                <div class="response-text-img">
+                	<div class="res-gravatar" data-gravatar="patrick.clements@bigwebapps.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
+                    <p class="res-text">
+                        I think a beer is more in order. Perhaps some Yager bombs to get ya going.
+                    </p>                    
+                </div>
+			</li>				
+            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
+                <div class="response-info">
+                	<div class="response-date">
+                    	<p>12/29/2012 10:18AM (UTC-5)</p>
+                    </div>
+                	<div class="response-name">
+                    	<p class="res-name">Ben Pfohl</p>
+                        <span class="res-type">Response</span>
+                    </div>                    
+                </div>
+                <div class="response-text-img">
+                	<div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
+                    <p class="res-text">
+                        Hey Jim, I've got a barista getting you a coffee for your trouble.
+                    </p>                    
+                </div>
+			</li>
+            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
+                <div class="response-info">
+                	<div class="response-date">
+                    	<p>12/29/2012 10:18AM (UTC-5)</p>
+                    </div>
+                	<div class="response-name">
+                    	<p class="res-name">Jon Vickers</p>
+                        <span class="res-type">Initial Post</span>
+                    </div>                    
+                </div>
+                <div class="response-text-img">
+                	<div class="res-gravatar" data-gravatar="jon.vickers@micajah.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
+                    <p class="res-text">
+                        I am laking some energy. I might need another vacation, or perhaps some coffee.  Regardless of the reason, I can't seam to be able to log into the system today so I'm going home.
+                    </p>                    
+                </div>
+			</li>
+        </ul>   
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
+		<div data-role="navbar" data-theme="h">
+			<ul>
+				<li><a href="ticket_list.html" data-theme="g" data-icon="back" >Back</a></li>
+				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
+				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
+				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
+			</ul>
+		</div><!-- /navbar -->        
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+<!-----------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+------------------------------ Sub Pages --------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------>
+
+<!------------------------------ Ticket Info --------------------------------------------------->
+
+<div data-role="page" id="ticket_info">
+	<div data-role="header" id="ticket_detail_header" data-position="fixed" data-theme="h">
+    	<div class="ticket-det-box open">
+    		<p class="status-det">Open</p>
+            <p class="status-ticket-num">#345</p>
+    	</div>
+        <div class="ticket-det-head">
+        	<h1>Jim Mora</h1>
+            <h2>Filmore United Schools</h2>
+        </div>
+        <div class="ticket-tech-class">
+        	<div class="ticket-det-tech">
+            	<p class="smalllabel">TECH</p>
+                <p>Al Petersen</p>
+            </div>
+            <div class="ticket-det-class">
+            	<p class="smalllabel">CLASS</p>
+                <p>Top Level > Printer Issue</p>
+            </div>
+        </div>
+		<div class="ticket-level-priority">
+        	<p class="det-icon">&nbsp;</p>
+            <p class="det-level">Level: <span>1</span></p>
+            <p class="det-priority">Priority: <span>1</span></p>
+            <p class="det-date">12/29/2011</p>
+        </div>
+	</div><!-- /header -->   
+    
+	<div data-role="content">
+    	<h1>Ticket info</h1>  
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
+		<div data-role="navbar" data-theme="h">
+			<ul>
+				<li><a href="#ticket_detail_main" data-theme="g" data-icon="back" >Back</a></li>
+				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
+				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
+				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
+			</ul>
+		</div><!-- /navbar -->        
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+
+<!------------------------------ More Menu ----------------------------------------------------->
+
+<div data-role="page" id="alert_menu" data-theme="a">
+    <div id="ticket-detail-more" data-role="content" data-theme="a">        
+        <a href="#ticket_response" data-role="button" data-theme="c">Add Response</a>	
+        <a href="#ticket_transfer" data-role="button" data-theme="c">Transfer to Another Tech</a>
+        <a href="#ticket_addtime" data-role="button" data-theme="c">Record Time</a>	
+        <a href="#ticket_detail_main" onclick="pickupTicket('345'); return false;" data-role="button" data-theme="c">Pick Up Ticket</a>
+        <a href="#ticket_close" data-role="button" data-theme="c">Close Ticket</a>
+        <a href="#ticket_detail_main" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>        
+    </div> <!-- Content -->
+    
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
+		<div data-role="navbar" data-theme="h">
+			<ul>
+				<li><a href="#ticket_detail_main" data-theme="g" data-icon="back" >Back</a></li>
+				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
+				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
+				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
+			</ul>
+		</div><!-- /navbar -->        
+	</div><!-- /footer -->  
+</div>
+
+<!------------------------------ Add Response ----------------------------------------------------->
+
+
+<div data-role="page" id="ticket_response">
+	<div data-role="header" id="ticket_detail_header" data-theme="h">
+    	<div class="ticket-det-box open">
+    		<p class="status-det">Open</p>
+            <p class="status-ticket-num">#345</p>
+    	</div>
+        <div class="ticket-det-head">
+        	<h1>Jim Mora</h1>
+            <h2>Filmore United Schools</h2>
+        </div>
+        
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d"> 
+    
+    <h3>Add Response</h3>    
+        
+        	<form action="#ticket_detail_main" method="post">             	 
+                  	<label for="ticketresponse" class="ui-hidden-accessible">Response</label>
+                	<textarea name="ticketresponse" id="ticketresponse" placeholder="Add Ticket Reponse"></textarea>                 
+            </form>       
+        
+        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Post Response</a> 
+    	
+    </div><!--content-->
+</div>
+
+
+<!------------------------------ Ticket Transfer--------------------------------------------------->
+
+<div data-role="page" id="ticket_transfer">
+	<div data-role="header" id="ticket_detail_header" data-theme="h">
+    	<div class="ticket-det-box open">
+    		<p class="status-det">Open</p>
+            <p class="status-ticket-num">#345</p>
+    	</div>
+        <div class="ticket-det-head">
+        	<h1>Jim Mora</h1>
+            <h2>Filmore United Schools</h2>
+        </div>        
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">     
+        
+        	<form action="#ticket_detail_main" method="post">          	
+                	
+                	<label><input type="checkbox" name="transfer_remove_user" /> Remove Al Petersen after transfer. </label>                	
+                    <br>
+                    <label><input type="checkbox" name="transfer_alternate" /> Make me the alternate </label>
+                    <br>                   
+                    <label for="status" class="select">Transfer to </label>
+                      <select name="status" id="tech_transfer" data-role="none">
+                         <option value="Pat Clements">Pat Clements</option>
+                         <option value="Jon Vickers">Jon Vickers</option>
+                         <option value="Ben Pfohl">Ben Pfohl</option>
+                      </select>   
+                      
+                  	<label for="transferdetails" class="ui-hidden-accessible">Details</label>
+                	<textarea name="transferdetails" id="transferdetails" placeholder="Details"></textarea>
+                 
+            </form>       
+        
+        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Transfer Ticket</a> 
+    	
+    </div><!-- content -->    
+    
+</div>
+
+
+<!------------------------------ Ticket Record Time ----------------------------------------------->
+
+<div data-role="page" id="ticket_addtime">
+	<div data-role="header" id="ticket_detail_header" data-theme="h">
+    	<div class="ticket-det-box open">
+    		<p class="status-det">Open</p>
+            <p class="status-ticket-num">#345</p>
+    	</div>
+        <div class="ticket-det-head">
+        	<h1>Jim Mora</h1>
+            <h2>Filmore United Schools</h2>
+        </div>
+        
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">
+        	<form action="index.html" method="post">
+                    <label for="time_tech">Technician</label>
+                      <select name="time_tech" id="time_tech" data-role="none">
+                        <option value="104171">Chernenko, Dmitriy</option>
+                        <option value="71576">Clements, Mike</option>
+                        <option value="38006">Clements, Patrick</option>
+                        <option value="199175">Clements (gmail), Patrick</option>
+                        <option value="155557">Durfee, Sherri</option>
+                        <option value="139708">Dzoba, Yuriy</option>
+                        <option value="59085">Gavrilov, Alexey</option>
+                        <option value="58745">Gooz, Vladimir</option>
+                        <option value="92249">Gooz (Test), Vladimir</option>
+                        <option value="201075">Khramov, Michael</option>
+                        <option value="116023">Korzhavin, Artem</option>
+                        <option value="188796">Magazinov, Andrey</option>
+                        <option value="132085">Mykytyuk, Yuriy</option>
+                        <option selected="selected" value="176409">Pfohl, Ben</option>
+                        <option value="167762">Pierce, Tori</option>
+                        <option value="155909">Queue, Future Consideration</option>
+                        <option value="199506">Queue, New Ticket</option>
+                        <option value="84683">Queue, Pre-Development</option>
+                        <option value="220244">Queue, SherpaDesk</option>
+                        <option value="208278">Queue, WareHouse</option>
+                        <option value="113737">Replicator, bigWebDesk</option>
+                        <option value="157898">Shvalev, Andrey</option>
+                        <option value="222227">Tolmachov, Eugene</option>
+                        <option value="26">Vickers, Jon</option>
+                        <option value="133129">Vladyka, Igor</option>
+                        <option value="141155">Yuriev, Yura</option>
+                      </select>
+
+                    <label for="time_hours">Hours</label>
+                    <input type="text" name="time_hours" id="time_hours" value="0:00" />
+					<br>
+                    <label for="time_task">Task Type</label>
+                      <select name="time_task" id="time_task" data-role="none">
+                        <option value="marketing/communications">Marketing/Communications</option>
+                        <option value="SEM">SEM</option>
+                        <option value="software dev">Software Dev</option>                        
+                      </select>
+
+                    <label for="time_details" class="ui-hidden-accessible">Time Details</label>
+                    <textarea name="time_details" id="time_details" placeholder="Time Details"></textarea>
+
+            </form>
+
+        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Record Time</a> 
+    	
+    </div><!-- content -->    
+    
+
+</div>
+
+
+<!------------------------------ Ticket Close ----------------------------------------------------->
+
+<div data-role="page" id="ticket_close">
+	<div data-role="header" id="ticket_detail_header" data-theme="h">
+    	<div class="ticket-det-box open">
+    		<p class="status-det">Open</p>
+            <p class="status-ticket-num">#345</p>
+    	</div>
+        <div class="ticket-det-head">
+        	<h1>Jim Mora</h1>
+            <h2>Filmore United Schools</h2>
+        </div>
+        
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">
+    	
+        <h3>Close Ticket</h3>
+
+        	<form action="index.html" method="post">
+                
+                <label><input type="checkbox" name="notify_user" checked="checked" /> Notify user via email. </label>
+                
+                <br/>
+                <label for="closedetails" class="ui-hidden-accessible">Details</label>
+                <textarea name="closedetails" id="closedetails" placeholder="Details"></textarea>
+            </form>
+        
+        
+        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Close Ticket</a> 
+    	
+    </div><!-- content -->
+    
+    
+
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
