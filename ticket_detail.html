@@ -1,29 +1,29 @@
 <!DOCTYPE html> 
 <html> 
 	<head> 
-	<title>HelpDesk</title> 
+	<title>Ticket #345</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">    
-	
+	<meta name="format-detection" content="telephone=no">
+    
 	<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" />    
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/jquery.md5.min.js"></script>
-    <script>
-	$(document).bind("mobileinit", function(){
-	  $.extend(  $.mobile , {
-		defaultPageTransition: 'none'
-	  });
-	});
-	$( document ).delegate("#ticket_detail_main", "pageinit", function(){
-		$('.res-gravatar').each(function(){
-				var email = $.MD5($(this).data('gravatar'));			
-				$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email);
-			});				
-	});	
-	</script>
-	
+    <script>	
+       $(document).bind("mobileinit", function(){
+		  $.extend(  $.mobile , {
+			defaultPageTransition: 'none'
+		  });
+		});
+		$( document ).delegate("#ticket_detail_main", "pageinit", function(){
+			$('.res-gravatar').each(function(){
+					var email = $.MD5($(this).data('gravatar'));			
+					$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email);
+				});				
+		});	
+	</script>	
 </head> 
 <body>  
 <div data-role="page" id="ticket_detail_main">
@@ -47,14 +47,14 @@
             </div>
         </div>
 		<div class="ticket-level-priority">
-        	<p class="det-icon">&nbsp;</p>
+        	<p class="det-icon"></p>
             <p class="det-level">Level: <span>1</span></p>
             <p class="det-priority">Priority: <span>1</span></p>
             <p class="det-date">12/29/2011</p>
         </div>
 	</div><!-- /header -->   
     
-	<div data-role="content">
+	<div data-role="content" id="ticket-response-list">
     	<div class="ticket-det-subject">
         	<h3>Auto email alert is completely foobar'd  - blah blah blah blah blah</h3>
         </div>		
