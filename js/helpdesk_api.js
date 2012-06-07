@@ -27,13 +27,7 @@ function getapicommandurl(command, key) {
     return api_url + command_url + "?callback=?";
 }
 function api_login(email, pass, success_function) {
-    //$.getJSON(getapicommandurl('login'), { LoginName:email, Password:pass }, success_function);
-	$.ajax({
-		url: getapicommandurl('login'),
-		data: { LoginName:email, Password:pass },
-		dataType: "jsonp",
-		success: success_function
-	});
+    $.getJSON(getapicommandurl('login'), { LoginName:email, Password:pass }, success_function);
 }
 function api_organizations(success_function) {
     $.getJSON(getapicommandurl('org'), null, success_function);

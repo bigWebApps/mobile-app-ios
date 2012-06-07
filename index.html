@@ -12,28 +12,26 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/helpdesk_api.js"></script>
-    <script>
-        $(document).delegate("#select-org-inst", "pageinit", function () {			
+    <script>        
 			function parseorgs(data) {
 				if (!data) return;
 				$.each(data, function (index, tek) {
-				//Add after the default val
-				$("#orgs option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
-				$("#orgs").show();
-				$("#login").hide();
+					//Add after the default val
+					$("#orgs option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
+					$("#orgs").show();
+					$("#login").hide();
 				});
 			}						
 			function parseinsts(data) {
 				if (!data) {
-				$("#login").show();
-				return;
-				}
-				
+					$("#login").show();
+					return;
+				}				
 				$.each(data, function (index, tek) {
 				//Add after the default val
 				$("#insts option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
-				$("#orgs").hide();
-				$("#insts").show();
+					$("#orgs").hide();
+					$("#insts").show();
 				});
 			}			
 			function set_org() {
@@ -49,27 +47,25 @@
 				//add event handler to the `submit` event for your login form
 				api_organizations(parseorgs);						
 				$("#orgs").change(function () {
-				$("#orgs option:selected").each(function () {
-				var org_key = $(this).val();
-				if (org_key != 0) {
-				api_set_organization(org_key, set_org);
-				api_instances(parseinsts);
-				}
-				});
-				})
-				.change();
+					$("#orgs option:selected").each(function () {
+						var org_key = $(this).val();
+						if (org_key != 0) {
+							api_set_organization(org_key, set_org);
+							api_instances(parseinsts);
+						}
+					});
+				}).change();
+				
 				$("#insts").change(function () {
-				$("#insts option:selected").each(function () {
-				var inst_key = $(this).val();
-				if (inst_key != 0) {
-				api_set_instance(inst_key, set_inst);
-				window.location = "home.html";
-				}
-				});
-				})
-				.change();		
+					$("#insts option:selected").each(function () {
+						var inst_key = $(this).val();
+						if (inst_key != 0) {
+							api_set_instance(inst_key, set_inst);
+							window.location = "home.html";
+						}
+					});
+				}).change();		
 			});
-		});
 	</script>
 
 </head>
