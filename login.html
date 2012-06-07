@@ -11,23 +11,22 @@
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/helpdesk_api.js"></script>
     <script>
-
-        function login_check(data) {
-            if (data) {
-                alert(data);
-            }
-            else
-                window.location = "index.html";
-        }
-        // this is what is required for the on the mobile page load
-       $( document ).delegate("#login-page", "pageinit", function(){
-        //$(document).ready(function () {
-            //add event handler to the `submit` event for your login form
-            $('#login_form').bind('submit', function () {
-                api_login($('#email').val(), $('#password').val(), login_check);
-            });
-        });
-
+  		function login_check(data) {
+		    if (data) {
+		        alert(data);
+		    } else {
+		        window.location = "index.html";
+		    }
+		}
+		// this is what is required for the on the mobile page load
+		$(document).delegate("#login-page", "pageinit", function () {
+			//add event handler to the `submit` event for your login form
+			$('#login_submit').on('click', function () {
+				//console.log( api_login($('#email').val(), $('#password').val(), login_check) )
+				api_login($('#email').val(), $('#password').val(), login_check);
+				//e.preventDefault();
+			});
+		});		
     </script>
 </head>
 <body>
@@ -42,8 +41,7 @@
             <label for="password" class="ui-hidden-accessible">Password</label>
             <input type="password" name="password" id="password" value="" placeholder="password"/>
             <br/>
-            <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden"
-                    aria-disabled="false">
+            <button type="submit" id="login_submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden">
                 Submit
             </button>
         </form>

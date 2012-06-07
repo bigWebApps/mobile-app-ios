@@ -11,13 +11,13 @@
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/jquery.md5.min.js"></script>
     <script>
-	$(document).bind("mobileinit", function(){
+	$(document).bind("mobileinit", function (){
 	  $.extend(  $.mobile , {
 		defaultPageTransition: 'none'
 	  });
 	});
-	$(document).bind("pageload", function(){
-		$('.res-gravatar').each(function(){
+	$(document).bind("pageload", function (){
+		$('.res-gravatar').each(function (){
 				var email = $.MD5($(this).data('gravatar'));			
 				$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email +"d=retro");
 			});
