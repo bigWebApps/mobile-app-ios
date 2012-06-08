@@ -17,16 +17,17 @@
         function login_check(data) {
             if (data) {
                 alert(data);
+				window.location.replace("index.html");
             }
             else
-                window.location = "login.html";
+                window.location.replace("login.html");
         }
         // this is what is required for the on the mobile page load
        $( document ).delegate("#login-page", "pageinit", function(){
         //$(document).ready(function () {
             //add event handler to the `submit` event for your login form
             $('#login_form').bind('submit', function () {
-                api_login($('#email').val(), $('#password').val(), login_check);
+                //api_login($('#email').val(), $('#password').val(), login_check);
             });
         });
 
@@ -39,13 +40,13 @@
 
         <form id="login_form">
             <label for="email" class="ui-hidden-accessible">Email</label>
-            <input type="text" name="email" id="email" value="" placeholder="email"/>
+            <input name="email" type="email" id="email" value="" placeholder="email"/>
             <br/>
             <label for="password" class="ui-hidden-accessible">Password</label>
             <input type="password" name="password" id="password" value="" placeholder="password"/>
             <br/>
             <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden"
-                    aria-disabled="false">
+                    aria-disabled="false" onclick="api_login($('#email').val(), $('#password').val(), login_check);">
                 Submit
             </button>
         </form>

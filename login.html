@@ -49,8 +49,9 @@
 
         function set_inst() {
             alert(1);
-            window.location = "home.html";
+            window.location.replace("home.html");
         }
+
 
         // this is what is required for the on the mobile page load
         $( document ).delegate("#select-org-inst", "pageinit", function(){
@@ -74,7 +75,7 @@
                     var inst_key = $(this).val();
                     if (inst_key != 0) {
                         api_set_instance(inst_key, set_inst);
-                        window.location = "home.html";
+                        window.location.replace("home.html");
                     }
                 });
             })
@@ -84,7 +85,7 @@
     </script>
 
 </head>
-<body>
+<body onload="api_organizations(parseorgs)">
 
 <div data-role="page" id="select-org-inst">
 
