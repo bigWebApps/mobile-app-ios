@@ -2,98 +2,55 @@
 <html>
 <head>
     <title>HelpDesk</title>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
-    <script src="js/jquery.min.js"></script>
+	<script src="phonegap.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/helpdesk_api.js"></script>
-    <script>        
-			function parseorgs(data) {
-				if (!data) return;
-				$.each(data, function (index, tek) {
-					//Add after the default val
-					$("#orgs option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
-					$("#orgs").show();
-					$("#login").hide();
-				});
-			}						
-			function parseinsts(data) {
-				if (!data) {
-					$("#login").show();
-					return;
-				}				
-				$.each(data, function (index, tek) {
-				//Add after the default val
-				$("#insts option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
-					$("#orgs").hide();
-					$("#insts").show();
-				});
-			}			
-			function set_org() {
-				alert(1);
-				api_instances(parseinsts);
-			}			
-			function set_inst() {
-				alert(1);
-				window.location = "home.html";
-			}			
-			// this is what is required for the on the mobile page load
-			$( document ).delegate("#select-org-inst", "pageinit", function(){		
-				//add event handler to the `submit` event for your login form
-				api_organizations(parseorgs);						
-				$("#orgs").change(function () {
-					$("#orgs option:selected").each(function () {
-						var org_key = $(this).val();
-						if (org_key != 0) {
-							api_set_organization(org_key, set_org);
-							api_instances(parseinsts);
-						}
-					});
-				}).change();
-				
-				$("#insts").change(function () {
-					$("#insts option:selected").each(function () {
-						var inst_key = $(this).val();
-						if (inst_key != 0) {
-							api_set_instance(inst_key, set_inst);
-							window.location = "home.html";
-						}
-					});
-				}).change();		
-			});
-	</script>
+	
+    <script>
+        function login_check(data) {
+            if (data) {
+                alert(data);
+            }
+            else
+                window.location = "login.html";
+        }
+        // this is what is required for the on the mobile page load
+       $( document ).delegate("#login-page", "pageinit", function(){
+        //$(document).ready(function () {
+            //add event handler to the `submit` event for your login form
+            $('#login_form').bind('submit', function () {
+                api_login($('#email').val(), $('#password').val(), login_check);
+            });
+        });
 
+    </script>
 </head>
 <body>
 
-<div data-role="page" id="select-org-inst">
+<div data-role="page" id="login-page">
+        <div align="center" style="margin-bottom: 30px;"><img src="img/helpdesk_logo.png"></div>
 
-    <div data-role="header" data-position="fixed" data-theme="h">
-        <h1>HelpDesk</h1>
-    </div>
-    <!-- /header -->
-
-    <div id="content" data-role="content">
-        <a href="login.html" id="login" data-role="button" data-transition="flip" data-theme="g" data-iconpos="right"
-           data-icon="arrow-r">Login to HelpDesk</a>
-        <a style="display:none" id="home" href="home.html" data-role="button" data-transition="flip" data-theme="g"
-           data-iconpos="right" data-icon="arrow-r">Home View</a>
-        <select style="display:none" name="select-organization" id="orgs" data-role="none">
-            <option value="0">-- Select Organization --</option>
-        </select>
-        <select style="display:none" name="select-instance" id="insts" data-role="none">
-            <option value="0">-- Select Instance --</option>
-        </select>        
+        <form id="login_form">
+            <label for="email" class="ui-hidden-accessible">Email</label>
+            <input type="text" name="email" id="email" value="" placeholder="email"/>
+            <br/>
+            <label for="password" class="ui-hidden-accessible">Password</label>
+            <input type="password" name="password" id="password" value="" placeholder="password"/>
+            <br/>
+            <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden"
+                    aria-disabled="false">
+                Submit
+            </button>
+        </form>
     </div>
     <!-- /content -->
-    
-</div>
-<!-- /page -->
 
-</body>
-</html>
+
+<!-- /page -->
