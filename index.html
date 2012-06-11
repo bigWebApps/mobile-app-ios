@@ -2,56 +2,215 @@
 <html>
 <head>
     <title>HelpDesk</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
 
-    <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
-    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
-	<script src="phonegap.js"></script>
+    <link href="default.css" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
 	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
-    <script src="js/helpdesk_api.js"></script>
-	
-    <script>
-        function login_check(data) {
-            if (data) {
-                alert(data);
-				window.location.replace("index.html");
-            }
-            else
-                window.location.replace("login.html");
-        }
-        // this is what is required for the on the mobile page load
-       $( document ).delegate("#login-page", "pageinit", function(){
-        //$(document).ready(function () {
-            //add event handler to the `submit` event for your login form
-            $('#login_form').bind('submit', function () {
-                //api_login($('#email').val(), $('#password').val(), login_check);
-            });
-        });
+    	  <script src="phonegap.js"></script>
 
+    <script type="text/javascript">
+        $( document ).delegate("#select-org-inst", "pageinit", function(){
+
+            $.ajaxSetup({ cache: false });
+
+            var restLog = function (method, url)
+            {
+                //if (url.indexOf('?format') == -1) url += '?format=json';
+                if (method == "GET") url = '<a href="' + url + '" target="_blank">' + url + '</a>';
+                $("#restlog").prepend("<div><b class='ib'>" + method + "</b><i>" + url + "</i></div>");
+            }
+
+            var allGenres = [];
+
+            var refreshExistingMovies = function ()
+            {
+                var moviesUrl = "movies", jqFilter = $("SELECT[name=genres]"), filterGenre = jqFilter.val();
+                if (filterGenre) moviesUrl += "/genres/" + filterGenre;
+
+                restLog("GET", moviesUrl);
+                $.getJSON('http://servicestack.net/ServiceStack.MovieRest/'+moviesUrl, function (r)
+                {
+
+                    var html = "";
+                    for (var i = 0; i < r.Movies.length; i++)
+                    {
+                        var movie = r.Movies[i];
+                        html += "<dd id='" + movie.Id + "'>"
+                                 + "<label class='ib'>" + movie.Title + "</label>"
+                                 + "<span class='ib lnk-update'>update</span>"
+                                 + "<span class='ib lnk-delete'>delete</span>"
+                        "</dd>";
+
+                        $.each(movie.Genres, function (i, genre)
+                        {
+                            if ($.inArray(genre, allGenres) == -1) allGenres.push(genre);
+                        });
+                        var genreHtml = '<option class="first" value="">[ All Genres ]</option>';
+                        $.each(allGenres, function (i, genre)
+                        {
+                            var selected = filterGenre == genre ? ' selected="selected"' : '';
+                            genreHtml += '<option value="' + genre + '"' + selected + '>' + genre + '</option>';
+                        });
+                        jqFilter.html(genreHtml);
+                    }
+
+                    $("#existing-movies").html(html);
+
+
+                    $("#existing-movies .lnk-delete").click(function ()
+                    {
+                        var request = { type: 'delete', url: "http://servicestack.net/ServiceStack.MovieRest/movies/" + $(this).parent().attr('id') };
+                        restLog("DELETE", request.url);
+                        request.success = refreshExistingMovies;
+                        $.ajax(request);
+                    });
+
+                    $("#existing-movies .lnk-update").click(function ()
+                    {
+                        var movieId = $(this).parent().attr('id');
+
+                        restLog("GET", "movies/" + movieId);
+                        $.getJSON("http://servicestack.net/ServiceStack.MovieRest/movies/" + movieId, function (r)
+                        {
+                            showDetailsForm(r.Movie);
+                        });
+                    });
+                });
+            };
+
+            $("SELECT[name=genres]").change(function ()
+            {
+                refreshExistingMovies();
+            });
+
+            $("#btnReset").click(function ()
+            {
+                restLog("POST", "reset-movies");
+                $.post("http://servicestack.net/ServiceStack.MovieRest/reset-movies", function (r)
+                {
+                    refreshExistingMovies();
+                });
+            });
+
+            var showDetailsForm = function (updateMovie)
+            {
+                var isUpdate = !!updateMovie;
+                var newMovie =
+                {
+                    Id: 0,
+                    ImdbId: "tt0110912",
+                    Title: "Pulp Fiction",
+                    Rating: 8.9,
+                    Director: "Quentin Tarantino",
+                    ReleaseDate: new Date(1994, 10, 24),
+                    TagLine: "Girls like me don't make invitations like this to just anyone!",
+                    Genres: ["Crime", "Drama", "Thriller"]
+                };
+
+                var movie = updateMovie || newMovie;
+
+                $("FORM INPUT[type=submit]").val(isUpdate ? "Update movie" : "Add new movie");
+                var action = "movies";
+                $("FORM").attr('action', isUpdate ? action + "/" + movie.Id : action);
+                $("FORM").attr('method', isUpdate ? 'PUT' : 'POST');
+
+                var title = isUpdate ? "Update " + movie.Title : "Add a new movie";
+                $("FORM H2").html(title);
+
+                for (var name in movie)
+                {
+                    $("INPUT[name=" + name + "]").val(movie[name]);
+                }
+                var date = typeof movie['ReleaseDate'] == 'string'
+                    ? new Date(parseFloat(/Date\(([^)]+)\)/.exec(movie['ReleaseDate'])[1]))
+                    : movie['ReleaseDate'];
+                $("INPUT[name=ReleaseDate]").val(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
+
+                $("FORM").fadeIn('fast');
+            };
+
+            $("#btnAdd").click(function() {
+                showDetailsForm();
+            });
+
+            $("FORM").submit(function (e) {
+                e.preventDefault();
+                
+                var data = {};
+                $("FORM INPUT[type=text]").each(function(){
+                    data[this.name] = this.value;
+                });
+
+                $.ajax({
+                    url: "http://servicestack.net/ServiceStack.MovieRest/movies",
+                    type: "POST",
+                    data: data,
+                    dataType: "json",
+                    success: function ()
+                    {
+                        restLog($('FORM').attr('method'), $('FORM').attr('action'));
+                        $("FORM").hide();
+                        refreshExistingMovies();
+                    }
+                });
+            });
+        	
+            
+        	$("#csvformat B").click(function ()
+            {
+                restLog("GET", "movies?format=csv");
+                location.href = "http://servicestack.net/ServiceStack.MovieRest/movies?format=csv";
+            });
+
+            refreshExistingMovies();
+        });
     </script>
+
 </head>
 <body>
-
-<div data-role="page" id="login-page">
-        <div align="center" style="margin-bottom: 30px;"><img src="img/helpdesk_logo.png"></div>
-
-        <form id="login_form">
-            <label for="email" class="ui-hidden-accessible">Email</label>
-            <input name="email" type="email" id="email" value="" placeholder="email"/>
-            <br/>
-            <label for="password" class="ui-hidden-accessible">Password</label>
-            <input type="password" name="password" id="password" value="" placeholder="password"/>
-            <br/>
-            <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden"
-                    aria-disabled="false" onclick="api_login($('#email').val(), $('#password').val(), login_check);">
-                Submit
-            </button>
-        </form>
+<div data-role="page" id="select-org-inst">
+    <div id="existing">
+        <select name="genres"></select>
+        <h2>Existing Movies</h2>
+        <dl id="existing-movies"></dl>
+        <button id="btnAdd">Add &gt;&gt;</button>
     </div>
-    <!-- /content -->
+<h3>        <button id="btnReset">Reset Movie Database</button></h3>
+    <form action="http://servicestack.net/ServiceStack.MovieRest/movies" method="post">
+        <h2></h2>
+        <input type="hidden" name="Id" />
+        <dl>
+            <dt>Imdb Id</dt>
+            <dd><input type="text" name="ImdbId" /></dd>
 
+            <dt>Title</dt>
+            <dd><input type="text" name="Title" /></dd>
 
-<!-- /page -->
+            <dt>Rating</dt>
+            <dd><input type="text" name="Rating" /></dd>
+
+            <dt>Director</dt>
+            <dd><input type="text" name="Director" /></dd>
+
+            <dt>Release Date</dt>
+            <dd><input type="text" name="ReleaseDate" /></dd>
+
+            <dt>Tag Line</dt>
+            <dd><input type="text" name="TagLine" /></dd>
+
+            <dt>Genres</dt>
+            <dd><input type="text" name="Genres" /></dd>
+        </dl>
+
+        <input type="submit" />
+    </form>
+
+        <h4>HTTP REST LOG</h4>
+    <code id="restlog"></code>
+</div>
+</body>
+</html>
