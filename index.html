@@ -6,211 +6,114 @@
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
 
-    <link href="default.css" rel="stylesheet" type="text/css" />
-      <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+	<script src="phonegap.js"></script>
 	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
-    	  <script src="phonegap.js"></script>
+    <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/helper.js"></script>
+	
+    <script>
+        // this is what is required for the on the mobile page load
+        pageLoad(function(){
 
-    <script type="text/javascript">
-        $( document ).delegate("#select-org-inst", "pageinit", function(){
-alert(1);
-            $.ajaxSetup({ cache: false });
+            api = new HelpDeskAPI('test');
 
-            var restLog = function (method, url)
-            {
-                //if (url.indexOf('?format') == -1) url += '?format=json';
-                if (method == "GET") url = '<a href="' + url + '" target="_blank">' + url + '</a>';
-                $("#restlog").prepend("<div><b class='ib'>" + method + "</b><i>" + url + "</i></div>");
+            var parseorgs = function (data) {
+                if (!data)
+                {
+                    $.mobile.changePage("login.html");
+                    return;
+                }
+                $.each(data, function (index, tek) {
+                    //Add after the default val
+                    $("#orgs option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
+                    $("#orgs").show();
+                    $("#login").hide();
+
+                });
             }
 
-            var allGenres = [];
-
-            var refreshExistingMovies = function ()
-            {
-                var moviesUrl = "movies", jqFilter = $("SELECT[name=genres]"), filterGenre = jqFilter.val();
-                if (filterGenre) moviesUrl += "/genres/" + filterGenre;
-
-                restLog("GET", moviesUrl);
-                $.getJSON('http://servicestack.net/ServiceStack.MovieRest/'+moviesUrl, function (r)
-                {
-
-                    var html = "";
-                    for (var i = 0; i < r.Movies.length; i++)
-                    {
-                        var movie = r.Movies[i];
-                        html += "<dd id='" + movie.Id + "'>"
-                                 + "<label class='ib'>" + movie.Title + "</label>"
-                                 + "<span class='ib lnk-update'>update</span>"
-                                 + "<span class='ib lnk-delete'>delete</span>"
-                        "</dd>";
-
-                        $.each(movie.Genres, function (i, genre)
-                        {
-                            if ($.inArray(genre, allGenres) == -1) allGenres.push(genre);
-                        });
-                        var genreHtml = '<option class="first" value="">[ All Genres ]</option>';
-                        $.each(allGenres, function (i, genre)
-                        {
-                            var selected = filterGenre == genre ? ' selected="selected"' : '';
-                            genreHtml += '<option value="' + genre + '"' + selected + '>' + genre + '</option>';
-                        });
-                        jqFilter.html(genreHtml);
-                    }
-
-                    $("#existing-movies").html(html);
-
-
-                    $("#existing-movies .lnk-delete").click(function ()
-                    {
-                        var request = { type: 'delete', url: "http://servicestack.net/ServiceStack.MovieRest/movies/" + $(this).parent().attr('id') };
-                        restLog("DELETE", request.url);
-                        request.success = refreshExistingMovies;
-                        $.ajax(request);
-                    });
-
-                    $("#existing-movies .lnk-update").click(function ()
-                    {
-                        var movieId = $(this).parent().attr('id');
-
-                        restLog("GET", "movies/" + movieId);
-                        $.getJSON("http://servicestack.net/ServiceStack.MovieRest/movies/" + movieId, function (r)
-                        {
-                            showDetailsForm(r.Movie);
-                        });
-                    });
-                });
-            };
-
-            $("SELECT[name=genres]").change(function ()
-            {
-                refreshExistingMovies();
-            });
-
-            $("#btnReset").click(function ()
-            {
-                restLog("POST", "reset-movies");
-                $.post("http://servicestack.net/ServiceStack.MovieRest/reset-movies", function (r)
-                {
-                    refreshExistingMovies();
-                });
-            });
-
-            var showDetailsForm = function (updateMovie)
-            {
-                var isUpdate = !!updateMovie;
-                var newMovie =
-                {
-                    Id: 0,
-                    ImdbId: "tt0110912",
-                    Title: "Pulp Fiction",
-                    Rating: 8.9,
-                    Director: "Quentin Tarantino",
-                    ReleaseDate: new Date(1994, 10, 24),
-                    TagLine: "Girls like me don't make invitations like this to just anyone!",
-                    Genres: ["Crime", "Drama", "Thriller"]
-                };
-
-                var movie = updateMovie || newMovie;
-
-                $("FORM INPUT[type=submit]").val(isUpdate ? "Update movie" : "Add new movie");
-                var action = "movies";
-                $("FORM").attr('action', isUpdate ? action + "/" + movie.Id : action);
-                $("FORM").attr('method', isUpdate ? 'PUT' : 'POST');
-
-                var title = isUpdate ? "Update " + movie.Title : "Add a new movie";
-                $("FORM H2").html(title);
-
-                for (var name in movie)
-                {
-                    $("INPUT[name=" + name + "]").val(movie[name]);
+            var parseinsts = function (data) {
+                if (!data) {
+                    $("#login").show();
+                    return;
                 }
-                var date = typeof movie['ReleaseDate'] == 'string'
-                    ? new Date(parseFloat(/Date\(([^)]+)\)/.exec(movie['ReleaseDate'])[1]))
-                    : movie['ReleaseDate'];
-                $("INPUT[name=ReleaseDate]").val(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
 
-                $("FORM").fadeIn('fast');
-            };
-
-            $("#btnAdd").click(function() {
-                showDetailsForm();
-            });
-
-            $("FORM").submit(function (e) {
-                e.preventDefault();
-                
-                var data = {};
-                $("FORM INPUT[type=text]").each(function(){
-                    data[this.name] = this.value;
+                $.each(data, function (index, tek) {
+                    //Add after the default val
+                    $("#insts option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
+                    $("#orgs").hide();
+                    $("#insts").show();
                 });
+            }
 
-                $.ajax({
-                    url: "http://servicestack.net/ServiceStack.MovieRest/movies",
-                    type: "POST",
-                    data: data,
-                    dataType: "json",
-                    success: function ()
-                    {
-                        restLog($('FORM').attr('method'), $('FORM').attr('action'));
-                        $("FORM").hide();
-                        refreshExistingMovies();
+            var set_org = function () {
+                alert(2);
+                api.instances([],parseinsts);
+            }
+
+            var set_inst = function () {
+                alert(1);
+                $.mobile.changePage("home.html");
+            }
+
+            api.organizations([],parseorgs);
+
+            $("#orgs").change(function () {
+                $("#orgs option:selected").each(function () {
+                    var org_key = $(this).val();
+                    if (org_key != 0) {
+                        alert(org_key);
+                        api.set_organization([org_key], set_org);
+                        //api_instances(parseinsts);
                     }
                 });
-            });
-        	
-            
-        	$("#csvformat B").click(function ()
-            {
-                restLog("GET", "movies?format=csv");
-                location.href = "http://servicestack.net/ServiceStack.MovieRest/movies?format=csv";
-            });
+            })
+                    .change();
+            $("#insts").change(function () {
+                $("#insts option:selected").each(function () {
+                    var inst_key = $(this).val();
+                    if (inst_key != 0) {
+                        api.set_instance([inst_key], set_inst);
+                        //window.location.replace("home.html");
+                    }
+                });
+            })
+            .change();
 
-            refreshExistingMovies();
         });
     </script>
 
 </head>
 <body>
-<div data-role="page" id="select-org-inst">
-    <div id="existing">
-        <select name="genres"></select>
-        <h2>Existing Movies</h2>
-        <dl id="existing-movies"></dl>
-        <button id="btnAdd">Add &gt;&gt;</button>
+
+<div data-role="page">
+
+    <div data-role="header" data-position="fixed" data-theme="h">
+        <h1>HelpDesk</h1>
     </div>
-<h3>        <button id="btnReset">Reset Movie Database</button></h3>
-    <form action="http://servicestack.net/ServiceStack.MovieRest/movies" method="post">
-        <h2></h2>
-        <input type="hidden" name="Id" />
-        <dl>
-            <dt>Imdb Id</dt>
-            <dd><input type="text" name="ImdbId" /></dd>
+    <!-- /header -->
 
-            <dt>Title</dt>
-            <dd><input type="text" name="Title" /></dd>
-
-            <dt>Rating</dt>
-            <dd><input type="text" name="Rating" /></dd>
-
-            <dt>Director</dt>
-            <dd><input type="text" name="Director" /></dd>
-
-            <dt>Release Date</dt>
-            <dd><input type="text" name="ReleaseDate" /></dd>
-
-            <dt>Tag Line</dt>
-            <dd><input type="text" name="TagLine" /></dd>
-
-            <dt>Genres</dt>
-            <dd><input type="text" name="Genres" /></dd>
-        </dl>
-
-        <input type="submit" />
-    </form>
-
-        <h4>HTTP REST LOG</h4>
-    <code id="restlog"></code>
+    <div id="content" data-role="content">
+        <a href="login.html" id="login" data-role="button" data-transition="flip" data-theme="g" data-iconpos="right"
+           data-icon="arrow-r">Login to HelpDesk</a>
+        <a style="display:none" id="home" href="home.html" data-role="button" data-transition="flip" data-theme="g"
+           data-iconpos="right" data-icon="arrow-r">Home View</a>
+        <select style="display:none" name="select-organization" id="orgs" data-role="none">
+            <option value="0">-- Select Organization --</option>
+        </select>
+        <select style="display:none" name="select-instance" id="insts" data-role="none">
+            <option value="0">-- Select Instance --</option>
+        </select>        
+    </div>
+    <!-- /content -->
+    
 </div>
+<!-- /page -->
+
 </body>
 </html>

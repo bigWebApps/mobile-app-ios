@@ -29,7 +29,5 @@
 	<!-- IOS only splash screens -->
 	<gap:splash src="img/splash/ios/Default.png" width="320" height="480" />
 	<gap:splash src="img/splash/ios/Default_at_2x.png" width="640" height="960" />
-<access origin="http://api.beta.helpdesk.bigwebapps.com/" subdomains="true" />
-<access origin="http://servicestack.net/ServiceStack.MovieRest/" subdomains="true" />
 
 </widget>
