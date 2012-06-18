@@ -1,0 +1,96 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>HelpDesk</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+	<script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script src="http://cloud.github.com/downloads/wycats/handlebars.js/handlebars-1.0.0.beta.6.js"></script>
+	
+</head> 
+<body>  
+
+<div data-role="page">
+
+	<div data-role="content">						
+		<ul id="ticketList" data-role="listview" data-theme="d" data-divider-theme="b" data-filter="true" data-filter-placeholder="Search Ticket List" data-filter-theme="h" >
+        	
+			<script id="tickets" type="text/x-handlebars-template">
+        		{{#each this}}		
+				<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
+					<a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
+						<table>
+							<tr>
+								<td class="ticket-num">{{number}}</td>
+								<td class="ticket-subject">{{subject}}</td>
+							</tr>
+							<tr>
+								<table width="100%">
+									<tr>
+										<td class="left">
+											<p class="customer">{{customer}}</p>
+											<p class="status {{status}}">{{status}}</p>
+											<p class="smalllabel">Tech</p>
+											<p class="tech-name">{{techName}}</p>
+										</td>
+										<td class="right">
+											<p class="account">{{account}}</p>
+											<p class="date today">{{date}}</p>
+											<p class="smalllabel">Class</p>
+											<p class="class-name">{{className}}</p>
+										</td>
+									</tr>
+								</table>
+							</tr>
+						</table>					
+					</a>
+				</li> 
+				{{/each}}
+			</script>
+                      
+		</ul>
+	</div>
+    
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
+    	<a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Back</a>		
+	</div>    
+
+</div><!-- /page -->
+<script>
+	(function() {
+		//rather than setup a sudo environment, I just added this into a var
+		//context would normally be = to $.getJSON(token@url)
+		var context = [
+			{
+				number: '373',
+				subject: 'Auto Email Alert not working',
+				customer: 'Jim Mora',
+				status: 'open',
+				techName: 'Al Petersen',
+				account: 'Fillmore Unified Schools',
+				date: 'Today 10:20pm',
+				className: 'Printer Issue'
+			},
+			{
+				number: '375',
+				subject: 'Something else is broken',
+				customer: 'Patrick Clements',
+				status: 'open',
+				techName: 'Dick Richards',
+				account: 'Fillmore Unified Schools',
+				date: 'Today 10:27pm',
+				className: 'Class name'
+			}				
+		],
+			template = Handlebars.compile( $('#tickets').html() );
+	
+		$('ul#ticketList').append( template(context) );
+	
+	})();	
+</script>
+</body>
+</html>
