@@ -6,24 +6,26 @@
  *  - secure  Whether or not to use secure connections over HTTPS (true/false)
  *            Defaults to false.
  * 
- * @param apiKey The API key to access the  HelpDeskAPI with
+ * @param login The Login to access the  HelpDeskAPI with
+ * @param pass The Password to access the  HelpDeskAPI with
  * @param options Configuration options
  * @return Instance of {@link HelpDeskAPI}
  */
 
-var HelpDeskAPI = function (apiKey, options) {
+var HelpDeskAPI = function (login, pass, options) {
 	
     if (!options)
         var options = {};
 
-    if (!apiKey)
-        throw 'You have to provide an API key for this to work.';
+    if (!login || !pass)
+        throw 'You have to provide an login and pass for this to work.';
 
 	this.version     = '1.0';
-	this.apiKey      = apiKey;
+	this.login      = login;
+    this.pass      = pass;
 	this.secure      = options.secure || false;
 	this.packageInfo = options.packageInfo;
-    this.httpHost    = 'api.beta.helpdesk.bigwebapps.com';
+    this.httpHost    = login + ':' + pass + '@' + 'api.beta.helpdesk.bigwebapps.com';
 	this.httpUri     = (this.secure) ? 'https://'+this.httpHost+':443' : 'http://'+this.httpHost+':80';	
 }
 
@@ -40,7 +42,7 @@ var HelpDeskAPI = function (apiKey, options) {
  */
 HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, callback) {
 
-	var finalParams = { apikey : this.apiKey };
+	var finalParams = { login : this.login, password: this.pass };
 	
 	for (var i = 0; i < availableParams.length; i++) {
 		currentParam = availableParams[i];
@@ -49,8 +51,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 	}
 
     $.ajax({
-        url: this.httpUri+'/'+method,
-        type: 'POST',
+        url: this.httpUri+'/'+method+'?callback=?',
+        type: 'GET',
         cache: false,
         dataType: "json",
         data: finalParams,
@@ -60,7 +62,12 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             callback(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            if (errorThrown == 'parsererror')
+            if (errorThrown == 'timeout')
+            {
+                console.log('401');
+                window.location.replace('login.html');
+            }
+            else if (errorThrown == 'parsererror')
                 callback({ 'error' : 'Error parsing JSON answer from  HelpDeskAPI.', 'code' : 'xxx' });
             else
                 callback({ 'error' : 'Unable to connect to the  HelpDeskAPI endpoint.', 'code' : 'xxx' });
@@ -73,20 +80,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 /*****************************************************************************/
 
 /**
- * Log in user.
- *
- * @see http://developer.helpdesk.bigwebapps.com/
- */
-HelpDeskAPI.prototype.login = function (params, callback) {
-    if (typeof params == 'function') callback = params, params = {};
-    this.execute('login/post', [
-        'LoginName',
-        'Password',
-    ], params, callback);
-}
-
-/**
- * Get list of user organizations.
+ * Get list of user organizations and instances.
  *
  * @see http://developer.helpdesk.bigwebapps.com/
  */
@@ -97,34 +91,12 @@ HelpDeskAPI.prototype.organizations = function (params, callback) {
 }
 
 /**
- * Setup organization.
+ * List of open tickets
  *
  * @see http://developer.helpdesk.bigwebapps.com/
  */
-HelpDeskAPI.prototype.set_organization = function (params, callback) {
+HelpDeskAPI.prototype.open_tickets = function (params, callback) {
     if (typeof params == 'function') callback = params, params = {};
-    this.execute('login/setorganization/' + params[0], [
-    ], params, callback);
-}
-
-/**
- * Get list of user instances.
- *
- * @see http://developer.helpdesk.bigwebapps.com/
- */
-HelpDeskAPI.prototype.instances = function (params, callback) {
-    if (typeof params == 'function') callback = params, params = {};
-    this.execute('login/instances', [
-    ], params, callback);
-}
-
-/**
- * Setup instance.
- *
- * @see http://developer.helpdesk.bigwebapps.com/
- */
-HelpDeskAPI.prototype.set_instance = function (params, callback) {
-    if (typeof params == 'function') callback = params, params = {};
-    this.execute('login/setinstance/' + params[0], [
+    this.execute(params[0] +'/' + params[1] + '/ticket', [
     ], params, callback);
 }

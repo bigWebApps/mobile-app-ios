@@ -18,9 +18,13 @@
 	
     <script>
         // this is what is required for the on the mobile page load
-        pageLoad(function(){
+        pageInit(function(event){
 
-            api = new HelpDeskAPI('test');
+            var login = localStorage.getItem('login');
+
+            var pass = localStorage.getItem('password');
+
+            var result, selected_org, selected_inst;
 
             var parseorgs = function (data) {
                 if (!data)
@@ -28,48 +32,74 @@
                     $.mobile.changePage("login.html");
                     return;
                 }
-                $.each(data, function (index, tek) {
+
+                result = data;
+
+                $.each(data, function (index, org) {
                     //Add after the default val
-                    $("#orgs option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
+                    $("#orgs option:eq(0)").after("<option value='" + org.Key + "'>" + org.Name + "</option>");
                     $("#orgs").show();
                     $("#login").hide();
 
                 });
             }
 
-            var parseinsts = function (data) {
-                if (!data) {
+            if (!login || !pass)
+            {
+                window.location.replace("login.html");
+            }
+            else
+            {
+
+                api = new HelpDeskAPI(login, pass);
+                console.log(api);
+                api.organizations([],parseorgs);
+            }
+
+            var parseinsts = function (org_key) {
+                if (!result) {
                     $("#login").show();
                     return;
                 }
 
-                $.each(data, function (index, tek) {
+                var org_index;
+                $.each(result, function (index, org) {
                     //Add after the default val
-                    $("#insts option:eq(0)").after("<option value='" + tek.Key + "'>" + tek.Name + "</option>");
+                    if (org.Key == org_key)
+                    {
+                        org_index = index;
+                        return;
+                    }
+
+                });
+                console.log(org_index);
+                var data = result[org_index].Instances;
+
+                $.each(data, function (index, inst) {
+                    //Add after the default val
+                    $("#insts option:eq(0)").after("<option value='" + inst.Key + "'>" + inst.Name + "</option>");
                     $("#orgs").hide();
                     $("#insts").show();
                 });
             }
 
             var set_org = function () {
-                alert(2);
+                console.log(2);
                 api.instances([],parseinsts);
             }
 
             var set_inst = function () {
-                alert(1);
+                console.log(1);
                 $.mobile.changePage("home.html");
             }
-
-            api.organizations([],parseorgs);
 
             $("#orgs").change(function () {
                 $("#orgs option:selected").each(function () {
                     var org_key = $(this).val();
                     if (org_key != 0) {
-                        alert(org_key);
-                        api.set_organization([org_key], set_org);
-                        //api_instances(parseinsts);
+                        console.log(org_key);
+                        selected_org = org_key;
+                        parseinsts(org_key)
                     }
                 });
             })
@@ -78,13 +108,13 @@
                 $("#insts option:selected").each(function () {
                     var inst_key = $(this).val();
                     if (inst_key != 0) {
-                        api.set_instance([inst_key], set_inst);
-                        //window.location.replace("home.html");
+                        selected_inst = inst_key;
+                        $("#insts").hide();
+                        $("#home").show();
                     }
                 });
             })
             .change();
-
         });
     </script>
 

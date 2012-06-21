@@ -25,7 +25,12 @@ function doOnOrientationChange()
   doOnOrientationChange();
   */
 
-function pageLoad(func)
+function pageInit(func)
 {
     $( document ).delegate('[data-role="page"]', "pageinit", func);
+}
+
+function pageLoad(func)
+{
+    $( document ).delegate('[data-role="page"]', "pageshow", func);
 }

@@ -13,33 +13,32 @@
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/helper.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
-
     <script>
         // this is what is required for the on the mobile page load
-        pageLoad(function(){
-            api = new HelpDeskAPI('test');
-
+        pageInit(function(){
             var login_check = function (data) {
-                if (data) {
-                    alert(data);
-                    //window.location.replace("login.html");
-                }
-                else
+                if (data)
+                {
+                    localStorage.setItem('login', $('#email').val());
+                    localStorage.setItem('password', $('#password').val());
                     $.mobile.changePage("index.html");
+                }
             }
+
             $('form').on('submit', function (e) {
                 //prevent the form from submitting normally
                 e.preventDefault();
 
                 //show the default loading message while the $.post request is sent
-                $.mobile.showPageLoadingMsg();
-
-                api.login(["$('#email').val()", "$('#password').val()"], login_check);
-                $.mobile.hidePageLoadingMsg();
+                //$.mobile.showPageLoadingMsg();
+                api = new HelpDeskAPI($('#email').val(), $('#password').val());
+                api.organizations([], login_check);
+                //$.mobile.hidePageLoadingMsg();
             });
         });
 
     </script>
+
 </head>
 <body>
 
@@ -59,7 +58,6 @@
             </button>
         </form>
     </div>
-    <!-- /content -->
 </body>
-
-<!-- /page -->
+    <!-- /content -->
+</html>
