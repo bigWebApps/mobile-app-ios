@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
-<script src="phonegap.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.md5.min.js"></script>
+  	<script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/helper.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
@@ -21,7 +19,7 @@
                 {
                     localStorage.setItem('login', $('#email').val());
                     localStorage.setItem('password', $('#password').val());
-                    $.mobile.changePage("index.html");
+                    window.location.replace("index.html");
                 }
             }
 

@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
 	<script src="phonegap.js"></script>
 	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
     <script src="js/helper.js"></script>
@@ -29,7 +28,7 @@
             var parseorgs = function (data) {
                 if (!data)
                 {
-                    $.mobile.changePage("login.html");
+                    window.location.replace("login.html");
                     return;
                 }
 
