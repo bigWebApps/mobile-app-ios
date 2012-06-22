@@ -17,8 +17,6 @@
             var login_check = function (data) {
                 if (data)
                 {
-                    localStorage.setItem('login', $('#email').val());
-                    localStorage.setItem('password', $('#password').val());
                     window.location.replace("index.html");
                 }
             }
@@ -29,8 +27,8 @@
 
                 //show the default loading message while the $.post request is sent
                 //$.mobile.showPageLoadingMsg();
-                api = new HelpDeskAPI($('#email').val(), $('#password').val());
-                api.organizations([], login_check);
+                api = new HelpDeskAPI();
+                api.loginUser([$('#email').val(), $('#password').val()], login_check);
                 //$.mobile.hidePageLoadingMsg();
             });
         });

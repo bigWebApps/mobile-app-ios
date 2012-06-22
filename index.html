@@ -17,11 +17,7 @@
 	
     <script>
         // this is what is required for the on the mobile page load
-        pageInit(function(event){
-
-            var login = localStorage.getItem('login');
-
-            var pass = localStorage.getItem('password');
+        pageInit(function(){
 
             var result, selected_org, selected_inst;
 
@@ -43,17 +39,7 @@
                 });
             }
 
-            if (!login || !pass)
-            {
-                window.location.replace("login.html");
-            }
-            else
-            {
 
-                api = new HelpDeskAPI(login, pass);
-                console.log(api);
-                api.organizations([],parseorgs);
-            }
 
             var parseinsts = function (org_key) {
                 if (!result) {
@@ -82,15 +68,26 @@
                 });
             }
 
-            var set_org = function () {
-                console.log(2);
-                api.instances([],parseinsts);
-            }
+            selected_org = localStorage.getItem("organization");
+            selected_inst = localStorage.getItem("instance");
 
-            var set_inst = function () {
-                console.log(1);
-                $.mobile.changePage("home.html");
+            if (!selected_org || !selected_inst)
+            {
+                api = new HelpDeskAPI();
+                //console.log(api);
+                api.organizations(parseorgs);
+                if (!selected_org)
+                {
+                    $("#orgs").show();
+                }
+                else if (!selected_inst)
+                    $("#insts").show();
             }
+                else
+                {
+                    $("#login").hide();
+                    $("#home").show();
+                }
 
             $("#orgs").change(function () {
                 $("#orgs option:selected").each(function () {
@@ -98,6 +95,7 @@
                     if (org_key != 0) {
                         console.log(org_key);
                         selected_org = org_key;
+                        localStorage.setItem('organization', selected_org);
                         parseinsts(org_key)
                     }
                 });
@@ -108,6 +106,7 @@
                     var inst_key = $(this).val();
                     if (inst_key != 0) {
                         selected_inst = inst_key;
+                        localStorage.setItem('instance', selected_inst);
                         $("#insts").hide();
                         $("#home").show();
                     }
