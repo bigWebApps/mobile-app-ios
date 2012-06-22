@@ -60,13 +60,13 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         dataType:"json",
         data:finalParams,
         contentType:"application/json; charset=utf-8",
-        timeout:5000,
+        timeout:60000,
         success:function (data) {
             callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
             if (errorThrown == 'timeout') {
-                alert('401');
+                alert(this.httpUri + '/' + method + '?callback=?' + ':401');
                 window.location.replace('login.html');
             }
             else if (errorThrown == 'parsererror')
