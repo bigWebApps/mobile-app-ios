@@ -6,7 +6,12 @@
         version   = "0.0.3">
 
     <!-- versionCode is optional and Android only -->
-    <access origin="http://api.beta.helpdesk.bigwebapps.com/" subdomains="true" />
+    <access origin="*" />
+
+    <gap:platforms>
+        <gap:platform name="ios"/>
+    </gap:platforms>
+
     <name>HD ios test</name>
 
     <description>

@@ -66,13 +66,15 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         },
         error:function (jqXHR, textStatus, errorThrown) {
             if (errorThrown == 'timeout') {
-                console.log('401');
+                alert('401');
                 window.location.replace('login.html');
             }
             else if (errorThrown == 'parsererror')
-                callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
+                alert('Error parsing JSON answer from  HelpDeskAPI.');
+                //callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
             else
-                callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
+                alert('Unable to connect to the  HelpDeskAPI endpoint.');
+                //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
         }
     });
 }
