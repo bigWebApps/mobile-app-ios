@@ -26,6 +26,7 @@ var HelpDeskAPI = function (options) {
 	this.secure      = options.secure || false;
 	this.packageInfo = options.packageInfo;
     this.httpHost    = 'api.beta.helpdesk.bigwebapps.com';
+    this.httpUri     = (this.secure) ? 'https://'+this.httpHost+':443' : 'http://'+this.httpHost+':80';
 }
 
 /**
@@ -50,11 +51,12 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     }
 
     var basicUrl = this.login + ':' + this.pass + '@' + this.httpHost;
-    this.httpUri     = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl+':80';
+    this.httpUri = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl+':80';
+
 
     alert(this.httpUri + '/' + method + '?callback=?');
     $.ajax({
-        url: 'http://jon.vickers@micajah.com:vader@api.beta.helpdesk.bigwebapps.com' + '/' + method + '?callback=?',
+        url: this.httpUri + '/' + method + '?callback=?',
         type:'GET',
         cache:false,
         dataType:"json",
@@ -66,7 +68,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         },
         error:function (jqXHR, textStatus, errorThrown) {
             if (errorThrown == 'timeout') {
-                alert(this.httpUri + '/' + method + '?callback=?' + ':401');
+                alert('401');
                 window.location.replace('login.html');
             }
             else if (errorThrown == 'parsererror')
