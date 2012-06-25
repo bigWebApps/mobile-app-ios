@@ -52,15 +52,15 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     var basicUrl = this.login + ':' + this.pass + '@' + this.httpHost;
     this.httpUri     = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl+':80';
 
-    console.log(this.httpUri + '/' + method + '?callback=?');
+    alert(this.httpUri + '/' + method + '?callback=?');
     $.ajax({
-        url: this.httpUri + '/' + method + '?callback=?',
+        url: 'http://jon.vickers@micajah.com:vader@api.beta.helpdesk.bigwebapps.com' + '/' + method + '?callback=?',
         type:'GET',
         cache:false,
         dataType:"json",
         data:finalParams,
         contentType:"application/json; charset=utf-8",
-        timeout:60000,
+        timeout:10000,
         success:function (data) {
             callback(data);
         },

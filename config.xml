@@ -3,9 +3,9 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "K38L7HPDJV.com.bigwebapps.helpdesk"
         versionCode="1" 
-        version   = "0.0.3">
-
+        version   = "0.0.4">
     <!-- versionCode is optional and Android only -->
+
     <access origin="*" />
 
     <gap:platforms>
