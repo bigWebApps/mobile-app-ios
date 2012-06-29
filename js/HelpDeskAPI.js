@@ -54,7 +54,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     this.httpUri = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl+':80';
 
 
-    alert(this.httpUri + '/' + method + '?callback=?');
+    //alert(this.httpUri + '/' + method + '?callback=?');
+    $.mobile.showPageLoadingMsg();
     $.ajax({
         url: this.httpUri + '/' + method + '?callback=?',
         type:'GET',
@@ -62,14 +63,15 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         dataType:"json",
         data:finalParams,
         contentType:"application/json; charset=utf-8",
-        timeout:10000,
+        timeout:6000,
         success:function (data) {
             callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
             if (errorThrown == 'timeout') {
-                alert('401');
-                window.location.replace('login.html');
+                //alert('401');
+                //window.location.replace('login.html');
+                $.mobile.changePage('login.html');
             }
             else if (errorThrown == 'parsererror')
                 alert('Error parsing JSON answer from  HelpDeskAPI.');
@@ -79,6 +81,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
         }
     });
+    $.mobile.hidePageLoadingMsg();
 }
 
 /*****************************************************************************/
@@ -96,6 +99,7 @@ HelpDeskAPI.prototype.loginUser = function (params, callback) {
     {
         this.login      = params[0];
         this.pass      = params[1];
+        localStorage.length;
         localStorage.setItem('login', this.login);
         localStorage.setItem('password', this.pass);
     }
