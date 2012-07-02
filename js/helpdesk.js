@@ -21,6 +21,9 @@ pageLoad("index", function() {
     {
         var result, selected_org, selected_inst;
 
+        var t_orgs = Handlebars.compile( $('#organizations').html() );
+        var t_insts = Handlebars.compile( $('#instances').html() );
+
         var parseorgs = function (data) {
             if (!data)
             {
@@ -30,13 +33,15 @@ pageLoad("index", function() {
 
             result = data;
 
+            var org_list = [];//declare array
             $.each(data, function (index, org) {
-                //Add after the default val
-                $("#orgs option:eq(0)").after("<option value='" + org.Key + "'>" + org.Name + "</option>");
-                $("#orgs").show();
-                $("#login").hide();
-
+                org_list.push({key: org.Key, name: org.Name});
             });
+
+            $('#orgs').append(t_orgs(org_list) );
+
+            $("#orgs").show();
+            $("#login").hide();
         }
 
 
@@ -60,12 +65,15 @@ pageLoad("index", function() {
             console.log(org_index);
             var data = result[org_index].Instances;
 
+            var inst_list = [];//declare array
             $.each(data, function (index, inst) {
-                //Add after the default val
-                $("#insts option:eq(0)").after("<option value='" + inst.Key + "'>" + inst.Name + "</option>");
-                $("#orgs").hide();
-                $("#insts").show();
+                inst_list.push({key: inst.Key, name: inst.Name});
             });
+
+            $('#insts').append(t_insts(inst_list) );
+
+            $("#orgs").hide();
+            $("#insts").show();
         }
         localStorage.length;
         selected_org = localStorage.getItem("organization");

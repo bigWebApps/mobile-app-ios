@@ -12,6 +12,7 @@
     <script src="phonegap.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script src="http://cloud.github.com/downloads/wycats/handlebars.js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
     <script src="js/helpdesk.js"></script>
     <script>
@@ -21,6 +22,7 @@
                 navigator.splashscreen.hide();
             }
         });
+
     </script>
 
 </head>
@@ -40,9 +42,19 @@
            data-iconpos="right" data-icon="arrow-r"  rel="external">Home View</a>
         <select style="display:none" name="select-organization" id="orgs" data-role="none">
             <option value="0">-- Select Organization --</option>
+            <script id="organizations" type="text/x-handlebars-template">
+                {{#each this}}
+                <option value="{{key}}">{{name}}</option>
+                {{/each}}
+            </script>
         </select>
         <select style="display:none" name="select-instance" id="insts" data-role="none">
             <option value="0">-- Select Instance --</option>
+            <script id="instances" type="text/x-handlebars-template">
+                {{#each this}}
+                <option value="{{key}}">{{name}}</option>
+                {{/each}}
+            </script>
         </select>
     </div>
     <!-- /content -->
