@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HelpDesk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/helpdesk.js"></script>   
+
+</head>
+<body>
+<div id="organization" data-role="page">
+
+	<div data-role="header" data-position="fixed" data-theme="h">
+        <h1>HelpDesk</h1>
+    </div>
+	<div id="content" data-role="content" data-add-back-btn="false">
+	  <fieldset data-role="controlgroup">
+			<legend>Choose an Organization:</legend>
+		     	<input type="radio" name="radio-org-1" id="radio-org-1" value="org-1" />
+		     	<label for="radio-org-1">Organization 1</label>
+		
+		     	<input type="radio" name="radio-org-1" id="radio-org-2" value="org-2" />
+		     	<label for="radio-org-2">Organization 2</label>		
+		     	
+		</fieldset>
+    </div>
+</div>
+
+<div id="instances" data-role="page">
+	<div data-role="header" data-position="fixed" data-theme="h">
+        <h1>HelpDesk</h1>
+    </div>
+	<div id="content" data-role="content" data-add-back-btn="false">
+	  <fieldset data-role="controlgroup">
+	  	<legend>Choose an Instance:</legend>
+	       	<input type="radio" name="instance-1" id="instance-1" value="instance-1" />
+	       	<label for="instance-1">Instance 1</label>
+	  
+	       	<input type="radio" name="instance-1" id="instance-2" value="instance-2"  />
+	       	<label for="instance-2">Instance 2</label>	       	
+	  </fieldset>
+	</div>
+</div>
+
+</body>
+</html>
