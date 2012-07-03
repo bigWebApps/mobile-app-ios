@@ -97,30 +97,26 @@ pageLoad("index", function() {
             $("#home").show();
         }
 
-        $("#orgs").change(function () {
-            $("#orgs option:selected").each(function () {
-                var org_key = $(this).val();
+        $("[name=radio-org-1]").change(function() {
+                var org_key = $('input[name=radio-org-1]:checked').val();
                 if (org_key != 0) {
                     console.log(org_key);
                     selected_org = org_key;
                     localStorage.setItem('organization', selected_org);
                     parseinsts(org_key)
                 }
-            });
-        })
-            .change();
-        $("#insts").change(function () {
-            $("#insts option:selected").each(function () {
-                var inst_key = $(this).val();
+        });
+
+        $("[name=instance-1]").change(function() {
+            var org_key = $('input[name=instance-1]:checked').val();
                 if (inst_key != 0) {
+                    console.log(inst_key);
                     selected_inst = inst_key;
                     localStorage.setItem('instance', selected_inst);
                     $("#insts").hide();
                     $("#home").show();
                 }
             });
-        })
-            .change();
     }
 });
 

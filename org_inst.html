@@ -11,7 +11,14 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
-    <script src="js/helpdesk.js"></script>   
+    <script src="js/helpdesk.js"></script>
+    <script>
+        $( document ).delegate("#organization", "pageshow", function(){
+        $("[name=radio-org-1]").change(function() {
+            alert('Selected: '+$('input[name=radio-org-1]:checked').val());
+        });
+        });
+    </script>
 
 </head>
 <body>
