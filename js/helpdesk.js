@@ -97,6 +97,7 @@ pageLoad("index", function() {
             $("#home").show();
         }
 
+
         $("[name=radio-org-1]").change(function() {
                 var org_key = $('input[name=radio-org-1]:checked').val();
                 if (org_key != 0) {
@@ -117,6 +118,14 @@ pageLoad("index", function() {
                     $("#home").show();
                 }
             });
+
+        $("#logout").click(function(e) {
+            e.preventDefault();
+            localStorage.length;
+            localStorage.clear();
+            $.mobile.changePage("login.html");
+            return false;
+        });
     }
 });
 

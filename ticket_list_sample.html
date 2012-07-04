@@ -61,7 +61,7 @@
 
 </div><!-- /page -->
 <script>
-	(function() {
+    $( document ).delegate('[data-role="page"]', "pageshow", function() {
 		//rather than setup a sudo environment, I just added this into a var
 		//context would normally be = to $.getJSON(token@url)
 		var context = [
@@ -90,7 +90,7 @@
 	
 		$('ul#ticketList').append( template(context) );
 	
-	})();	
+	});
 </script>
 </body>
 </html>
