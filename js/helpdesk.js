@@ -98,26 +98,30 @@ pageLoad("index", function() {
         }
 
 
-        $("[name=radio-org-1]").change(function() {
-                var org_key = $('input[name=radio-org-1]:checked').val();
+        $("#orgs").change(function () {
+            $("#orgs option:selected").each(function () {
+                var org_key = $(this).val();
                 if (org_key != 0) {
                     console.log(org_key);
                     selected_org = org_key;
                     localStorage.setItem('organization', selected_org);
                     parseinsts(org_key)
                 }
-        });
-
-        $("[name=instance-1]").change(function() {
-            var org_key = $('input[name=instance-1]:checked').val();
+            });
+        })
+            .change();
+        $("#insts").change(function () {
+            $("#insts option:selected").each(function () {
+                var inst_key = $(this).val();
                 if (inst_key != 0) {
-                    console.log(inst_key);
                     selected_inst = inst_key;
                     localStorage.setItem('instance', selected_inst);
                     $("#insts").hide();
                     $("#home").show();
                 }
             });
+        })
+            .change();
 
         $("#logout").click(function(e) {
             e.preventDefault();

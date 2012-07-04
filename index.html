@@ -41,24 +41,22 @@
            data-icon="arrow-r"  rel="external">Login to HelpDesk</a>
         <a style="display:none" id="home" href="home.html" data-role="button" data-transition="flip" data-theme="g"
            data-iconpos="right" data-icon="arrow-r"  rel="external">Home View</a>
-        <fieldset style="display:none" data-role="controlgroup" id="orgs">
-            <legend>Choose an Organization:</legend>
+        <select style="display:none" name="select-organization" id="orgs" data-role="none">
+            <option value="0">-- Select Organization --</option>
             <script id="organizations" type="text/x-handlebars-template">
                 {{#each this}}
-                <input type="radio" name="radio-org-1" id="radio-org-{{key}}" value="{{key}}" />
-                <label for="radio-org-{{key}}">{{name}}</label>
+                <option value="{{key}}">{{name}}</option>
                 {{/each}}
             </script>
-        </fieldset>
-        <fieldset style="display:none" data-role="controlgroup" id="insts">
-            <legend>Choose an Instance:</legend>
+        </select>
+        <select style="display:none" name="select-instance" id="insts" data-role="none">
+            <option value="0">-- Select Instance --</option>
             <script id="instances" type="text/x-handlebars-template">
                 {{#each this}}
-                <input type="radio" name="instance-1" id="instance-{{key}}" value="{{key}}" />
-                <label for="instance-{{key}}">{{name}}</label>
+                <option value="{{key}}">{{name}}</option>
                 {{/each}}
             </script>
-        </fieldset>
+        </select>
     </div>
     <!-- /content -->
 
