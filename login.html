@@ -30,7 +30,7 @@
             {
                     if (data)
                     {
-                        $.mobile.changePage("index.html");
+                        window.location.replace("org_inst.html");
                     }
                 else
                     alert("Incorrect login/pass!");
@@ -39,7 +39,7 @@
         </script>
         <form data-ajax="false" onsubmit="return form_submit();">
             <label for="email" class="ui-hidden-accessible">Email</label>
-            <input type="text" name="email" id="email" value="" placeholder="email"/>
+            <input type="text" name="email" id="email" value="jon.vickers@micajah.com" placeholder="email"/>
             <br/>
             <label for="password" class="ui-hidden-accessible">Password</label>
             <input type="password" name="password" id="password" value="" placeholder="password"/>

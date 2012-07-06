@@ -12,6 +12,7 @@
 	<script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/helpdesk.js"></script>
   
 </head> 
 <body> 
@@ -24,8 +25,10 @@
 		<a href="ticket_q_list.html" data-ajax="false" data-role="button" data-transition="none" data-theme="b" data-iconpos="right"  data-icon="arrow-r">My Queues</a>
 		<a href="create_ticket.html" data-ajax="false" data-role="button" data-transition="none" data-theme="g" data-iconpos="right"  data-icon="star" class="home_new_ticket">Create New Ticket</a>	
 	</div><!-- /content -->
-	
 
+    <div data-role="footer" data-theme="h" data-position="fixed">
+        <a id="logout" href="#" onclick="logout()" data-theme="g" data-role="button" data-icon="arrow-l" data-iconpos="left" data-corners="true" >Logout</a>
+    </div>
 
 </div><!-- /page -->
 

@@ -26,7 +26,7 @@ var HelpDeskAPI = function (options) {
 	this.secure      = options.secure || false;
 	this.packageInfo = options.packageInfo;
     this.httpHost    = 'api.beta.helpdesk.bigwebapps.com';
-    this.httpUri     = (this.secure) ? 'https://'+this.httpHost+':443' : 'http://'+this.httpHost+':80';
+    this.httpUri     = (this.secure) ? 'https://'+this.httpHost+':443' : 'http://'+this.httpHost;
 }
 
 /**
@@ -42,7 +42,7 @@ var HelpDeskAPI = function (options) {
  */
 HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, callback) {
 
-    var finalParams = {};// {login:this.login, password:this.pass };
+    var finalParams = {};
 
     for (var i = 0; i < availableParams.length; i++) {
         currentParam = availableParams[i];
@@ -50,37 +50,47 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             finalParams[currentParam] = givenParams[currentParam];
     }
 
-    var basicUrl = this.login + ':' + this.pass + '@' + this.httpHost;
-    this.httpUri = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl+':80';
+    //var basicUrl = this.login + ':' + this.pass + '@' + this.httpHost;
+    //this.httpUri = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl+':80';
 
 
-    //alert(this.httpUri + '/' + method + '?callback=?');
+    alert(this.httpUri + '/' + method);
+    //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
     $.mobile.showPageLoadingMsg();
+    //console.log(finalParams);
     $.ajax({
-        url: this.httpUri + '/' + method + '?callback=?',
-        type:'GET',
+        url: this.httpUri + '/' + method,
+        type:'POST',
         cache:false,
+        async: false,
         dataType:"json",
-        data:finalParams,
+        data: '{"UserName":"jon.vickers@micajah.com", "Password":"vader"}', //finalParams,
         contentType:"application/json; charset=utf-8",
         timeout:6000,
         success:function (data) {
+            alert('success');
             callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
+           if (jqXHR.status == 403)
+           {
+               alert(errorThrown);
+               window.location.replace("login.html")
+           }
+            else
             if (errorThrown == 'timeout') {
                 //alert('401');
-                //window.location.replace('login.html');
-                $.mobile.changePage('login.html');
+                alert('timeout');
             }
             else if (errorThrown == 'parsererror')
                 alert('Error parsing JSON answer from  HelpDeskAPI.');
-                //callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
+            //callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
             else
-                alert('Unable to connect to the  HelpDeskAPI endpoint.');
-                //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
+                alert('Unable to connect to the  HelpDeskAPI endpoint.' + errorThrown);
+            //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
         }
     });
+
     $.mobile.hidePageLoadingMsg();
 }
 
@@ -103,7 +113,7 @@ HelpDeskAPI.prototype.loginUser = function (params, callback) {
         localStorage.setItem('login', this.login);
         localStorage.setItem('password', this.pass);
     }
-    this.execute('login/organizations', ["login", "pass"
+    this.execute('login', ["UserName", "Password"
     ], params, callback);
 }
 
@@ -129,3 +139,117 @@ HelpDeskAPI.prototype.open_tickets = function (params, callback) {
     this.execute(params[0] +'/' + params[1] + '/ticket', [
     ], params, callback);
 }
+
+// adapted from here: http://ostermiller.org/calc/encode.html
+var base64 = {};
+
+(function () {
+    var END_OF_INPUT = -1,
+        base64Chars = new Array(
+            'A','B','C','D','E','F','G','H',
+            'I','J','K','L','M','N','O','P',
+            'Q','R','S','T','U','V','W','X',
+            'Y','Z','a','b','c','d','e','f',
+            'g','h','i','j','k','l','m','n',
+            'o','p','q','r','s','t','u','v',
+            'w','x','y','z','0','1','2','3',
+            '4','5','6','7','8','9','+','/'),
+        reverseBase64Chars = new Array(),
+        base64Str,
+        base64Count;
+
+    for (var i=0; i < base64Chars.length; i++){
+        reverseBase64Chars[base64Chars[i]] = i;
+    }
+
+    function setBase64Str(str){
+        base64Str = str;
+        base64Count = 0;
+    }
+    function readBase64(){
+        if (!base64Str) return END_OF_INPUT;
+        if (base64Count >= base64Str.length) return END_OF_INPUT;
+        var c = base64Str.charCodeAt(base64Count) & 0xff;
+        base64Count++;
+        return c;
+    }
+    function readReverseBase64(){
+        if (!base64Str) return END_OF_INPUT;
+        while (true){
+            if (base64Count >= base64Str.length) return END_OF_INPUT;
+            var nextCharacter = base64Str.charAt(base64Count);
+            base64Count++;
+            if (reverseBase64Chars[nextCharacter]){
+                return reverseBase64Chars[nextCharacter];
+            }
+            if (nextCharacter == 'A') return 0;
+        }
+        return END_OF_INPUT;
+    }
+
+    function ntos(n){
+        n=n.toString(16);
+        if (n.length == 1) n="0"+n;
+        n="%"+n;
+        return unescape(n);
+    }
+
+    base64.encode = function(str){
+        setBase64Str(str);
+        var result = '';
+        var inBuffer = new Array(3);
+        var lineCount = 0;
+        var done = false;
+        while (!done && (inBuffer[0] = readBase64()) != END_OF_INPUT){
+            inBuffer[1] = readBase64();
+            inBuffer[2] = readBase64();
+            result += (base64Chars[ inBuffer[0] >> 2 ]);
+            if (inBuffer[1] != END_OF_INPUT){
+                result += (base64Chars [(( inBuffer[0] << 4 ) & 0x30) | (inBuffer[1] >> 4) ]);
+                if (inBuffer[2] != END_OF_INPUT){
+                    result += (base64Chars [((inBuffer[1] << 2) & 0x3c) | (inBuffer[2] >> 6) ]);
+                    result += (base64Chars [inBuffer[2] & 0x3F]);
+                } else {
+                    result += (base64Chars [((inBuffer[1] << 2) & 0x3c)]);
+                    result += ('=');
+                    done = true;
+                }
+            } else {
+                result += (base64Chars [(( inBuffer[0] << 4 ) & 0x30)]);
+                result += ('=');
+                result += ('=');
+                done = true;
+            }
+            lineCount += 4;
+            if (lineCount >= 76){
+                result += ('\n');
+                lineCount = 0;
+            }
+        }
+        return result;
+    }
+
+    base64.decode = function(str){
+        setBase64Str(str);
+        var result = "";
+        var inBuffer = new Array(4);
+        var done = false;
+        while (!done && (inBuffer[0] = readReverseBase64()) != END_OF_INPUT
+            && (inBuffer[1] = readReverseBase64()) != END_OF_INPUT){
+            inBuffer[2] = readReverseBase64();
+            inBuffer[3] = readReverseBase64();
+            result += ntos((((inBuffer[0] << 2) & 0xff)| inBuffer[1] >> 4));
+            if (inBuffer[2] != END_OF_INPUT){
+                result += ntos((((inBuffer[1] << 4) & 0xff)| inBuffer[2] >> 2));
+                if (inBuffer[3] != END_OF_INPUT){
+                    result += ntos((((inBuffer[2] << 6) & 0xff) | inBuffer[3]));
+                } else {
+                    done = true;
+                }
+            } else {
+                done = true;
+            }
+        }
+        return result;
+    }
+})()

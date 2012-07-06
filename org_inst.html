@@ -13,17 +13,10 @@
     <script src="js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
     <script src="js/helpdesk.js"></script>
-    <script>
-        $( document ).delegate("#organization", "pageshow", function(){
-        $("[name=radio-org-1]").change(function() {
-            alert('Selected: '+$('input[name=radio-org-1]:checked').val());
-        });
-        });
-    </script>
 
 </head>
 <body>
-<div id="organization" data-role="page">
+<div id="organizations_page" data-role="page">
 
 	<div data-role="header" data-position="fixed" data-theme="h">
         <h1>HelpDesk</h1>
@@ -55,6 +48,9 @@
 	       	<label for="instance-2">Instance 2</label>	       	
 	  </fieldset>
 	</div>
+    <div data-role="footer" data-theme="h" data-position="fixed">
+        <a id="logout" href="#" onclick="logout()" data-theme="g" data-role="button" data-icon="arrow-l" data-iconpos="left" data-corners="true" >Logout</a>
+    </div>
 </div>
 
 </body>

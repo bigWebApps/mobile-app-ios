@@ -30,36 +30,6 @@
 
 <div id="index_page" data-role="page" data-add-back-btn="false">
 
-    <div data-role="header" data-position="fixed" data-theme="h">
-        <div align=center>HelpDesk</div>
-        <div valign=top align=right><a id="logout" href="#" data-direction="reverse">Logout</a></div>
-    </div>
-    <!-- /header -->
-
-    <div id="content" data-role="content" data-add-back-btn="false">
-        <a href="login.html" id="login" data-role="button" data-transition="flip" data-theme="g" data-iconpos="right"
-           data-icon="arrow-r"  rel="external">Login to HelpDesk</a>
-        <a style="display:none" id="home" href="home.html" data-role="button" data-transition="flip" data-theme="g"
-           data-iconpos="right" data-icon="arrow-r"  rel="external">Home View</a>
-        <select style="display:none" name="select-organization" id="orgs" data-role="none">
-            <option value="0">-- Select Organization --</option>
-            <script id="organizations" type="text/x-handlebars-template">
-                {{#each this}}
-                <option value="{{key}}">{{name}}</option>
-                {{/each}}
-            </script>
-        </select>
-        <select style="display:none" name="select-instance" id="insts" data-role="none">
-            <option value="0">-- Select Instance --</option>
-            <script id="instances" type="text/x-handlebars-template">
-                {{#each this}}
-                <option value="{{key}}">{{name}}</option>
-                {{/each}}
-            </script>
-        </select>
-    </div>
-    <!-- /content -->
-
 </div>
 <!-- /page -->
 
