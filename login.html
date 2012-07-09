@@ -22,7 +22,7 @@
         <script>
             // this is what is required for the on the mobile page load
             function form_submit() {
-                    api.loginUser([$('#email').val(), $('#password').val()], login_check);
+                    api.loginUser({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
                 return false;
                 }
 

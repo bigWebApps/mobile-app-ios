@@ -20,6 +20,7 @@ var HelpDeskAPI = function (options) {
     //if (!login || !pass)
     //    throw 'You have to provide an login and pass for this to work.';
 
+    this.key =  localStorage.getItem('key');
 	this.version     = '1.0';
 	this.login      = localStorage.getItem('login');
     this.pass      = localStorage.getItem('password');
@@ -42,39 +43,54 @@ var HelpDeskAPI = function (options) {
  */
 HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, callback) {
 
-    var finalParams = {};
+    var finalParams = {};//"";
 
+    //finalParams = "{";
     for (var i = 0; i < availableParams.length; i++) {
         currentParam = availableParams[i];
         if (typeof givenParams[currentParam] !== 'undefined')
+        {
             finalParams[currentParam] = givenParams[currentParam];
+            //finalParams += '"' + currentParam + '":"' + givenParams[i] + '", ';
+        }
+    }
+    //finalParams += "}";
+
+    if (this.key)
+    {
+        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+        this.httpUri = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl;
     }
 
-    //var basicUrl = this.login + ':' + this.pass + '@' + this.httpHost;
-    //this.httpUri = (this.secure) ? 'https://'+basicUrl+':443' : 'http://'+basicUrl+':80';
+    var requestType = typeof finalParams.Method !== 'undefined'? finalParams.Method : 'POST';
 
-
-    alert(this.httpUri + '/' + method);
+    //alert(this.httpUri + '/' + method);
     //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
+
     $.mobile.showPageLoadingMsg();
+    //console.log(availableParams);
+    //console.log(givenParams);
     //console.log(finalParams);
     $.ajax({
         url: this.httpUri + '/' + method,
-        type:'POST',
+        type: requestType,
         cache:false,
         async: false,
         dataType:"json",
-        data: '{"UserName":"jon.vickers@micajah.com", "Password":"vader"}', //finalParams,
+        data: JSON.stringify(finalParams), //'{"UserName":"jon.vickers@micajah.com", "Password":"vader"}', //finalParams,
         contentType:"application/json; charset=utf-8",
         timeout:6000,
         success:function (data) {
-            alert('success');
+            //alert('success');
+            if (typeof data.UserKey !== 'undefined')
+                localStorage.setItem('key', data.UserKey);
             callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
            if (jqXHR.status == 403)
            {
                alert(errorThrown);
+               localStorage.clear();
                window.location.replace("login.html")
            }
             else
@@ -105,14 +121,12 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
  */
 HelpDeskAPI.prototype.loginUser = function (params, callback) {
     if (typeof params == 'function') callback = params, params = {};
-    else
-    {
-        this.login      = params[0];
-        this.pass      = params[1];
-        localStorage.length;
-        localStorage.setItem('login', this.login);
-        localStorage.setItem('password', this.pass);
-    }
+    localStorage.clear();
+    this.login      = params[0];
+    this.pass      = params[1];
+    localStorage.length;
+    localStorage.setItem('login', this.login);
+    localStorage.setItem('password', this.pass);
     this.execute('login', ["UserName", "Password"
     ], params, callback);
 }
@@ -123,10 +137,10 @@ HelpDeskAPI.prototype.loginUser = function (params, callback) {
  * @see http://developer.helpdesk.bigwebapps.com/
  */
 HelpDeskAPI.prototype.organizations = function (callback) {
-    var params = [];
+    var params = {"Method": "GET"};
     if (typeof params == 'function') callback = params, params = {};
-    this.execute('login/organizations', [
-    ], params, callback);
+    this.execute('login', ["Method"]
+    , params, callback);
 }
 
 /**

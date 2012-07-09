@@ -7,9 +7,9 @@ function pageLoad(page_name, func)
     $( document ).delegate("#"+page_name+"_page", "pageshow", func);
 }
 
-function pageReady(func)
+function pageReady(page_name, func)
 {
-    $( document ).delegate('[data-role="page"]', "pagecreate", func);
+    $( document ).delegate("#"+page_name+"_page", "pagecreate", func);
 }
 
 function checkStorage()
@@ -71,14 +71,84 @@ pageLoad("index", function() {
     }
 });
 
+pageReady("organizations", function(){
+
+    var t_orgs = Handlebars.compile( $('#organizations').html() );
+
+    var parseorgs = function (data) {
+        if (!data)
+        {
+            return;
+        }
+
+        localStorage.setItem("org_list", JSON.stringify(data));
+
+        var org_list = [];//declare array
+        $.each(data, function (index, org) {
+            org_list.push({key: org.Key, name: org.Name});
+        });
+
+        $('#orgs').append(t_orgs(org_list) );
+    };
+
+    api.organizations(parseorgs);
+
+});
+
+pageReady("instances", function(){
+
+    var result = localStorage.getItem("org_list");
+
+    var t_insts = Handlebars.compile( $('#instances').html() );
+
+    var parseinsts = function () {
+
+        var org_key =  localStorage.getItem("organization");
+        if (!org_key || !result) {
+            $.mobile.changePage("org_inst.html#organizations_page");
+            return;
+        }
+
+        result = JSON.parse(result);
+
+        var org_index;
+        $.each(result, function (index, org) {
+            //Add after the default val
+            //console.log(org.Key);
+            if (org.Key == org_key)
+            {
+                org_index = index;
+                return;
+            }
+
+        });
+        //console.log(org_index);
+        var data = result[org_index].Instances;
+
+        var inst_list = [];//declare array
+        $.each(data, function (index, inst) {
+            inst_list.push({key: inst.Key, name: inst.Name});
+        });
+
+        $('#insts').append(t_insts(inst_list) );
+        //$("#instances_page").page();
+    };
+
+    parseinsts();
+});
+
 pageLoad("organizations", function(){
-    var selected_org, selected_inst;
+    var selected_org;
     $("[name=radio-org-1]").change(function() {
         selected_org = $('input[name=radio-org-1]:checked').val();
         console.log('Selected: '+ selected_org);
         localStorage.setItem('organization', selected_org);
-        $.mobile.changePage("org_inst.html#instances");
+        $.mobile.changePage("org_inst.html#instances_page");
     });
+});
+
+pageLoad("instances", function(){
+    var selected_inst;
     $("[name=instance-1]").change(function() {
         selected_inst = $('input[name=instance-1]:checked').val();
         console.log('Selected: '+ selected_inst);
