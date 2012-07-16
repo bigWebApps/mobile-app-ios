@@ -22,12 +22,14 @@
         <script>
             // this is what is required for the on the mobile page load
             function form_submit() {
+                //$(".submitButton").attr("disabled","disabled");
                     api.loginUser({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
                 return false;
                 }
 
             function login_check (data)
             {
+                //$(".submitButton").removeAttr("disabled");
                     if (data)
                     {
                         window.location.replace("org_inst.html");
@@ -44,7 +46,7 @@
             <label for="password" class="ui-hidden-accessible">Password</label>
             <input type="password" name="password" id="password" value="" placeholder="password"/>
             <br/>
-            <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden"
+            <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden submitButton"
                     aria-disabled="false">
                 Submit
             </button>

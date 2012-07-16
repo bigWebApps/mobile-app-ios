@@ -20,10 +20,10 @@ var HelpDeskAPI = function (options) {
     //if (!login || !pass)
     //    throw 'You have to provide an login and pass for this to work.';
 
-    this.key =  localStorage.getItem('key');
+    this.key =  getStorage('key');
 	this.version     = '1.0';
-	this.login      = localStorage.getItem('login');
-    this.pass      = localStorage.getItem('password');
+	this.login      = getStorage('login');
+    this.pass      = getStorage('password');
 	this.secure      = options.secure || false;
 	this.packageInfo = options.packageInfo;
     this.httpHost    = 'api.beta.helpdesk.bigwebapps.com';
@@ -83,14 +83,14 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         success:function (data) {
             //alert('success');
             if (typeof data.UserKey !== 'undefined')
-                localStorage.setItem('key', data.UserKey);
+                setStorage('key', data.UserKey);
             callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
            if (jqXHR.status == 403)
            {
                alert(errorThrown);
-               localStorage.clear();
+               clearStorage();
                window.location.replace("login.html")
            }
             else
@@ -121,12 +121,11 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
  */
 HelpDeskAPI.prototype.loginUser = function (params, callback) {
     if (typeof params == 'function') callback = params, params = {};
-    localStorage.clear();
+    clearStorage();
     this.login      = params[0];
     this.pass      = params[1];
-    localStorage.length;
-    localStorage.setItem('login', this.login);
-    localStorage.setItem('password', this.pass);
+    setStorage('login', this.login);
+    setStorage('password', this.pass);
     this.execute('login', ["UserName", "Password"
     ], params, callback);
 }
