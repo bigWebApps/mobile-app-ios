@@ -89,20 +89,20 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         error:function (jqXHR, textStatus, errorThrown) {
            if (jqXHR.status == 403)
            {
-               alert(errorThrown);
+               navigator.notification.alert(errorThrown);
                clearStorage();
-               window.location.replace("login.html")
+               window.location.replace("index.html")
            }
             else
             if (errorThrown == 'timeout') {
                 //alert('401');
-                alert('timeout');
+                navigator.notification.alert('timeout');
             }
             else if (errorThrown == 'parsererror')
-                alert('Error parsing JSON answer from  HelpDeskAPI.');
+                navigator.notification.alert('Error parsing JSON answer from  HelpDeskAPI.');
             //callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
             else
-                alert('Unable to connect to the  HelpDeskAPI endpoint.' + errorThrown);
+                navigator.notification.alert('Unable to connect to the  HelpDeskAPI endpoint.' + errorThrown);
             //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
         }
     });

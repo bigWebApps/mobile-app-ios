@@ -1,5 +1,78 @@
 // JavaScript Document
 
+
+function init() {
+    document.addEventListener("deviceready", deviceReady, true);
+    delete init;
+}
+
+function checkPreAuth() {
+    console.log("checkPreAuth");
+
+    var login      = getStorage("login");
+    var pass      = getStorage("password");
+    var selected_org = getStorage("organization");
+    var selected_inst = getStorage("instance");
+
+    var form = $("#loginForm");
+
+    if (!login || !pass)
+    {
+        $("#email", form).val(login);
+        $("#password", form).val(pass);
+        $.mobile.changePage("#loginPage");
+        return false;
+    }
+    else
+    {
+        if (!selected_org || !selected_inst)
+        {
+            if (window.location.href.indexOf("org_inst.html")<0)
+            {
+                window.location.replace("org_inst.html");
+                return false;
+            }
+        }
+        else
+        {
+            if (window.location.href.indexOf("home.html")<0)
+            {
+                window.location.replace("home.html");
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function deviceReady() {
+    console.log("deviceReady");
+    navigator.splashscreen.hide();
+    $("#loginPage").on("pageinit",function() {
+        console.log("pageinit run");
+        $("#loginForm").one("submit",form_submit);
+        checkPreAuth();
+    });
+}
+
+function form_submit() {
+    $("#submitButton").attr("disabled","disabled");
+    api.loginUser({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
+    return false;
+}
+
+function login_check (data)
+{
+    $("#submitButton").removeAttr("disabled");
+    if (data)
+    {
+        window.location.replace("org_inst.html");
+    }
+    else
+        navigator.notification.alert("Incorrect login/pass!");
+    return false;
+}
+
 /*
  Storage Functions
  */
@@ -43,56 +116,11 @@ function pageReady(page_name, func)
     $( document ).delegate("#"+page_name+"_page", "pagecreate", func);
 }
 
-function checkStorage()
-{
-    var login      = getStorage("login");
-    var pass      = getStorage("password");
-    var selected_org = getStorage("organization");
-    var selected_inst = getStorage("instance");
-
-    if (!login || !pass)
-    {
-        window.location.replace("login.html");
-        return false;
-    }
-    else
-    {
-        if (!selected_org || !selected_inst)
-        {
-            if (window.location.href.indexOf("org_inst.html")<0)
-            {
-                window.location.replace("org_inst.html");
-                return false;
-            }
-        }
-        else
-        {
-            if (window.location.href.indexOf("home.html")<0)
-            {
-                window.location.replace("home.html");
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
 function logout() {
     clearStorage();
-    window.location.replace("login.html");
+    window.location.replace("index.html");
     return false;
 }
-
-
-pageLoad("login", function() {
-    {
-        /*if (data)
-        {
-            $.mobile.changePage("index.html");
-        }
-        */
-    }
-});
 
 pageLoad("index", function() {
     {
