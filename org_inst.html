@@ -21,7 +21,7 @@
 	<div data-role="header" data-position="fixed" data-theme="h">
         <h1>HelpDesk</h1>
     </div>
-	<div id="content" data-role="content" data-add-back-btn="false">
+	<div id="content_org" data-role="content" data-add-back-btn="false">
         <fieldset data-role="controlgroup" id="orgs">
             <legend>Choose an Organization:</legend>
             <script id="organizations" type="text/x-handlebars-template">
@@ -32,13 +32,16 @@
             </script>
         </fieldset>
     </div>
+    <div data-role="footer" data-theme="h" data-position="fixed">
+        <a href="#" onclick="logout()" data-theme="g" data-role="button" data-icon="arrow-l" data-iconpos="left" data-corners="true" >Logout</a>
+    </div>
 </div>
 
 <div id="instances_page" data-role="page">
 	<div data-role="header" data-position="fixed" data-theme="h">
         <h1>HelpDesk</h1>
     </div>
-	<div id="content" data-role="content" data-add-back-btn="false">
+	<div id="content_inst" data-role="content" data-add-back-btn="false">
         <fieldset data-role="controlgroup" id="insts">
             <legend>Choose an Instance:</legend>
             <script id="instances" type="text/x-handlebars-template">
@@ -50,7 +53,7 @@
         </fieldset>
 	</div>
     <div data-role="footer" data-theme="h" data-position="fixed">
-        <a id="logout" href="#" onclick="logout()" data-theme="g" data-role="button" data-icon="arrow-l" data-iconpos="left" data-corners="true" >Logout</a>
+        <a href="#" onclick="logout()" data-theme="g" data-role="button" data-icon="arrow-l" data-iconpos="left" data-corners="true" >Logout</a>
     </div>
 </div>
 

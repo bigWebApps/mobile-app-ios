@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/moment.min.js"></script>
 	<script src="phonegap.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script src="js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/helpdesk.js"></script>
     <script>
 
 	$(document).bind("pageload", function(){
@@ -25,32 +28,34 @@
 </head> 
 <body>  
 
-<div data-role="page">
+<div id="ticketlist_page" data-role="page">
 
 	<div data-role="content">						
-		<ul data-role="listview" data-theme="d" data-divider-theme="b" data-filter="true" data-filter-placeholder="Search Ticket List" data-filter-theme="h" >				
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
+		<ul id="ticketList" data-role="listview" data-theme="d" data-divider-theme="b" data-filter="true" data-filter-placeholder="Search Ticket List" data-filter-theme="h" >
+        <script id="tickets" type="text/x-handlebars-template">
+          {{#each this}}
+         <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
+                <a href="ticket_detail.html"  class="ui-link-inherit" data-ajax="false" data-transition="slide" rel="external">
                     <table>
                         <tr>
-                            <td class="ticket-num">373</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
+                            <td class="ticket-num">{{TicketNumber}}</td>
+                            <td class="ticket-subject">{{Subject}}</td>
                         </tr>
                         <tr>
                             <table width="100%">
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td class="left">
-                                        <p class="customer">Jim Mora</p>
-                                        <p class="status open">Open</p>
+                                        <p class="customer">{{UserLastName}}, {{UserFirstName}}</p>
+                                        <p class="status {{Status}}">{{Status}}</p>
                                         <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
+                                        <p class="tech-name">{{TechnicianLastName}}, {{TechnicianFirstName}}</p>
                                     </td>
                                     <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date today">Today 10:20pm</p>
+                                        <p class="account">{{AccountName}}</p>
+                                        <p class="date today">{{dateFormat CreateTime format="calendar"}}</p>
                                         <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
+                                        <p class="class-name">{{ClassName}}</p>
                                     </td>
                                 </tr>
                             </table>
@@ -58,239 +63,9 @@
                     </table>					
                 </a>
 			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">23452</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Jim Mora</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date">12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">4567</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Jim Mora</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date">12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">234567</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Jim Mora</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date">12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">54321</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Jim Mora</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date">12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">12345</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Jim Mora</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date">12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">13855</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Patrick Clements</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date">12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">23445</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Ben Pfohl</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">bigWebApps</p>
-                                        <p class="date">12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d"> 
-                <a href="ticket_detail.html" class="ui-link-inherit" data-ajax="false" data-transition="slide">                    				
-                    <table>
-                        <tr>
-                            <td class="ticket-num">234</td>
-                            <td class="ticket-subject">Auto Email Alert not working</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">Jim Mora</p>
-                                        <p class="status open">Open</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">Al Petersen</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">Fillmore Unified Schools</p>
-                                        <p class="date">T12/30/2012</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">Printer Issue</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>					
-                </a>
-			</li>			
-		</ul>
+            {{/each}}
+        </script>
+    </ul>
 	</div>
     
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
