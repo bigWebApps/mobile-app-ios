@@ -43,13 +43,14 @@ function pageReady(page_name, func)
     $( document ).delegate("#"+page_name+"_page", "pagecreate", func);
 }
 
-function checkStorage(changelocation)
+function pageInit(page_name, func)
 {
-    return checkStorage(true);
+    $( document ).delegate("#"+page_name+"_page", "pageinit", func);
 }
 
 function checkStorage(changelocation)
 {
+    console.log(changelocation && window.location.href.indexOf("home.html")<0);
     var login      = getStorage("login");
     var pass      = getStorage("password");
     var selected_org = getStorage("organization");
@@ -101,9 +102,9 @@ pageLoad("login", function() {
     }
 });
 
-pageLoad("index", function() {
+pageReady("index", function() {
     {
-        checkStorage();
+        checkStorage(true);
     }
 });
 
@@ -192,7 +193,6 @@ pageReady("instances", function(){
         });
 
         $('#insts').append(t_insts(inst_list) );
-        //$("#instances_page").page();
     };
 
     parseinsts();
@@ -347,5 +347,5 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
         return moment(context).format(f);
     }else{
         return context; // moment plugin not available. return data as is.
-    };
+    }
 });
