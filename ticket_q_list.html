@@ -5,28 +5,33 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
-	<script src="phonegap.js"></script>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.md5.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="phonegap.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script src="js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/helpdesk.js"></script>
 	
 </head>
-<div data-role="page">
+<div id="ticketqlist_page" data-role="page">
 
 	<div data-role="header" data-position="fixed" data-theme="h">
 		<h1>Ticket Queues</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">		
-		<ul data-role="listview" data-theme="d" id="ticket_home">
-			<li><a href="ticket_list.html" data-ajax="false">Future Consideration Queue <span class="ui-li-count">198</span></a></li>
-			<li><a href="ticket_list.html" data-ajax="false">New Ticket Queue<span class="ui-li-count">1</span></a></li>
-			<li><a href="ticket_list.html" data-ajax="false">Pre-Development Queue <span class="ui-li-count">26</span></a></li>
-            <li><a href="ticket_list.html" data-ajax="false">SherpaDesk Queue <span class="ui-li-count">1</span></a></li>
-            <li><a href="ticket_list.html" data-ajax="false">WareHouse Queue <span class="ui-li-count">13</span></a></li>
+		<ul id="ticketqList" data-role="listview" data-theme="d">
+            <script id="ticketsq" type="text/x-handlebars-template">
+                {{#each this}}
+                <li><a href="ticket_list.html" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
+                {{/each}}
+            </script>
 		</ul>
-	</div><!-- /content -->	
-
+	</div><!-- /content -->
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
+        <a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Back</a>
+    </div>
 
 </div><!-- /page -->

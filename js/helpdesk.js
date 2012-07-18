@@ -108,6 +108,31 @@ pageReady("index", function() {
     }
 });
 
+pageReady("ticketqlist", function(){
+
+    checkStorage(false);
+    var t_ticketqlist = Handlebars.compile( $('#ticketsq').html() );
+
+    var parseticketsq = function (data) {
+        if (!data)
+        {
+            return;
+        }
+
+        //setStorage("org_list", data);
+
+        //var org_list = [];//declare array
+        //$.each(data, function (index, org) {
+        //    org_list.push({key: org.Key, name: org.Name});
+        //});
+
+        $('ul#ticketqList').append(t_ticketqlist(data) );
+    };
+
+    api.ticketsq({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseticketsq);
+
+});
+
 pageReady("ticketlist", function(){
 
     checkStorage(false);

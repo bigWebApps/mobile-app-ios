@@ -158,3 +158,17 @@ HelpDeskAPI.prototype.tickets = function (params, callback) {
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets', ["Method"
     ], params, callback);
 };
+
+/**
+ * List of unassigned queues
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/unassignedqueues
+ */
+HelpDeskAPI.prototype.ticketsq = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/unassignedqueues', ["Method"
+    ], params, callback);
+};
