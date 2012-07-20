@@ -24,7 +24,7 @@
             // this is what is required for the on the mobile page load
             function form_submit() {
                 //$(".submitButton").attr("disabled","disabled");
-                    api.loginUser({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
+                    api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
                 return false;
                 }
 

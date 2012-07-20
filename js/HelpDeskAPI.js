@@ -15,12 +15,12 @@ var HelpDeskAPI = function (options) {
     if (!options)
         var options = {};
 
-    //if (!login || !pass)
+    //if (!email || !pass)
     //    throw 'You have to provide an login and pass for this to work.';
 
     this.key = getStorage('key');
     this.version = '1.0';
-    this.login = getStorage('login');
+    this.email = getStorage('login');
     this.pass = getStorage('password');
     this.secure = options.secure || false;
     this.packageInfo = options.packageInfo;
@@ -118,10 +118,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
  *
  * @see http://developer.helpdesk.bigwebapps.com/
  */
-HelpDeskAPI.prototype.loginUser = function (params, callback) {
+HelpDeskAPI.prototype.login = function (params, callback) {
     if (typeof params == 'function') callback = params, params = {};
     clearStorage();
-    this.login = params.UserName;
+    this.email = params.UserName;
     this.pass = params.Password;
     setStorage("login", params.UserName);
     console.log(getStorage("login"));
@@ -136,7 +136,7 @@ HelpDeskAPI.prototype.loginUser = function (params, callback) {
  *
  * @see http://developer.helpdesk.bigwebapps.com/
  */
-HelpDeskAPI.prototype.organizations = function (callback) {
+HelpDeskAPI.prototype.org_inst = function (callback) {
     var params = {"Method":"GET"};
     if (typeof params == 'function') {
         callback = params, params = {};
@@ -151,7 +151,7 @@ HelpDeskAPI.prototype.organizations = function (callback) {
  * @see http://developer.helpdesk.bigwebapps.com/
  *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets
  */
-HelpDeskAPI.prototype.tickets = function (params, callback) {
+HelpDeskAPI.prototype.ticket_list = function (params, callback) {
     params["Method"] = "GET";
     //console.log(params);
     if (typeof params == 'function') callback = params, params = {};
@@ -159,6 +159,19 @@ HelpDeskAPI.prototype.tickets = function (params, callback) {
     ], params, callback);
 };
 
+/**
+ * Get ticket
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ */
+HelpDeskAPI.prototype.ticket_detail = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method"
+    ], params, callback);
+};
 
 /**
  * List of tickets in queue
@@ -166,7 +179,7 @@ HelpDeskAPI.prototype.tickets = function (params, callback) {
  * @see http://developer.helpdesk.bigwebapps.com/
  *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/queues/8695
  */
-HelpDeskAPI.prototype.ticketsqueue = function (params, callback) {
+HelpDeskAPI.prototype.queue_ticket_list = function (params, callback) {
     params["Method"] = "GET";
     //console.log(params);
     if (typeof params == 'function') callback = params, params = {};
@@ -179,7 +192,7 @@ HelpDeskAPI.prototype.ticketsqueue = function (params, callback) {
  * @see http://developer.helpdesk.bigwebapps.com/
  *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/queues
  */
-HelpDeskAPI.prototype.ticketsq = function (params, callback) {
+HelpDeskAPI.prototype.ticket_q_list = function (params, callback) {
     params["Method"] = "GET";
     //console.log(params);
     if (typeof params == 'function') callback = params, params = {};

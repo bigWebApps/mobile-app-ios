@@ -1,21 +1,25 @@
 <!DOCTYPE html> 
 <html> 
 	<head> 
-	<title>Ticket #345</title>
+	<title>Ticket Details</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">    
 	<meta name="format-detection" content="telephone=no">
     
     <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
-	<script src="phonegap.js"></script>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.md5.min.js"></script>
-    <script src="js/jquery.mobile-1.1.0.min.js"></script>
-    <script src="js/HelpDeskAPI.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="phonegap.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.md5.min.js"></script>
+        <script src="js/jquery.mobile-1.1.0.min.js"></script>
+        <script src="js/jquery.url.js"></script>
+        <script src="js/handlebars-1.0.0.beta.6.js"></script>
+        <script src="js/HelpDeskAPI.js"></script>
+        <script src="js/helpdesk.js"></script>
     <script>	
        
-		$( document ).delegate("#ticket_detail_main", "pageinit", function(){
+		$( document ).delegate("#ticket_detail_main_page", "pageinit", function(){
 			$('.res-gravatar').each(function(){
 					var email = $.MD5($(this).data('gravatar'));			
 					$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email);
@@ -24,116 +28,69 @@
 	</script>	
 </head> 
 <body>  
-<div data-role="page">
-	<div data-role="header" id="ticket_detail_header" data-position="fixed" data-theme="h">
-    	<div class="ticket-det-box open">
-    		<p class="status-det">Open</p>
-            <p class="status-ticket-num">#345</p>
+<div data-role="page" data-role="page" id="ticket_detail_main_page">
+    <script id="ticket_detail" type="text/x-handlebars-template">
+	<div data-role="header" data-position="fixed" data-theme="h">
+    	<div class="ticket-det-box {{TicketStatus}}">
+    		<p class="status-det">{{TicketStatus}}</p>
+            <p class="status-ticket-num">#{{TicketNumber}}</p>
     	</div>
         <div class="ticket-det-head">
-        	<h1>Jim Mora</h1>
-            <h2>Filmore United Schools</h2>
+        	<h1>{{UserFirstName}} {{UserLastName}}</h1>
+            <h2>{{AccountName}}</h2>
         </div>
         <div class="ticket-tech-class">
         	<div class="ticket-det-tech">
             	<p class="smalllabel">TECH</p>
-                <p>Al Petersen</p>
+                <p>{{TechnicianFirstName}} {{TechnicianLastName}}</p>
             </div>
             <div class="ticket-det-class">
             	<p class="smalllabel">CLASS</p>
-                <p>Top Level > Printer Issue</p>
+                <p>{{ClassName}}</p>
             </div>
         </div>
 		<div class="ticket-level-priority">
         	<p class="det-icon"></p>
-            <p class="det-level">Level: <span>1</span></p>
-            <p class="det-priority">Priority: <span>1</span></p>
-            <p class="det-date">12/29/2011</p>
+            <p class="det-level">Level: <span>{{Level}} - {{LevelName}} </span></p>
+            <p class="det-priority">Priority: <span>{{Priority}} - {{PriorityName}}</span></p>
+            <p class="det-date">{{dateFormat CreateTime format="calendar"}}</p>
         </div>
-	</div><!-- /header -->   
-    
+	</div><!-- /header -->
+
 	<div data-role="content" id="ticket-response-list">
     	<div class="ticket-det-subject">
-        	<h3>Auto email alert is completely foobar'd  - blah blah blah blah blah</h3>
+        	<h3>{{Subject}}</h3>
         </div>		
 		
         
-        <ul data-role="listview" data-theme="b">
+        <ul id="ticketLogList" data-role="listview" data-theme="b">
+            {{#each TicketLogs}}
         	<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
                 <div class="response-info">
                 	<div class="response-date">
-                    	<p>12/29/2012 10:45AM (UTC-5)</p>
+                    	<p>{{dateFormat RecordDate format="utc"}}</p>
                     </div>
                 	<div class="response-name">
-                    	<p class="res-name">Ben Pfohl</p>
-                        <span class="res-type">Response</span>
+                    	<p class="res-name">{{UserFirstName}} {{UserLastName}}</p>
+                        <span class="res-type">{{LogType}}</span>
                     </div>                    
                 </div>
                 <div class="response-text-img">
                 	<div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
                     <p class="res-text">
-                        This is just another response to check the scrolling out.
+                        {{Note}}
                     </p>                    
                 </div>
 			</li>
-          	<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
-                <div class="response-info">
-                	<div class="response-date">
-                    	<p>12/29/2012 10:30AM (UTC-5)</p>
-                    </div>
-                	<div class="response-name">
-                    	<p class="res-name">Patrick Clements</p>
-                        <span class="res-type">Response</span>
-                    </div>                    
-                </div>
-                <div class="response-text-img">
-                	<div class="res-gravatar" data-gravatar="patrick.clements@bigwebapps.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
-                    <p class="res-text">
-                        I think a beer is more in order. Perhaps some Yager bombs to get ya going.
-                    </p>                    
-                </div>
-			</li>				
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
-                <div class="response-info">
-                	<div class="response-date">
-                    	<p>12/29/2012 10:18AM (UTC-5)</p>
-                    </div>
-                	<div class="response-name">
-                    	<p class="res-name">Ben Pfohl</p>
-                        <span class="res-type">Response</span>
-                    </div>                    
-                </div>
-                <div class="response-text-img">
-                	<div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
-                    <p class="res-text">
-                        Hey Jim, I've got a barista getting you a coffee for your trouble.
-                    </p>                    
-                </div>
-			</li>
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
-                <div class="response-info">
-                	<div class="response-date">
-                    	<p>12/29/2012 10:18AM (UTC-5)</p>
-                    </div>
-                	<div class="response-name">
-                    	<p class="res-name">Jon Vickers</p>
-                        <span class="res-type">Initial Post</span>
-                    </div>                    
-                </div>
-                <div class="response-text-img">
-                	<div class="res-gravatar" data-gravatar="jon.vickers@micajah.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
-                    <p class="res-text">
-                        I am laking some energy. I might need another vacation, or perhaps some coffee.  Regardless of the reason, I can't seam to be able to log into the system today so I'm going home.
-                    </p>                    
-                </div>
-			</li>
+            {{/each}}
         </ul>   
 	</div><!-- /content -->
+    </script>
 	
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
 		<div data-role="navbar" data-theme="h">
 			<ul>
-				<li><a href="ticket_list.html" data-ajax="false" data-theme="g" data-icon="back" >Back</a></li>
+				<li><a href="javascript:window.history.go($.mobile.urlHistory.stack.length * -1)" data-ajax="false" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-ajax="false" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
 				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
 				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
@@ -151,7 +108,7 @@
 <!------------------------------ Ticket Info --------------------------------------------------->
 
 <div data-role="page" id="ticket_info">
-	<div data-role="header" id="ticket_detail_header" data-position="fixed" data-theme="h">
+	<div data-role="header" data-position="fixed" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -185,7 +142,7 @@
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
 		<div data-role="navbar" data-theme="h">
 			<ul>
-				<li><a href="#ticket_detail_main" data-theme="g" data-icon="back" >Back</a></li>
+				<li><a href="#ticket_detail_main_page" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
 				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
 				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
@@ -201,16 +158,16 @@
     <div id="ticket-detail-more" data-role="content" data-theme="a">        
         <a href="#ticket_response" data-role="button" data-theme="c">Add Response</a>	
         <a href="#ticket_transfer" data-role="button" data-theme="c">Transfer to Another Tech</a>
-        <a href="#ticket_addtime" data-role="button" data-theme="c">Record Time</a>	
-        <a href="#ticket_detail_main" onclick="pickupTicket('345'); return false;" data-role="button" data-theme="c">Pick Up Ticket</a>
+        <a href="#ticket_addtime" data-role="button" data-theme="c">Record Time</a>
+        <a href="#ticket_detail_main_page"  data-role="button" data-theme="c">Pick Up Ticket</a> <!--onclick="pickupTicket('345'); return false;" -->
         <a href="#ticket_close" data-role="button" data-theme="c">Close Ticket</a>
-        <a href="#ticket_detail_main" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>        
+        <a href="#ticket_detail_main_page" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>
     </div> <!-- Content -->
     
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
 		<div data-role="navbar" data-theme="h">
 			<ul>
-				<li><a href="#ticket_detail_main" data-theme="g" data-icon="back" >Back</a></li>
+				<li><a href="#ticket_detail_main_page" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
 				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
 				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
@@ -223,7 +180,7 @@
 
 
 <div data-role="page" id="ticket_response">
-	<div data-role="header" id="ticket_detail_header" data-theme="h">
+	<div data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -239,13 +196,13 @@
     
     <h3>Add Response</h3>    
         
-        	<form action="#ticket_detail_main" method="post">             	 
+        	<form action="#ticket_detail_main_page" method="post">
                   	<label for="ticketresponse" class="ui-hidden-accessible">Response</label>
                 	<textarea name="ticketresponse" id="ticketresponse" placeholder="Add Ticket Reponse"></textarea>                 
             </form>       
         
-        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Post Response</a> 
+        <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Post Response</a>
     	
     </div><!--content-->
 </div>
@@ -254,7 +211,7 @@
 <!------------------------------ Ticket Transfer--------------------------------------------------->
 
 <div data-role="page" id="ticket_transfer">
-	<div data-role="header" id="ticket_detail_header" data-theme="h">
+	<div data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -267,13 +224,13 @@
 
 	<div data-role="content" data-theme="d">     
         
-        	<form action="#ticket_detail_main" method="post">          	
+        	<form action="#ticket_detail_main_page" method="post">
                 	
                 	<label><input type="checkbox" name="transfer_remove_user" /> Remove Al Petersen after transfer. </label>                	
                     <br>
                     <label><input type="checkbox" name="transfer_alternate" /> Make me the alternate </label>
                     <br>                   
-                    <label for="status" class="select">Transfer to </label>
+                    <label for="tech_transfer" class="select">Transfer to </label>
                       <select name="status" id="tech_transfer" data-role="none">
                          <option value="Pat Clements">Pat Clements</option>
                          <option value="Jon Vickers">Jon Vickers</option>
@@ -285,8 +242,8 @@
                  
             </form>       
         
-        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Transfer Ticket</a> 
+        <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Transfer Ticket</a>
     	
     </div><!-- content -->    
     
@@ -296,7 +253,7 @@
 <!------------------------------ Ticket Record Time ----------------------------------------------->
 
 <div data-role="page" id="ticket_addtime">
-	<div data-role="header" id="ticket_detail_header" data-theme="h">
+	<div data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -355,8 +312,8 @@
 
             </form>
 
-        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Record Time</a> 
+        <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Record Time</a>
     	
     </div><!-- content -->    
     
@@ -367,7 +324,7 @@
 <!------------------------------ Ticket Close ----------------------------------------------------->
 
 <div data-role="page" id="ticket_close">
-	<div data-role="header" id="ticket_detail_header" data-theme="h">
+	<div data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -393,8 +350,8 @@
             </form>
         
         
-        <a href="#ticket_detail_main" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main" data-role="button" data-inline="true" data-theme="b">Close Ticket</a> 
+        <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Close Ticket</a>
     	
     </div><!-- content -->
     

@@ -129,7 +129,7 @@ pageReady("ticketqlist", function(){
         $('ul#ticketqList').append(t_ticketqlist(data) );
     };
 
-    api.ticketsq({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseticketsq);
+    api.ticket_q_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseticketsq);
 
 });
 
@@ -159,9 +159,41 @@ pageReady("ticketlist", function(){
     var queueid = url.param("id");
 
     if (queueid > 0)
-        api.ticketsqueue({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
+        api.queue_ticket_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
     else
-        api.tickets({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
+        api.ticket_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
+
+});
+
+pageReady("ticket_detail_main", function(){
+
+    checkStorage(false);
+    var t_ticketdetail = Handlebars.compile( $('#ticket_detail').html() );
+
+    var parseticketdetail = function (data) {
+        if (!data)
+        {
+            return;
+        }
+
+        //setStorage("org_list", data);
+
+        //var org_list = [];//declare array
+        //$.each(data, function (index, org) {
+        //    org_list.push({key: org.Key, name: org.Name});
+        //});
+
+        $('#ticket_detail_main_page').(t_ticketdetail(data) );
+    };
+
+    var url = $.url(document.location);
+
+    var ticketid = url.param("id");
+
+    if (ticketid > 0)
+        api.ticket_detail({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : ticketid},parseticketdetail);
+    else
+        history.back();
 
 });
 
@@ -185,7 +217,7 @@ pageReady("organizations", function(){
         $('#orgs').append(t_orgs(org_list) );
     };
 
-    api.organizations(parseorgs);
+    api.org_inst(parseorgs);
 
 });
 
@@ -376,7 +408,13 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
         var f = block.hash.format || "MMM Do, YYYY";
         if (f == "calendar")
             return moment(context).calendar();
-        return moment(context).format(f);
+        else if (f == "utc")
+        {
+            var utc_string = moment(context).format("(UTCZZ)".replace("0", ""));
+            return moment(context).format("MM/DD/YYYY, hh:mmA ") + utc_string;
+        }
+        else
+            return moment(context).format(f);
     }else{
         return context; // moment plugin not available. return data as is.
     }
