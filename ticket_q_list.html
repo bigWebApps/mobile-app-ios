@@ -25,7 +25,7 @@
 		<ul id="ticketqList" data-role="listview" data-theme="d">
             <script id="ticketsq" type="text/x-handlebars-template">
                 {{#each this}}
-                <li><a href="ticket_list.html" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
+                <li><a href="ticket_list.html?id={{Id}}" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
                 {{/each}}
             </script>
 		</ul>

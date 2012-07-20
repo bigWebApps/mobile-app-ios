@@ -154,7 +154,14 @@ pageReady("ticketlist", function(){
         $('ul#ticketList').append(t_ticketlist(data) );
     };
 
-    api.tickets({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
+    var url = $.url(document.location);
+
+    var queueid = url.param("id");
+
+    if (queueid > 0)
+        api.ticketsqueue({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
+    else
+        api.tickets({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
 
 });
 

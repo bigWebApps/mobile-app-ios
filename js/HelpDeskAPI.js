@@ -159,16 +159,30 @@ HelpDeskAPI.prototype.tickets = function (params, callback) {
     ], params, callback);
 };
 
+
+/**
+ * List of tickets in queue
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/queues/8695
+ */
+HelpDeskAPI.prototype.ticketsqueue = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/queues/' + params.Id, ["Method"
+    ], params, callback);
+};
 /**
  * List of unassigned queues
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/unassignedqueues
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/queues
  */
 HelpDeskAPI.prototype.ticketsq = function (params, callback) {
     params["Method"] = "GET";
     //console.log(params);
     if (typeof params == 'function') callback = params, params = {};
-    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/unassignedqueues', ["Method"
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/queues', ["Method"
     ], params, callback);
 };
