@@ -237,7 +237,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 
 /*---- Ticket Responses ----*/
 
-#ticket_detail_header{
+.ticket_detail_header{
 	width: 100%;
 	}
 .response-info {

@@ -1,4 +1,6 @@
 // JavaScript Document
+//to hide use this
+//$("a", alert_menu).closest('.ui-btn').hide();
 
 /*
  Storage Functions
@@ -36,6 +38,11 @@ api = new HelpDeskAPI();
 function pageLoad(page_name, func)
 {
     $( document ).delegate("#"+page_name+"_page", "pageshow", func);
+}
+
+function pageBeforeshow(page_name, func)
+{
+    $( document ).delegate("#"+page_name, "pagebeforeshow", func);
 }
 
 function pageReady(page_name, func)
@@ -119,13 +126,6 @@ pageReady("ticketqlist", function(){
             return;
         }
 
-        //setStorage("org_list", data);
-
-        //var org_list = [];//declare array
-        //$.each(data, function (index, org) {
-        //    org_list.push({key: org.Key, name: org.Name});
-        //});
-
         $('ul#ticketqList').append(t_ticketqlist(data) );
     };
 
@@ -144,13 +144,6 @@ pageReady("ticketlist", function(){
             return;
         }
 
-        //setStorage("org_list", data);
-
-        //var org_list = [];//declare array
-        //$.each(data, function (index, org) {
-        //    org_list.push({key: org.Key, name: org.Name});
-        //});
-
         $('ul#ticketList').append(t_ticketlist(data) );
     };
 
@@ -165,6 +158,8 @@ pageReady("ticketlist", function(){
 
 });
 
+
+
 pageReady("ticket_detail_main", function(){
 
     checkStorage(false);
@@ -176,14 +171,19 @@ pageReady("ticket_detail_main", function(){
             return;
         }
 
-        //setStorage("org_list", data);
-
-        //var org_list = [];//declare array
-        //$.each(data, function (index, org) {
-        //    org_list.push({key: org.Key, name: org.Name});
-        //});
-
         $('#ticket_detail_main_page').prepend(t_ticketdetail(data) );
+
+        var alert_menu = $("#ticket-detail-more");
+        //logic to show only correspondent actions: Transfer, PickUp and Cancel
+        console.log("data.TechnicianType = " + data.TechnicianType);
+        if (data.TechnicianType == "Queue")
+        {
+            $("#ticket_response_action", alert_menu).remove();
+            $("#ticket_addtime_action", alert_menu).remove();
+            $("#ticket_close_action", alert_menu).remove();
+        }
+
+        $("#ticketId").val(data.Id);
 
     };
 

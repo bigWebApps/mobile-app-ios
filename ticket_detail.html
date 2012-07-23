@@ -27,10 +27,11 @@
 		});	
 	</script>	
 </head> 
-<body>  
+<body>
+<input id="ticketId" type="hidden"/>
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
     <script id="ticket_detail" type="text/x-handlebars-template">
-	<div data-theme="h" data-position="fixed" id="ticket_detail_header" data-role="header" class="ui-header ui-bar-h ui-header-fixed slidedown" role="banner">
+	<div data-theme="h" data-position="fixed" class="ticket_detail_header" data-role="header" class="ui-header ui-bar-h ui-header-fixed slidedown" role="banner">
     	<div class="ticket-det-box {{TicketStatus}}">
     		<p class="status-det">{{TicketStatus}}</p>
             <p class="status-ticket-num">#{{TicketNumber}}</p>
@@ -108,7 +109,7 @@
 <!------------------------------ Ticket Info --------------------------------------------------->
 
 <div data-role="page" id="ticket_info">
-	<div id="ticket_detail_header" data-role="header" data-position="fixed" data-theme="h">
+	<div class="ticket_detail_header" data-role="header" data-position="fixed" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -145,7 +146,7 @@
 				<li><a href="#ticket_detail_main_page" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
 				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
-				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
+				<li><a href="#alert_menu" id="alert_more_action" data-theme="g" data-icon="app-more">More</a></li>
 			</ul>
 		</div><!-- /navbar -->        
 	</div><!-- /footer -->
@@ -156,12 +157,12 @@
 
 <div data-role="page" id="alert_menu" data-theme="a">
     <div id="ticket-detail-more" data-role="content" data-theme="a">        
-        <a href="#ticket_response" data-role="button" data-theme="c">Add Response</a>	
-        <a href="#ticket_transfer" data-role="button" data-theme="c">Transfer to Another Tech</a>
-        <a href="#ticket_addtime" data-role="button" data-theme="c">Record Time</a>
-        <a href="#ticket_detail_main_page"  data-role="button" data-theme="c">Pick Up Ticket</a> <!--onclick="pickupTicket('345'); return false;" -->
-        <a href="#ticket_close" data-role="button" data-theme="c">Close Ticket</a>
-        <a href="#ticket_detail_main_page" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>
+        <a href="#ticket_response" id="ticket_response_action" data-role="button" data-theme="c">Add Response</a>
+        <a href="#ticket_transfer" id="ticket_transfer_action" data-role="button" data-theme="c">Transfer to Another Tech</a>
+        <a href="#ticket_addtime" id="ticket_addtime_action" data-role="button" data-theme="c">Record Time</a>
+        <a href="#ticket_detail_main_page" id="ticket_pickup_action" data-role="button" data-theme="c">Pick Up Ticket</a> <!--onclick="pickupTicket('345'); return false;" -->
+        <a href="#ticket_close" id="ticket_close_action" data-rel="dialog" data-role="button" data-theme="c">Close Ticket</a>
+        <a href="#ticket_detail_main_page" id="ticket_cancel_action" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>
     </div> <!-- Content -->
     
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
@@ -180,7 +181,7 @@
 
 
 <div data-role="page" id="ticket_response">
-	<div id="ticket_detail_header" data-role="header" data-theme="h">
+	<div class="ticket_detail_header" data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -211,7 +212,7 @@
 <!------------------------------ Ticket Transfer--------------------------------------------------->
 
 <div data-role="page" id="ticket_transfer">
-	<div id="ticket_detail_header" data-role="header" data-theme="h">
+	<div class="ticket_detail_header" data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -253,7 +254,7 @@
 <!------------------------------ Ticket Record Time ----------------------------------------------->
 
 <div data-role="page" id="ticket_addtime">
-	<div id="ticket_detail_header" data-role="header" data-theme="h">
+	<div class="ticket_detail_header" data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -324,19 +325,45 @@
 <!------------------------------ Ticket Close ----------------------------------------------------->
 
 <div data-role="page" id="ticket_close">
-	<div id="ticket_detail_header" data-role="header" data-theme="h">
-    	<div class="ticket-det-box open">
-    		<p class="status-det">Open</p>
-            <p class="status-ticket-num">#345</p>
-    	</div>
-        <div class="ticket-det-head">
-        	<h1>Jim Mora</h1>
-            <h2>Filmore United Schools</h2>
-        </div>
-        
-	</div><!-- /header -->
+    <!--<div class="ticket_detail_header" data-role="header" data-theme="h">
+         <div class="ticket-det-box open">
+             <p class="status-det">Open</p>
+             <p class="status-ticket-num">#345</p>
+         </div>
+         <div class="ticket-det-head">
+             <h1>Jim Mora</h1>
+             <h2>Filmore United Schools</h2>
+         </div>
+
+     </div> /header -->
 
 	<div data-role="content" data-theme="d">
+
+        <script>
+            // this is what is required for the on the mobile page load
+            function close_ticket_submit() {
+                var notes = $('#closedetails').val().trim();
+                if (!notes)
+                  alert('Please enter close details!');
+                else
+                //$(".submitButton").attr("disabled","disabled");
+                  api.close_ticket({"Id": $("#ticketId").val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": $('#closedetails').val(), "Password":$('#password').val()}, close_ticket_check);
+                return false;
+            }
+
+            function close_ticket_check (data)
+            {
+                //$(".submitButton").removeAttr("disabled");
+                if (data)
+                {
+                    window.history.go($.mobile.urlHistory.stack.length * -1);
+                    //window.location.replace("org_inst.html");
+                }
+                else
+                    alert("Error!");
+                return false;
+            }
+        </script>
     	
         <h3>Close Ticket</h3>
 
@@ -351,7 +378,7 @@
         
         
         <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Close Ticket</a>
+		<a href="javascript:close_ticket_submit()" data-role="button" data-inline="true" data-theme="b">Close Ticket</a>
     	
     </div><!-- content -->
     

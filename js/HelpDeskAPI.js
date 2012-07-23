@@ -174,6 +174,23 @@ HelpDeskAPI.prototype.ticket_detail = function (params, callback) {
 };
 
 /**
+ * Close ticket
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
+ */
+HelpDeskAPI.prototype.close_ticket = function (params, callback) {
+    params["Method"] = "PUT";
+    params["Action"] = "Close";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method"
+    ], params, callback);
+};
+
+
+/**
  * List of tickets in queue
  *
  * @see http://developer.helpdesk.bigwebapps.com/
