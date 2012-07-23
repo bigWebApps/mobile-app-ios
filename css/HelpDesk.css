@@ -94,9 +94,9 @@ li.ticket-list.new {background-color: #FAE6CB;}
 
 .status, .date.today {font-weight: bold;}
 
-.status.open {color:#090;}
-.status.closed {color: #900;}
-.status.onhold {color:#C60;}
+.status.open, .status.Open {color:#090;}
+.status.closed, .status.Closed {color: #900;}
+.status.onhold,  .status.Onhold {color:#C60;}
 
 .date {color: #09F;}
 
@@ -126,7 +126,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 	border-width: 1px;
 	border-bottom-style: solid;
 	}
-	.ticket-det-box.open {
+	.ticket-det-box.open, .ticket-det-box.Open {
 		background-color: #349a34;
 		border-color: #00580a;
 		}

@@ -30,7 +30,7 @@
 <body>  
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
     <script id="ticket_detail" type="text/x-handlebars-template">
-	<div data-role="header" data-position="fixed" data-theme="h">
+	<div data-theme="h" data-position="fixed" id="ticket_detail_header" data-role="header" class="ui-header ui-bar-h ui-header-fixed slidedown" role="banner">
     	<div class="ticket-det-box {{TicketStatus}}">
     		<p class="status-det">{{TicketStatus}}</p>
             <p class="status-ticket-num">#{{TicketNumber}}</p>
@@ -57,7 +57,7 @@
         </div>
 	</div><!-- /header -->
 
-	<div data-role="content" id="ticket-response-list">
+	<div class="ui-content" data-role="content" role="main" id="ticket-response-list">
     	<div class="ticket-det-subject">
         	<h3>{{Subject}}</h3>
         </div>		
@@ -108,7 +108,7 @@
 <!------------------------------ Ticket Info --------------------------------------------------->
 
 <div data-role="page" id="ticket_info">
-	<div data-role="header" data-position="fixed" data-theme="h">
+	<div id="ticket_detail_header" data-role="header" data-position="fixed" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -180,7 +180,7 @@
 
 
 <div data-role="page" id="ticket_response">
-	<div data-role="header" data-theme="h">
+	<div id="ticket_detail_header" data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -211,7 +211,7 @@
 <!------------------------------ Ticket Transfer--------------------------------------------------->
 
 <div data-role="page" id="ticket_transfer">
-	<div data-role="header" data-theme="h">
+	<div id="ticket_detail_header" data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -253,7 +253,7 @@
 <!------------------------------ Ticket Record Time ----------------------------------------------->
 
 <div data-role="page" id="ticket_addtime">
-	<div data-role="header" data-theme="h">
+	<div id="ticket_detail_header" data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>
@@ -324,7 +324,7 @@
 <!------------------------------ Ticket Close ----------------------------------------------------->
 
 <div data-role="page" id="ticket_close">
-	<div data-role="header" data-theme="h">
+	<div id="ticket_detail_header" data-role="header" data-theme="h">
     	<div class="ticket-det-box open">
     		<p class="status-det">Open</p>
             <p class="status-ticket-num">#345</p>

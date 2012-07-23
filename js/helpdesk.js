@@ -183,7 +183,8 @@ pageReady("ticket_detail_main", function(){
         //    org_list.push({key: org.Key, name: org.Name});
         //});
 
-        $('#ticket_detail_main_page').(t_ticketdetail(data) );
+        $('#ticket_detail_main_page').prepend(t_ticketdetail(data) );
+
     };
 
     var url = $.url(document.location);
@@ -410,7 +411,7 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
             return moment(context).calendar();
         else if (f == "utc")
         {
-            var utc_string = moment(context).format("(UTCZZ)".replace("0", ""));
+            var utc_string = moment(context).format("(UTCZZ)").replace(/0/g,"");
             return moment(context).format("MM/DD/YYYY, hh:mmA ") + utc_string;
         }
         else
