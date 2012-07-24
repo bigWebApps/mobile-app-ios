@@ -158,8 +158,16 @@ pageReady("ticketlist", function(){
 
 });
 
-
-
+function tooltip(message)
+{
+$("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "0px 20px 0px 20px;", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 50, "text-align": "center"})
+    .appendTo( $.mobile.pageContainer )
+    .delay( 2000 )
+    .fadeOut( 400, function(){
+        $(this).remove();
+    }
+);
+}
 pageReady("ticket_detail_main", function(){
 
     checkStorage(false);
@@ -171,7 +179,8 @@ pageReady("ticket_detail_main", function(){
             return;
         }
 
-        $('#ticket_detail_main_page').prepend(t_ticketdetail(data) );
+        $("#ticket-response-list").remove();
+        $('#ticket_detail_main_page').prepend(t_ticketdetail(data));
 
         var alert_menu = $("#ticket-detail-more");
         //logic to show only correspondent actions: Transfer, PickUp and Cancel
@@ -183,7 +192,7 @@ pageReady("ticket_detail_main", function(){
             $("#ticket_close_action", alert_menu).remove();
         }
 
-        $("#ticketId").val(data.Id);
+        $("#ticketInfo").val(JSON.stringify(data));
 
     };
 
@@ -420,3 +429,14 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
         return context; // moment plugin not available. return data as is.
     }
 });
+
+function htmlEscape(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\n/g, "<br />");
+}
+

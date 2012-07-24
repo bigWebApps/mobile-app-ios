@@ -28,7 +28,7 @@
 	</script>	
 </head> 
 <body>
-<input id="ticketId" type="hidden"/>
+<input id="ticketInfo" type="hidden"/>
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
     <script id="ticket_detail" type="text/x-handlebars-template">
 	<div data-theme="h" data-position="fixed" class="ticket_detail_header" data-role="header" class="ui-header ui-bar-h ui-header-fixed slidedown" role="banner">
@@ -77,9 +77,9 @@
                     </div>                    
                 </div>
                 <div class="response-text-img">
-                	<div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>                    
+                	<div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>
                     <p class="res-text">
-                        {{Note}}
+                        {{{Note}}}
                     </p>                    
                 </div>
 			</li>
@@ -156,7 +156,7 @@
 <!------------------------------ More Menu ----------------------------------------------------->
 
 <div data-role="page" id="alert_menu" data-theme="a">
-    <div id="ticket-detail-more" data-role="content" data-theme="a">        
+    <div id="ticket-detail-more" data-role="content" data-theme="a">
         <a href="#ticket_response" id="ticket_response_action" data-role="button" data-theme="c">Add Response</a>
         <a href="#ticket_transfer" id="ticket_transfer_action" data-role="button" data-theme="c">Transfer to Another Tech</a>
         <a href="#ticket_addtime" id="ticket_addtime_action" data-role="button" data-theme="c">Record Time</a>
@@ -164,7 +164,7 @@
         <a href="#ticket_close" id="ticket_close_action" data-rel="dialog" data-role="button" data-theme="c">Close Ticket</a>
         <a href="#ticket_detail_main_page" id="ticket_cancel_action" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>
     </div> <!-- Content -->
-    
+
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
 		<div data-role="navbar" data-theme="h">
 			<ul>
@@ -173,28 +173,56 @@
 				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
 				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
 			</ul>
-		</div><!-- /navbar -->        
-	</div><!-- /footer -->  
+		</div><!-- /navbar -->
+	</div><!-- /footer -->
 </div>
 
 <!------------------------------ Add Response ----------------------------------------------------->
 
 
 <div data-role="page" id="ticket_response">
-	<div class="ticket_detail_header" data-role="header" data-theme="h">
-    	<div class="ticket-det-box open">
-    		<p class="status-det">Open</p>
-            <p class="status-ticket-num">#345</p>
-    	</div>
-        <div class="ticket-det-head">
-        	<h1>Jim Mora</h1>
-            <h2>Filmore United Schools</h2>
-        </div>
-        
-	</div><!-- /header -->
+    <!--<div class="ticket_detail_header" data-role="header" data-theme="h">
+         <div class="ticket-det-box open">
+             <p class="status-det">Open</p>
+             <p class="status-ticket-num">#345</p>
+         </div>
+         <div class="ticket-det-head">
+             <h1>Jim Mora</h1>
+             <h2>Filmore United Schools</h2>
+         </div>
 
-	<div data-role="content" data-theme="d"> 
-    
+     </div> /header -->
+
+	<div data-role="content" data-theme="d">
+
+        <script>
+            // this is what is required for the on the mobile page load
+            function addresponse_ticket_submit() {
+                var ticketInfo = JSON.parse($("#ticketInfo").val());
+                var response = htmlEscape($('#ticketresponse').val().trim());
+                if (!response)
+                    tooltip('Please enter response!');
+                else
+                    api.addresponse_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": response, "Password":$('#password').val()}, addresponse_ticket_check);
+                return false;
+            }
+
+            function addresponse_ticket_check (data)
+            {
+                var ticketInfo = JSON.parse($("#ticketInfo").val());
+                //$(".submitButton").removeAttr("disabled");
+                if (data)
+                {
+                    tooltip("Response added to Ticket #" + ticketInfo.TicketNumber +" successfully!");
+                    $("#ticket_detail_main_page").page('destroy').page();
+                    $.mobile.changePage("#ticket_detail_main_page");
+                }
+                else
+                    alert("Error!");
+                return false;
+            }
+        </script>
+
     <h3>Add Response</h3>    
         
         	<form action="#ticket_detail_main_page" method="post">
@@ -203,7 +231,7 @@
             </form>       
         
         <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Post Response</a>
+		<a href="javascript:addresponse_ticket_submit()" data-role="button" data-inline="true" data-theme="b">Post Response</a>
     	
     </div><!--content-->
 </div>
@@ -342,21 +370,24 @@
         <script>
             // this is what is required for the on the mobile page load
             function close_ticket_submit() {
-                var notes = $('#closedetails').val().trim();
+                var ticketInfo = JSON.parse($("#ticketInfo").val());
+                var notes = htmlEscape($('#closedetails').val().trim());
                 if (!notes)
-                  alert('Please enter close details!');
+                    tooltip('Please enter close details!');
                 else
                 //$(".submitButton").attr("disabled","disabled");
-                  api.close_ticket({"Id": $("#ticketId").val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": $('#closedetails').val(), "Password":$('#password').val()}, close_ticket_check);
+                  api.close_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, close_ticket_check);
                 return false;
             }
 
             function close_ticket_check (data)
             {
+                var ticketInfo = JSON.parse($("#ticketInfo").val());
                 //$(".submitButton").removeAttr("disabled");
                 if (data)
                 {
-                    window.history.go($.mobile.urlHistory.stack.length * -1);
+                    tooltip("Ticket #" + ticketInfo.TicketNumber + " closed successfully!");
+                    window.history.go($.mobile.urlHistory.stack.length * -1 -2);
                     //window.location.replace("org_inst.html");
                 }
                 else
