@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.mobile-1.1.0.min.js"></script>
         <script src="js/moment.min.js"></script>
         <script src="phonegap.js"></script>
-        <script src="js/jquery.min.js"></script>
         <script src="js/jquery.md5.min.js"></script>
-        <script src="js/jquery.mobile-1.1.0.min.js"></script>
         <script src="js/jquery.url.js"></script>
         <script src="js/handlebars-1.0.0.beta.6.js"></script>
         <script src="js/HelpDeskAPI.js"></script>
@@ -30,9 +30,9 @@
 <body>
 <input id="ticketInfo" type="hidden"/>
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
-    <script id="ticket_detail" type="text/x-handlebars-template">
-	<div data-theme="h" data-position="fixed" class="ticket_detail_header" data-role="header" class="ui-header ui-bar-h ui-header-fixed slidedown" role="banner">
-    	<div class="ticket-det-box {{TicketStatus}}">
+	<div data-theme="h" data-position="fixed" class="ticket_detail_header" data-role="header">
+        <script id="ticket_detail_head" type="text/x-handlebars-template">
+        <div class="ticket-det-box {{TicketStatus}}">
     		<p class="status-det">{{TicketStatus}}</p>
             <p class="status-ticket-num">#{{TicketNumber}}</p>
     	</div>
@@ -56,15 +56,17 @@
             <p class="det-priority">Priority: <span>{{Priority}} - {{PriorityName}}</span></p>
             <p class="det-date">{{dateFormat CreateTime format="calendar"}}</p>
         </div>
+        </script>
 	</div><!-- /header -->
 
-	<div class="ui-content" data-role="content" role="main" id="ticket-response-list">
+	<div data-role="content" id="ticket-response-list">
     	<div class="ticket-det-subject">
+            <script id="ticket_detail_subject" type="text/x-handlebars-template">
         	<h3>{{Subject}}</h3>
-        </div>		
-		
-        
+            </script>
+        </div>
         <ul id="ticketLogList" data-role="listview" data-theme="b">
+            <script id="ticket_detail_logs" type="text/x-handlebars-template">
             {{#each TicketLogs}}
         	<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
                 <div class="response-info">
@@ -84,9 +86,9 @@
                 </div>
 			</li>
             {{/each}}
+            </script>
         </ul>   
 	</div><!-- /content -->
-    </script>
 	
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
 		<div data-role="navbar" data-theme="h">
@@ -161,7 +163,7 @@
         <a href="#ticket_transfer" id="ticket_transfer_action" data-role="button" data-theme="c">Transfer to Another Tech</a>
         <a href="#ticket_addtime" id="ticket_addtime_action" data-role="button" data-theme="c">Record Time</a>
         <a href="#ticket_detail_main_page" id="ticket_pickup_action" data-role="button" data-theme="c">Pick Up Ticket</a> <!--onclick="pickupTicket('345'); return false;" -->
-        <a href="#ticket_close" id="ticket_close_action" data-rel="dialog" data-role="button" data-theme="c">Close Ticket</a>
+        <a href="#ticket_close" id="ticket_close_action" data-role="button" data-theme="c">Close Ticket</a>
         <a href="#ticket_detail_main_page" id="ticket_cancel_action" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>
     </div> <!-- Content -->
 
@@ -181,17 +183,8 @@
 
 
 <div data-role="page" id="ticket_response">
-    <!--<div class="ticket_detail_header" data-role="header" data-theme="h">
-         <div class="ticket-det-box open">
-             <p class="status-det">Open</p>
-             <p class="status-ticket-num">#345</p>
-         </div>
-         <div class="ticket-det-head">
-             <h1>Jim Mora</h1>
-             <h2>Filmore United Schools</h2>
-         </div>
-
-     </div> /header -->
+    <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
+    </div> <!--/header -->
 
 	<div data-role="content" data-theme="d">
 
@@ -353,17 +346,8 @@
 <!------------------------------ Ticket Close ----------------------------------------------------->
 
 <div data-role="page" id="ticket_close">
-    <!--<div class="ticket_detail_header" data-role="header" data-theme="h">
-         <div class="ticket-det-box open">
-             <p class="status-det">Open</p>
-             <p class="status-ticket-num">#345</p>
-         </div>
-         <div class="ticket-det-head">
-             <h1>Jim Mora</h1>
-             <h2>Filmore United Schools</h2>
-         </div>
-
-     </div> /header -->
+    <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
+    </div> <!--/header -->
 
 	<div data-role="content" data-theme="d">
 
