@@ -31,63 +31,64 @@
 <input id="ticketInfo" type="hidden"/>
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
 	<div data-theme="h" data-position="fixed" class="ticket_detail_header" data-role="header">
-        <script id="ticket_detail_head" type="text/x-handlebars-template">
+	</div>
+    <script id="ticket_detail_head" type="text/x-handlebars-template">
         <div class="ticket-det-box {{TicketStatus}}">
-    		<p class="status-det">{{TicketStatus}}</p>
+            <p class="status-det">{{TicketStatus}}</p>
             <p class="status-ticket-num">#{{TicketNumber}}</p>
-    	</div>
+        </div>
         <div class="ticket-det-head">
-        	<h1>{{UserFirstName}} {{UserLastName}}</h1>
+            <h1>{{UserFirstName}} {{UserLastName}}</h1>
             <h2>{{AccountName}}</h2>
         </div>
         <div class="ticket-tech-class">
-        	<div class="ticket-det-tech">
-            	<p class="smalllabel">TECH</p>
+            <div class="ticket-det-tech">
+                <p class="smalllabel">TECH</p>
                 <p>{{TechnicianFirstName}} {{TechnicianLastName}}</p>
             </div>
             <div class="ticket-det-class">
-            	<p class="smalllabel">CLASS</p>
+                <p class="smalllabel">CLASS</p>
                 <p>{{ClassName}}</p>
             </div>
         </div>
-		<div class="ticket-level-priority">
-        	<p class="det-icon"></p>
+        <div class="ticket-level-priority">
+            <p class="det-icon"></p>
             <p class="det-level">Level: <span>{{Level}} - {{LevelName}} </span></p>
             <p class="det-priority">Priority: <span>{{Priority}} - {{PriorityName}}</span></p>
             <p class="det-date">{{dateFormat CreateTime format="calendar"}}</p>
         </div>
-        </script>
-	</div><!-- /header -->
+    </script>
+    <!-- /header -->
 
 	<div data-role="content" id="ticket-response-list">
     	<div class="ticket-det-subject">
-            <script id="ticket_detail_subject" type="text/x-handlebars-template">
-        	<h3>{{Subject}}</h3>
-            </script>
         </div>
+        <script id="ticket_detail_subject" type="text/x-handlebars-template">
+            <h3>{{Subject}}</h3>
+        </script>
         <ul id="ticketLogList" data-role="listview" data-theme="b">
-            <script id="ticket_detail_logs" type="text/x-handlebars-template">
+        </ul>
+        <script id="ticket_detail_logs" type="text/x-handlebars-template">
             {{#each TicketLogs}}
-        	<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response"> 
+            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response">
                 <div class="response-info">
-                	<div class="response-date">
-                    	<p>{{dateFormat RecordDate format="utc"}}</p>
+                    <div class="response-date">
+                        <p>{{dateFormat RecordDate format="utc"}}</p>
                     </div>
-                	<div class="response-name">
-                    	<p class="res-name">{{UserFirstName}} {{UserLastName}}</p>
+                    <div class="response-name">
+                        <p class="res-name">{{UserFirstName}} {{UserLastName}}</p>
                         <span class="res-type">{{LogType}}</span>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="response-text-img">
-                	<div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>
+                    <div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>
                     <p class="res-text">
                         {{{Note}}}
-                    </p>                    
+                    </p>
                 </div>
-			</li>
+            </li>
             {{/each}}
-            </script>
-        </ul>   
+        </script>
 	</div><!-- /content -->
 	
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
@@ -158,11 +159,35 @@
 <!------------------------------ More Menu ----------------------------------------------------->
 
 <div data-role="page" id="alert_menu" data-theme="a">
+
+    <script>
+        function pickupTicket() {
+            var ticketInfo = JSON.parse($("#ticketInfo").val());
+            api.pickup_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, change_technician_ticket);
+            return false;
+        }
+
+        function change_technician_ticket (data)
+        {
+            var ticketInfo = JSON.parse($("#ticketInfo").val());
+            //$(".submitButton").removeAttr("disabled");
+            if (data)
+            {
+                tooltip("Ticket #" + ticketInfo.TicketNumber +" picked up successfully!");
+                $("#ticket_detail_main_page").page('destroy').page();
+                $("#ticketLogList").listview('refresh')
+                $.mobile.changePage("#ticket_detail_main_page");
+            }
+            else
+                alert("Error!");
+            return false;
+        }
+    </script>
     <div id="ticket-detail-more" data-role="content" data-theme="a">
         <a href="#ticket_response" id="ticket_response_action" data-role="button" data-theme="c">Add Response</a>
         <a href="#ticket_transfer" id="ticket_transfer_action" data-role="button" data-theme="c">Transfer to Another Tech</a>
         <a href="#ticket_addtime" id="ticket_addtime_action" data-role="button" data-theme="c">Record Time</a>
-        <a href="#ticket_detail_main_page" id="ticket_pickup_action" data-role="button" data-theme="c">Pick Up Ticket</a> <!--onclick="pickupTicket('345'); return false;" -->
+        <a href="javascript:pickupTicket()" id="ticket_pickup_action" data-role="button" data-theme="c">Pick Up Ticket</a>
         <a href="#ticket_close" id="ticket_close_action" data-role="button" data-theme="c">Close Ticket</a>
         <a href="#ticket_detail_main_page" id="ticket_cancel_action" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>
     </div> <!-- Content -->
@@ -208,6 +233,7 @@
                 {
                     tooltip("Response added to Ticket #" + ticketInfo.TicketNumber +" successfully!");
                     $("#ticket_detail_main_page").page('destroy').page();
+                    $("#ticketLogList").listview('refresh')
                     $.mobile.changePage("#ticket_detail_main_page");
                 }
                 else

@@ -183,7 +183,7 @@ HelpDeskAPI.prototype.ticket_detail = function (params, callback) {
 HelpDeskAPI.prototype.close_ticket = function (params, callback) {
     params["Method"] = "PUT";
     params["Action"] = "Close";
-    console.log(params.NoteText);
+
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
     "Id","Action","NoteText","OrganizationKey","InstanceKey"
@@ -200,7 +200,24 @@ HelpDeskAPI.prototype.close_ticket = function (params, callback) {
 HelpDeskAPI.prototype.addresponse_ticket = function (params, callback) {
     params["Method"] = "PUT";
     params["Action"] = "Response";
-    console.log(params.NoteText);
+
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
+        "Id","Action","NoteText","OrganizationKey","InstanceKey"
+    ], params, callback);
+};
+
+/**
+ * Change technician of ticket
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
+ */
+HelpDeskAPI.prototype.pickup_ticket = function (params, callback) {
+    params["Method"] = "PUT";
+    params["Action"] = "PickUp";
+
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
         "Id","Action","NoteText","OrganizationKey","InstanceKey"
