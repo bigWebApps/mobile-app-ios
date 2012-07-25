@@ -94,7 +94,7 @@
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
 		<div data-role="navbar" data-theme="h">
 			<ul>
-				<li><a href="javascript:window.history.go($.mobile.urlHistory.stack.length * -1)" data-ajax="false" data-theme="g" data-icon="back" >Back</a></li>
+				<li><a href="javascript:window.history.go($.mobile.urlHistory.stack.length * -1)" id="ticket_detail_main_page_back_link" data-ajax="false" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-ajax="false" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
 				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
 				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
@@ -112,35 +112,11 @@
 <!------------------------------ Ticket Info --------------------------------------------------->
 
 <div data-role="page" id="ticket_info">
-	<div class="ticket_detail_header" data-role="header" data-position="fixed" data-theme="h">
-    	<div class="ticket-det-box open">
-    		<p class="status-det">Open</p>
-            <p class="status-ticket-num">#345</p>
-    	</div>
-        <div class="ticket-det-head">
-        	<h1>Jim Mora</h1>
-            <h2>Filmore United Schools</h2>
-        </div>
-        <div class="ticket-tech-class">
-        	<div class="ticket-det-tech">
-            	<p class="smalllabel">TECH</p>
-                <p>Al Petersen</p>
-            </div>
-            <div class="ticket-det-class">
-            	<p class="smalllabel">CLASS</p>
-                <p>Top Level > Printer Issue</p>
-            </div>
-        </div>
-		<div class="ticket-level-priority">
-        	<p class="det-icon">&nbsp;</p>
-            <p class="det-level">Level: <span>1</span></p>
-            <p class="det-priority">Priority: <span>1</span></p>
-            <p class="det-date">12/29/2011</p>
-        </div>
-	</div><!-- /header -->   
+    <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
+    </div> <!--/header -->
     
 	<div data-role="content">
-    	<h1>Ticket info</h1>  
+    	<h1>Ticket info</h1>
 	</div><!-- /content -->
 	
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
@@ -173,6 +149,7 @@
             //$(".submitButton").removeAttr("disabled");
             if (data)
             {
+                $("#ticket_detail_main_page_back_link").attr("href", "ticket_list.html");
                 tooltip("Ticket #" + ticketInfo.TicketNumber +" picked up successfully!");
                 $("#ticket_detail_main_page").page('destroy').page();
                 $("#ticketLogList").listview('refresh')
@@ -259,16 +236,8 @@
 <!------------------------------ Ticket Transfer--------------------------------------------------->
 
 <div data-role="page" id="ticket_transfer">
-	<div class="ticket_detail_header" data-role="header" data-theme="h">
-    	<div class="ticket-det-box open">
-    		<p class="status-det">Open</p>
-            <p class="status-ticket-num">#345</p>
-    	</div>
-        <div class="ticket-det-head">
-        	<h1>Jim Mora</h1>
-            <h2>Filmore United Schools</h2>
-        </div>        
-	</div><!-- /header -->
+    <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
+    </div> <!--/header -->
 
 	<div data-role="content" data-theme="d">     
         
@@ -301,20 +270,13 @@
 <!------------------------------ Ticket Record Time ----------------------------------------------->
 
 <div data-role="page" id="ticket_addtime">
-	<div class="ticket_detail_header" data-role="header" data-theme="h">
-    	<div class="ticket-det-box open">
-    		<p class="status-det">Open</p>
-            <p class="status-ticket-num">#345</p>
-    	</div>
-        <div class="ticket-det-head">
-        	<h1>Jim Mora</h1>
-            <h2>Filmore United Schools</h2>
-        </div>
-        
-	</div><!-- /header -->
+    <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
+    </div> <!--/header -->
 
 	<div data-role="content" data-theme="d">
-        	<form action="index.html" method="post">
+
+            <h1>Coming soon in version 2.0</h1>
+        	<form disabled="disabled" action="index.html" method="post">
                     <label for="time_tech">Technician</label>
                       <select name="time_tech" id="time_tech" data-role="none">
                         <option value="104171">Chernenko, Dmitriy</option>
@@ -360,8 +322,8 @@
 
             </form>
 
-        <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Record Time</a>
+        <a href="#ticket_detail_main_page" disabled="disabled" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main_page" disabled="disabled" data-role="button" data-inline="true" data-theme="b">Record Time</a>
     	
     </div><!-- content -->    
     

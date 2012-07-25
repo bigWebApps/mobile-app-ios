@@ -187,20 +187,6 @@ pageReady("ticket_detail_main", function(){
         $(".ticket-det-subject").empty().append(t_ticketdetail_subject(data));
         $('ul#ticketLogList').empty().append(t_ticketdetail_logs(data));
 
-        var alert_menu = $("#ticket-detail-more");
-        //logic to show only correspondent actions: Transfer, PickUp and Cancel
-        console.log("data.TechnicianType = " + data.TechnicianType);
-        if (data.TechnicianType == "Queue")
-        {
-            $("#ticket_response_action", alert_menu).remove();
-            $("#ticket_addtime_action", alert_menu).remove();
-            $("#ticket_close_action", alert_menu).remove();
-        }
-        else
-        {
-            $("#ticket_pickup_action", alert_menu).remove();
-        }
-
         $("#ticketInfo").val(JSON.stringify(data));
     };
 
@@ -213,6 +199,27 @@ pageReady("ticket_detail_main", function(){
     else
         history.back();
 
+});
+
+$( document ).delegate("#alert_menu", "pagebeforeshow", function(){
+
+    var ticketInfo = JSON.parse($("#ticketInfo").val());
+    var alert_menu = $("#ticket-detail-more");
+    //logic to show only correspondent actions: Transfer, PickUp and Cancel
+    console.log("data.TechnicianType = " + ticketInfo.TechnicianType);
+
+    $("a", alert_menu).closest('.ui-btn').show();
+
+    if (ticketInfo.TechnicianType == "Queue")
+    {
+        $("#ticket_response_action", alert_menu).closest('.ui-btn').hide();
+        $("#ticket_addtime_action", alert_menu).closest('.ui-btn').hide();
+        $("#ticket_close_action", alert_menu).closest('.ui-btn').hide();
+    }
+    else
+    {
+        $("#ticket_pickup_action", alert_menu).closest('.ui-btn').hide();
+    }
 });
 
 pageReady("organizations", function(){
