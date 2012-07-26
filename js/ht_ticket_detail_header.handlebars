@@ -1,0 +1,27 @@
+        <div class="ticket-det-box {{TicketStatus}}">
+            <p class="status-det">{{TicketStatus}}</p>
+            <p class="status-ticket-num">#{{TicketNumber}}</p>
+        </div>
+        <div class="ticket-det-head">
+            <h1>{{UserFirstName}} {{UserLastName}}</h1>
+            <h2>{{AccountName}}</h2>
+        </div>
+        <div class="ticket-tech-class">
+            <div class="ticket-det-tech">
+                <p class="smalllabel">TECH</p>
+                <p>{{TechnicianFirstName}} {{TechnicianLastName}}</p>
+            </div>
+            <div class="ticket-det-class">
+                <p class="smalllabel">CLASS</p>
+                <p>{{ClassName}}</p>
+            </div>
+        </div>
+        <div class="ticket-level-priority">
+            <p class="det-icon"></p>
+            <p class="det-level">Level: <span>{{Level}} - {{LevelName}} </span></p>
+            <p class="det-priority">Priority: <span>{{Priority}} - {{PriorityName}}</span></p>
+            <p class="det-date">{{dateFormat CreateTime format="calendar"}}</p>
+        </div>
+        <div class="ticket-det-subject">
+            <p>{{Subject}}</p>
+        </div>

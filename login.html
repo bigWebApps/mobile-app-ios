@@ -23,14 +23,20 @@
         <script>
             // this is what is required for the on the mobile page load
             function form_submit() {
-                //$(".submitButton").attr("disabled","disabled");
+                $(".submitButton").attr("disabled","disabled");
+                var email = $("#email").val().trim();
+                var pass = $("#password").val().trim();
+                if (!email || !pass)
+                    tooltip('Please provide login and password!');
+                else
                     api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
+                $(".submitButton").removeAttr("disabled");
                 return false;
                 }
 
             function login_check (data)
             {
-                //$(".submitButton").removeAttr("disabled");
+                $(".submitButton").removeAttr("disabled");
                     if (data)
                     {
                         window.location.replace("org_inst.html");

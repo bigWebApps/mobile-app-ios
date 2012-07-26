@@ -1,0 +1,19 @@
+{{#each TicketLogs}}
+            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response">
+                <div class="response-info">
+                    <div class="response-date">
+                        <p>{{dateFormat RecordDate format="utc"}}</p>
+                    </div>
+                    <div class="response-name">
+                        <p class="res-name">{{UserFirstName}} {{UserLastName}}</p>
+                        <span class="res-type">{{LogType}}</span>
+                    </div>
+                </div>
+                <div class="response-text-img">
+                    <div class="res-gravatar" data-gravatar="benpfohl@hotmail.com"><img class="res-gravatar-img" src="" width="25px" /></div>
+                    <p class="res-text">
+                        {{{Note}}}
+                    </p>
+                </div>
+            </li>
+            {{/each}}

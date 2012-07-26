@@ -137,7 +137,6 @@ pageReady("ticketqlist", function(){
 pageReady("ticketlist", function(){
 
     checkStorage(false);
-    var t_ticketlist = Handlebars.compile( $('#ht_tickets_list').html() );
 
     var parsetickets = function (data) {
         if (!data)
@@ -145,7 +144,7 @@ pageReady("ticketlist", function(){
             return;
         }
 
-        $('ul#tickets_list').empty().append(t_ticketlist(data) );
+        $('ul#tickets_list').handlebars('ht_tickets_list',data);
     };
 
     var url = $.url(document.location);
@@ -162,19 +161,14 @@ pageReady("ticketlist", function(){
 pageReady("ticket_detail_main", function(){
 
     checkStorage(false);
-    var t_ticketdetail_head = Handlebars.compile( $('#ht_ticket_detail_header').html() );
-    //var t_ticketdetail_subject = Handlebars.compile( $('#ticket_detail_subject').html() );
-    var t_ticketdetail_logs = Handlebars.compile( $('#ht_ticket_detail_response_list').html() );
-
     var parseticketdetail = function (data) {
         if (!data)
         {
             return;
         }
 
-        $(".ticket_detail_header").empty().append(t_ticketdetail_head(data));
-        //$(".ticket-det-subject").empty().append(t_ticketdetail_subject(data));
-        $('ul#ticket_detail_response_list').empty().append(t_ticketdetail_logs(data));
+        $('.ticket_detail_header').handlebars('ht_ticket_detail_header', data);
+        $('ul#ticket_detail_response_list').handlebars('ht_ticket_detail_response_list', data);
 
         $("#ticketInfo").val(JSON.stringify(data));
     };
@@ -317,8 +311,39 @@ pageLoad("instances", function(){
 });
 //endregion Page specific functions
 
-
 //region Helper functions
+
+
+
+Handlebars.getTemplate = function(name) {
+    if (Handlebars.templates === undefined || Handlebars.templates[name] === undefined) {
+        $.ajax({
+            url : 'js/' + name + '.handlebars',
+            success : function(data) {
+                if (Handlebars.templates === undefined) {
+                    Handlebars.templates = {};
+                }
+                Handlebars.templates[name] = Handlebars.compile(data);
+            },
+            async : false
+        });
+    }
+    return Handlebars.templates[name];
+};
+
+
+(function($) {
+    var compiled = {};
+    $.fn.handlebars = function(template, data) {
+        if (template instanceof jQuery) {
+            template = $(template).html();
+        }
+
+        compiled[template] = Handlebars.getTemplate(template);
+        this.empty().append(compiled[template](data));
+    };
+})(jQuery);
+
 function tooltip(message)
 {
     $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 20, "text-align": "center"})

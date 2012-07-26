@@ -1,0 +1,31 @@
+{{#each this}}
+<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
+    <a href="ticket_detail.html?id={{Id}}"  class="ui-link-inherit" data-ajax="false" data-transition="slide" rel="external">
+        <table>
+            <tr>
+                <td class="ticket-num">{{TicketNumber}}</td>
+                <td class="ticket-subject">{{Subject}}</td>
+            </tr>
+            <tr>
+                <table width="100%">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="left">
+                            <p class="customer">{{UserLastName}}, {{UserFirstName}}</p>
+                            <p class="status {{Status}}">{{Status}}</p>
+                            <p class="smalllabel">Tech</p>
+                            <p class="tech-name">{{TechnicianLastName}}, {{TechnicianFirstName}}</p>
+                        </td>
+                        <td class="right">
+                            <p class="account">{{AccountName}}</p>
+                            <p class="date today">{{dateFormat CreateTime format="calendar"}}</p>
+                            <p class="smalllabel">Class</p>
+                            <p class="class-name">{{ClassName}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </tr>
+        </table>
+    </a>
+</li>
+{{/each}}

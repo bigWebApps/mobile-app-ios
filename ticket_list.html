@@ -15,13 +15,14 @@
     <script src="js/jquery.url.js"></script>
     <script src="js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/templates.js"></script>
     <script src="js/helpdesk.js"></script>
     <script>
 
 	$(document).bind("pageload", function(){
 		$('.res-gravatar').each(function(){
-				var email = $.MD5($(this).data('gravatar'));			
-				$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email +"d=retro");
+				var email = $.MD5($(this).data('gravatar'));
+            $(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?f=y&d=mm&s=25');
 			});
 	});
 	</script>
@@ -34,39 +35,6 @@
 	<div data-role="content">						
 		<ul id="tickets_list" data-role="listview" data-theme="d" data-divider-theme="b" data-filter="true" data-filter-placeholder="Search Ticket List" data-filter-theme="h" >
         </ul>
-        <script id="ht_tickets_list" type="text/x-handlebars-template">
-            {{#each this}}
-            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
-                <a href="ticket_detail.html?id={{Id}}"  class="ui-link-inherit" data-ajax="false" data-transition="slide" rel="external">
-                    <table>
-                        <tr>
-                            <td class="ticket-num">{{TicketNumber}}</td>
-                            <td class="ticket-subject">{{Subject}}</td>
-                        </tr>
-                        <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="left">
-                                        <p class="customer">{{UserLastName}}, {{UserFirstName}}</p>
-                                        <p class="status {{Status}}">{{Status}}</p>
-                                        <p class="smalllabel">Tech</p>
-                                        <p class="tech-name">{{TechnicianLastName}}, {{TechnicianFirstName}}</p>
-                                    </td>
-                                    <td class="right">
-                                        <p class="account">{{AccountName}}</p>
-                                        <p class="date today">{{dateFormat CreateTime format="calendar"}}</p>
-                                        <p class="smalllabel">Class</p>
-                                        <p class="class-name">{{ClassName}}</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>
-                </a>
-            </li>
-            {{/each}}
-        </script>
 	</div>
     
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
