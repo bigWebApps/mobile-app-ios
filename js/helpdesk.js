@@ -1,11 +1,11 @@
-// JavaScript Document
+//region Tips & Trics
 //to hide use this
 //$("a", alert_menu).closest('.ui-btn').hide();
+//endregion Tips & Trics
 
-/*
- Storage Functions
- */
+api = new HelpDeskAPI();
 
+//region Storage Functions
 function getStorage(key)
 {
     localStorage.length;
@@ -23,18 +23,14 @@ function setStorage(key, value)
     localStorage.setItem(key, typeof value !== 'string' ? JSON.stringify(value) : value);
 }
 
-/*
-End of  Storage Functions
- */
-
 function clearStorage()
 {
     localStorage.length;
     localStorage.clear();
 }
+//endregion Storage Functions
 
-api = new HelpDeskAPI();
-
+//region JQuery Mobile binding functions
 function pageLoad(page_name, func)
 {
     $( document ).delegate("#"+page_name+"_page", "pageshow", func);
@@ -42,7 +38,7 @@ function pageLoad(page_name, func)
 
 function pageBeforeshow(page_name, func)
 {
-    $( document ).delegate("#"+page_name, "pagebeforeshow", func);
+    $( document ).delegate("#"+page_name+"_page", "pagebeforeshow", func);
 }
 
 function pageReady(page_name, func)
@@ -55,6 +51,9 @@ function pageInit(page_name, func)
     $( document ).delegate("#"+page_name+"_page", "pageinit", func);
 }
 
+//endregion JQuery Mobile binding functions
+
+//region All pages wide functions
 function checkStorage(changelocation)
 {
     console.log(changelocation && window.location.href.indexOf("home.html")<0);
@@ -100,7 +99,9 @@ function logout() {
     return false;
 }
 
+//endregion All pages wide functions
 
+//region Page specific functions
 pageLoad("login", function() {
     {
         var form = $("#loginForm");
@@ -118,7 +119,7 @@ pageReady("index", function() {
 pageReady("ticketqlist", function(){
 
     checkStorage(false);
-    var t_ticketqlist = Handlebars.compile( $('#ticketsq').html() );
+    var t_ticketqlist = Handlebars.compile( $('#ht_tickets_queue_list').html() );
 
     var parseticketsq = function (data) {
         if (!data)
@@ -126,7 +127,7 @@ pageReady("ticketqlist", function(){
             return;
         }
 
-        $('ul#ticketqList').append(t_ticketqlist(data) );
+        $('ul#tickets_queue_list').empty().append(t_ticketqlist(data) );
     };
 
     api.ticket_q_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseticketsq);
@@ -136,7 +137,7 @@ pageReady("ticketqlist", function(){
 pageReady("ticketlist", function(){
 
     checkStorage(false);
-    var t_ticketlist = Handlebars.compile( $('#tickets').html() );
+    var t_ticketlist = Handlebars.compile( $('#ht_tickets_list').html() );
 
     var parsetickets = function (data) {
         if (!data)
@@ -144,7 +145,7 @@ pageReady("ticketlist", function(){
             return;
         }
 
-        $('ul#ticketList').append(t_ticketlist(data) );
+        $('ul#tickets_list').empty().append(t_ticketlist(data) );
     };
 
     var url = $.url(document.location);
@@ -158,22 +159,12 @@ pageReady("ticketlist", function(){
 
 });
 
-function tooltip(message)
-{
-$("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "0px 20px 0px 20px;", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 50, "text-align": "center"})
-    .appendTo( $.mobile.pageContainer )
-    .delay( 2000 )
-    .fadeOut( 400, function(){
-        $(this).remove();
-    }
-);
-}
 pageReady("ticket_detail_main", function(){
 
     checkStorage(false);
-    var t_ticketdetail_head = Handlebars.compile( $('#ticket_detail_head').html() );
-    var t_ticketdetail_subject = Handlebars.compile( $('#ticket_detail_subject').html() );
-    var t_ticketdetail_logs = Handlebars.compile( $('#ticket_detail_logs').html() );
+    var t_ticketdetail_head = Handlebars.compile( $('#ht_ticket_detail_header').html() );
+    //var t_ticketdetail_subject = Handlebars.compile( $('#ticket_detail_subject').html() );
+    var t_ticketdetail_logs = Handlebars.compile( $('#ht_ticket_detail_response_list').html() );
 
     var parseticketdetail = function (data) {
         if (!data)
@@ -181,11 +172,9 @@ pageReady("ticket_detail_main", function(){
             return;
         }
 
-        //$("#ticket-response-list").remove();
-        //$('#ticket_detail_main_page').prepend(t_ticketdetail_head(data));
         $(".ticket_detail_header").empty().append(t_ticketdetail_head(data));
-        $(".ticket-det-subject").empty().append(t_ticketdetail_subject(data));
-        $('ul#ticketLogList').empty().append(t_ticketdetail_logs(data));
+        //$(".ticket-det-subject").empty().append(t_ticketdetail_subject(data));
+        $('ul#ticket_detail_response_list').empty().append(t_ticketdetail_logs(data));
 
         $("#ticketInfo").val(JSON.stringify(data));
     };
@@ -201,7 +190,27 @@ pageReady("ticket_detail_main", function(){
 
 });
 
-$( document ).delegate("#alert_menu", "pagebeforeshow", function(){
+pageReady("ticket_transfer", function(){
+
+    var t_tickettechnicians_options = Handlebars.compile( $('#ht_tech_list').html() );
+
+    var parsetechnicians = function (data) {
+        if (!data)
+        {
+            return;
+        }
+
+        $.each(data, function (index, tech) {
+            if ((tech.FirstName + tech.LastName).trim().length == 0)
+                data[index].FirstName = tech.Email;
+        });
+
+        $('select#tech_list').empty().append(t_tickettechnicians_options(data));
+    };
+    api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
+});
+
+pageBeforeshow("alert_menu", function(){
 
     var ticketInfo = JSON.parse($("#ticketInfo").val());
     var alert_menu = $("#ticket-detail-more");
@@ -224,7 +233,7 @@ $( document ).delegate("#alert_menu", "pagebeforeshow", function(){
 
 pageReady("organizations", function(){
 
-    var t_orgs = Handlebars.compile( $('#organizations').html() );
+    var t_orgs = Handlebars.compile( $('#ht_organizations_list').html() );
 
     var parseorgs = function (data) {
         if (!data)
@@ -239,7 +248,7 @@ pageReady("organizations", function(){
             org_list.push({key: org.Key, name: org.Name});
         });
 
-        $('#orgs').append(t_orgs(org_list) );
+        $('#organizations_list').empty().append(t_orgs(org_list) );
     };
 
     api.org_inst(parseorgs);
@@ -250,7 +259,7 @@ pageReady("instances", function(){
 
     var result = getStorage("org_list");
 
-    var t_insts = Handlebars.compile( $('#instances').html() );
+    var t_insts = Handlebars.compile( $('#ht_instances_list').html() );
 
     var parseinsts = function () {
 
@@ -281,7 +290,7 @@ pageReady("instances", function(){
             inst_list.push({key: inst.Key, name: inst.Name});
         });
 
-        $('#insts').append(t_insts(inst_list) );
+        $('#instances_list').empty().append(t_insts(inst_list) );
     };
 
     parseinsts();
@@ -306,123 +315,20 @@ pageLoad("instances", function(){
         $.mobile.changePage("home.html");
     });
 });
+//endregion Page specific functions
 
-function relative_time(time_value) {
-    var values = time_value.split(" ");
-    time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
-    var parsed_date = Date.parse(time_value);
-    var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
-    var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
-    delta = delta + (relative_to.getTimezoneOffset() * 60);
-    var stime;
 
-    if (delta < 120) {
-        return '!secs ago';
-    } else if(delta < (60*60)) {
-        stime = (parseInt(delta / 60)).toString();
-        if (stime.length == 1) {stime = "0" + stime;}
-        return '#' + stime + ' mins ago';
-    } else if(delta < (120*60)) {
-        return '$01 hour ago';
-    } else if(delta < (24*60*60)) {
-        stime = (parseInt(delta / 3600)).toString();
-        if (stime.length == 1) {stime = "0" + stime;}
-        return '$' + stime + ' hours ago';
-    } else if(delta < (48*60*60)) {
-        return '%01 day ago';
-    } else {
-        stime = (parseInt(delta / 86400)).toString();
-        if (stime.length == 1) {stime = "0" + stime;}
-        return '%' + stime + ' days ago';
-    }
-}
-
-function convertFBDate(fbDate)
+//region Helper functions
+function tooltip(message)
 {
-    var splitDate = fbDate.split("-");
-    var year = splitDate[0];
-    var month = splitDate[1];
-    var tmp = splitDate[2];
-    var splitDate = tmp.split("T");
-    var day = splitDate[0];
-    var tmp =  splitDate[1];
-    var splitDate = tmp.split("+");
-    var fb_time = splitDate[0];
-
-    var fbDate = "Mon " + convertMonth(month) + " " + day + " " + fb_time + " +" + splitDate[1] + " "  + year;
-    return fbDate;
-}
-
-function convertMonth(nMonth)
-{
-    switch (nMonth)
-    {
-        case "1":
-            return "Jan";
-            break;
-
-        case "2":
-            return "Feb";
-            break;
-        case "3":
-            return "Mar";
-            break;
-        case "4":
-            return "Apr";
-            break;
-        case "5":
-            return "May";
-            break;
-        case "6":
-            return "Jun";
-            break;
-        case "7":
-            return "Jul";
-            break;
-        case "8":
-            return "Aug";
-            break;
-        case "9":
-            return "Sep";
-            break;
-        case "01":
-            return "Jan";
-            break;
-        case "02":
-            return "Feb";
-            break;
-        case "03":
-            return "Mar";
-            break;
-        case "04":
-            return "Apr";
-            break;
-        case "05":
-            return "May";
-            break;
-        case "06":
-            return "Jun";
-            break;
-        case "07":
-            return "Jul";
-            break;
-        case "08":
-            return "Aug";
-            break;
-        case "09":
-            return "Sep";
-            break;
-        case "10":
-            return "Oct";
-            break;
-        case "11":
-            return "Nov";
-            break;
-        case "12":
-            return "Dec";
-            break;
-    }
-}
+    $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 20, "text-align": "center"})
+        .appendTo( $.mobile.pageContainer )
+        .delay( 2000 )
+        .fadeOut( 400, function(){
+            $(this).remove();
+        }
+    );
+};
 
 // format an ISO date using Moment.js
 // http://momentjs.com/
@@ -454,4 +360,6 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;')
         .replace(/\n/g, "<br />");
 }
+
+//endregion Helper functions
 

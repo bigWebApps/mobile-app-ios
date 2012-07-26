@@ -160,6 +160,20 @@ HelpDeskAPI.prototype.ticket_list = function (params, callback) {
 };
 
 /**
+ * List of technicians
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/technicians
+ */
+HelpDeskAPI.prototype.technicians_list = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/technicians', ["Method"
+    ], params, callback);
+};
+
+/**
  * Get ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
@@ -208,7 +222,7 @@ HelpDeskAPI.prototype.addresponse_ticket = function (params, callback) {
 };
 
 /**
- * Change technician of ticket
+ * Pick up ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
  *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
@@ -224,6 +238,22 @@ HelpDeskAPI.prototype.pickup_ticket = function (params, callback) {
     ], params, callback);
 };
 
+/**
+ * Transfer to tech ticket
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
+ */
+HelpDeskAPI.prototype.transfer2tech_ticket = function (params, callback) {
+    params["Method"] = "PUT";
+    params["Action"] = "TransferToTech";
+
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
+        "Id","Action","NoteText","TransferToTechId","OrganizationKey","InstanceKey"
+    ], params, callback);
+};
 
 /**
  * List of tickets in queue

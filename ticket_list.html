@@ -32,10 +32,11 @@
 <div id="ticketlist_page" data-role="page">
 
 	<div data-role="content">						
-		<ul id="ticketList" data-role="listview" data-theme="d" data-divider-theme="b" data-filter="true" data-filter-placeholder="Search Ticket List" data-filter-theme="h" >
-        <script id="tickets" type="text/x-handlebars-template">
-          {{#each this}}
-         <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
+		<ul id="tickets_list" data-role="listview" data-theme="d" data-divider-theme="b" data-filter="true" data-filter-placeholder="Search Ticket List" data-filter-theme="h" >
+        </ul>
+        <script id="ht_tickets_list" type="text/x-handlebars-template">
+            {{#each this}}
+            <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
                 <a href="ticket_detail.html?id={{Id}}"  class="ui-link-inherit" data-ajax="false" data-transition="slide" rel="external">
                     <table>
                         <tr>
@@ -61,12 +62,11 @@
                                 </tr>
                             </table>
                         </tr>
-                    </table>					
+                    </table>
                 </a>
-			</li>
+            </li>
             {{/each}}
         </script>
-    </ul>
 	</div>
     
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">

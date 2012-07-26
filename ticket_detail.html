@@ -32,7 +32,7 @@
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
 	<div data-theme="h" data-position="fixed" class="ticket_detail_header" data-role="header">
 	</div>
-    <script id="ticket_detail_head" type="text/x-handlebars-template">
+    <script id="ht_ticket_detail_header" type="text/x-handlebars-template">
         <div class="ticket-det-box {{TicketStatus}}">
             <p class="status-det">{{TicketStatus}}</p>
             <p class="status-ticket-num">#{{TicketNumber}}</p>
@@ -57,18 +57,16 @@
             <p class="det-priority">Priority: <span>{{Priority}} - {{PriorityName}}</span></p>
             <p class="det-date">{{dateFormat CreateTime format="calendar"}}</p>
         </div>
+        <div class="ticket-det-subject">
+            <p>{{Subject}}</p>
+        </div>
     </script>
     <!-- /header -->
 
 	<div data-role="content" id="ticket-response-list">
-    	<div class="ticket-det-subject">
-        </div>
-        <script id="ticket_detail_subject" type="text/x-handlebars-template">
-            <h3>{{Subject}}</h3>
-        </script>
-        <ul id="ticketLogList" data-role="listview" data-theme="b">
+        <ul id="ticket_detail_response_list" data-role="listview" data-theme="b">
         </ul>
-        <script id="ticket_detail_logs" type="text/x-handlebars-template">
+        <script id="ht_ticket_detail_response_list" type="text/x-handlebars-template">
             {{#each TicketLogs}}
             <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-theme="d" class="ticket-response">
                 <div class="response-info">
@@ -96,8 +94,8 @@
 			<ul>
 				<li><a href="javascript:window.history.go($.mobile.urlHistory.stack.length * -1)" id="ticket_detail_main_page_back_link" data-ajax="false" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-ajax="false" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
-				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
-				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
+				<li><a href="#ticket_info_page" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
+				<li><a href="#alert_menu_page" data-theme="g" data-icon="app-more">More</a></li>
 			</ul>
 		</div><!-- /navbar -->        
 	</div><!-- /footer -->
@@ -111,7 +109,7 @@
 
 <!------------------------------ Ticket Info --------------------------------------------------->
 
-<div data-role="page" id="ticket_info">
+<div data-role="page" id="ticket_info_page">
     <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
     </div> <!--/header -->
     
@@ -124,8 +122,8 @@
 			<ul>
 				<li><a href="#ticket_detail_main_page" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
-				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
-				<li><a href="#alert_menu" id="alert_more_action" data-theme="g" data-icon="app-more">More</a></li>
+				<li><a href="#ticket_info_page" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
+				<li><a href="#alert_menu_page" id="alert_more_action" data-theme="g" data-icon="app-more">More</a></li>
 			</ul>
 		</div><!-- /navbar -->        
 	</div><!-- /footer -->
@@ -134,16 +132,16 @@
 
 <!------------------------------ More Menu ----------------------------------------------------->
 
-<div data-role="page" id="alert_menu" data-theme="a">
+<div data-role="page" id="alert_menu_page" data-theme="a">
 
     <script>
-        function pickupTicket() {
+        function pickup_ticket() {
             var ticketInfo = JSON.parse($("#ticketInfo").val());
-            api.pickup_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, change_technician_ticket);
+            api.pickup_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, pickup_ticket_postback);
             return false;
         }
 
-        function change_technician_ticket (data)
+        function pickup_ticket_postback (data)
         {
             var ticketInfo = JSON.parse($("#ticketInfo").val());
             //$(".submitButton").removeAttr("disabled");
@@ -152,7 +150,7 @@
                 $("#ticket_detail_main_page_back_link").attr("href", "ticket_list.html");
                 tooltip("Ticket #" + ticketInfo.TicketNumber +" picked up successfully!");
                 $("#ticket_detail_main_page").page('destroy').page();
-                $("#ticketLogList").listview('refresh')
+                $("#ticket_detail_response_list").listview('refresh')
                 $.mobile.changePage("#ticket_detail_main_page");
             }
             else
@@ -161,11 +159,11 @@
         }
     </script>
     <div id="ticket-detail-more" data-role="content" data-theme="a">
-        <a href="#ticket_response" id="ticket_response_action" data-role="button" data-theme="c">Add Response</a>
-        <a href="#ticket_transfer" id="ticket_transfer_action" data-role="button" data-theme="c">Transfer to Another Tech</a>
-        <a href="#ticket_addtime" id="ticket_addtime_action" data-role="button" data-theme="c">Record Time</a>
-        <a href="javascript:pickupTicket()" id="ticket_pickup_action" data-role="button" data-theme="c">Pick Up Ticket</a>
-        <a href="#ticket_close" id="ticket_close_action" data-role="button" data-theme="c">Close Ticket</a>
+        <a href="#ticket_response_page" id="ticket_response_action" data-role="button" data-theme="c">Add Response</a>
+        <a href="#ticket_transfer_page" id="ticket_transfer_action" data-role="button" data-theme="c">Transfer to Another Tech</a>
+        <a href="#ticket_addtime_page" id="ticket_addtime_action" data-role="button" data-theme="c">Record Time</a>
+        <a href="javascript:pickup_ticket()" id="ticket_pickup_action" data-role="button" data-theme="c">Pick Up Ticket</a>
+        <a href="#ticket_close_page" id="ticket_close_action" data-role="button" data-theme="c">Close Ticket</a>
         <a href="#ticket_detail_main_page" id="ticket_cancel_action" data-role="button" data-theme="a" class="footerSlideButton">Cancel</a>
     </div> <!-- Content -->
 
@@ -174,8 +172,8 @@
 			<ul>
 				<li><a href="#ticket_detail_main_page" data-theme="g" data-icon="back" >Back</a></li>
 				<li><a href="home.html" data-theme="g" data-icon="home" data-iconshadow="false">Home</a></li>
-				<li><a href="#ticket_info" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
-				<li><a href="#alert_menu" data-theme="g" data-icon="app-more">More</a></li>
+				<li><a href="#ticket_info_page" data-theme="g" data-icon="info" data-iconshadow="false">Info</a></li>
+				<li><a href="#alert_menu_page" data-theme="g" data-icon="app-more">More</a></li>
 			</ul>
 		</div><!-- /navbar -->
 	</div><!-- /footer -->
@@ -184,7 +182,7 @@
 <!------------------------------ Add Response ----------------------------------------------------->
 
 
-<div data-role="page" id="ticket_response">
+<div data-role="page" id="ticket_response_page">
     <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
     </div> <!--/header -->
 
@@ -198,11 +196,11 @@
                 if (!response)
                     tooltip('Please enter response!');
                 else
-                    api.addresponse_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": response, "Password":$('#password').val()}, addresponse_ticket_check);
+                    api.addresponse_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": response, "Password":$('#password').val()}, addresponse_ticket_postback);
                 return false;
             }
 
-            function addresponse_ticket_check (data)
+            function addresponse_ticket_postback (data)
             {
                 var ticketInfo = JSON.parse($("#ticketInfo").val());
                 //$(".submitButton").removeAttr("disabled");
@@ -210,7 +208,7 @@
                 {
                     tooltip("Response added to Ticket #" + ticketInfo.TicketNumber +" successfully!");
                     $("#ticket_detail_main_page").page('destroy').page();
-                    $("#ticketLogList").listview('refresh')
+                    $("#ticket_detail_response_list").listview('refresh')
                     $.mobile.changePage("#ticket_detail_main_page");
                 }
                 else
@@ -235,11 +233,40 @@
 
 <!------------------------------ Ticket Transfer--------------------------------------------------->
 
-<div data-role="page" id="ticket_transfer">
+<div data-role="page" id="ticket_transfer_page">
     <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
     </div> <!--/header -->
 
-	<div data-role="content" data-theme="d">     
+	<div data-role="content" data-theme="d">
+
+        <script>
+            // this is what is required for the on the mobile page load
+            function transfer2tech_ticket_submit() {
+                var ticketInfo = JSON.parse($("#ticketInfo").val());
+                var notes = htmlEscape($('#transferdetails').val().trim());
+                if (!notes)
+                    tooltip('Please enter transfer details!');
+                else
+                //$(".submitButton").attr("disabled","disabled");
+                    api.transfer2tech_ticket({"TransferToTechId":$("#tech_list").val(),"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, transfer2tech_ticket_postback);
+                return false;
+            }
+
+            function transfer2tech_ticket_postback (data)
+            {
+                var ticketInfo = JSON.parse($("#ticketInfo").val());
+                //$(".submitButton").removeAttr("disabled");
+                if (data)
+                {
+                    tooltip("Ticket #" + ticketInfo.TicketNumber + " transfered successfully!");
+                    window.history.go($.mobile.urlHistory.stack.length * -1 -2);
+                    //window.location.replace("org_inst.html");
+                }
+                else
+                    alert("Error!");
+                return false;
+            }
+        </script>
         
         	<form action="#ticket_detail_main_page" method="post">
                 	
@@ -247,12 +274,14 @@
                     <br>
                     <label><input type="checkbox" name="transfer_alternate" /> Make me the alternate </label>
                     <br>                   
-                    <label for="tech_transfer" class="select">Transfer to </label>
-                      <select name="status" id="tech_transfer" data-role="none">
-                         <option value="Pat Clements">Pat Clements</option>
-                         <option value="Jon Vickers">Jon Vickers</option>
-                         <option value="Ben Pfohl">Ben Pfohl</option>
-                      </select>   
+                    <label for="tech_list" class="select">Transfer to </label>
+                      <select name="status" id="tech_list" data-role="none">
+                      </select>
+                     <script id="ht_tech_list" type="text/x-handlebars-template">
+                     {{#each this}}
+                     <option value="{{Id}}">{{FirstName}} {{LastName}}</option>
+                     {{/each}}
+                </script>
                       
                   	<label for="transferdetails" class="ui-hidden-accessible">Details</label>
                 	<textarea name="transferdetails" id="transferdetails" placeholder="Details"></textarea>
@@ -260,7 +289,7 @@
             </form>       
         
         <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Transfer Ticket</a>
+		<a href="javascript:transfer2tech_ticket_submit()" data-role="button" data-inline="true" data-theme="b">Transfer Ticket</a>
     	
     </div><!-- content -->    
     
@@ -269,14 +298,14 @@
 
 <!------------------------------ Ticket Record Time ----------------------------------------------->
 
-<div data-role="page" id="ticket_addtime">
+<div data-role="page" id="ticket_addtime_page">
     <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
     </div> <!--/header -->
 
-	<div data-role="content" data-theme="d">
+	<div data-role="content" data-theme="d" disabled="disabled">
 
             <h1>Coming soon in version 2.0</h1>
-        	<form disabled="disabled" action="index.html" method="post">
+        	<form  action="index.html" method="post">
                     <label for="time_tech">Technician</label>
                       <select name="time_tech" id="time_tech" data-role="none">
                         <option value="104171">Chernenko, Dmitriy</option>
@@ -322,8 +351,8 @@
 
             </form>
 
-        <a href="#ticket_detail_main_page" disabled="disabled" data-role="button" data-inline="true">Cancel</a>
-		<a href="#ticket_detail_main_page" disabled="disabled" data-role="button" data-inline="true" data-theme="b">Record Time</a>
+        <a href="#ticket_detail_main_page" data-role="button" data-inline="true">Cancel</a>
+		<a href="#ticket_detail_main_page" data-role="button" data-inline="true" data-theme="b">Record Time</a>
     	
     </div><!-- content -->    
     
@@ -333,7 +362,7 @@
 
 <!------------------------------ Ticket Close ----------------------------------------------------->
 
-<div data-role="page" id="ticket_close">
+<div data-role="page" id="ticket_close_page">
     <div class="ticket_detail_header"  data-position="fixed" data-role="header" data-theme="h">
     </div> <!--/header -->
 
@@ -348,11 +377,11 @@
                     tooltip('Please enter close details!');
                 else
                 //$(".submitButton").attr("disabled","disabled");
-                  api.close_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, close_ticket_check);
+                  api.close_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, close_ticket_postback);
                 return false;
             }
 
-            function close_ticket_check (data)
+            function close_ticket_postback (data)
             {
                 var ticketInfo = JSON.parse($("#ticketInfo").val());
                 //$(".submitButton").removeAttr("disabled");

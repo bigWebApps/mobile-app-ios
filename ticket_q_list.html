@@ -22,13 +22,13 @@
 	</div><!-- /header -->
 
 	<div data-role="content">		
-		<ul id="ticketqList" data-role="listview" data-theme="d">
-            <script id="ticketsq" type="text/x-handlebars-template">
-                {{#each this}}
-                <li><a href="ticket_list.html?id={{Id}}" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
-                {{/each}}
-            </script>
+		<ul id="tickets_queue_list" data-role="listview" data-theme="d">
 		</ul>
+        <script id="ht_tickets_queue_list" type="text/x-handlebars-template">
+            {{#each this}}
+            <li><a href="ticket_list.html?id={{Id}}" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
+            {{/each}}
+        </script>
 	</div><!-- /content -->
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
         <a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Back</a>
