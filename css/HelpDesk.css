@@ -156,6 +156,10 @@ li.ticket-list.new {background-color: #FAE6CB;}
 		color: #fff;
 		text-shadow: 1px 1px 0px #999999;
         filter: dropshadow(color=#999999, offx=1, offy=1);
+		white-space: nowrap;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		}
 	.ticket-det-head h1 {
 		font-size: 14px;
@@ -166,10 +170,11 @@ li.ticket-list.new {background-color: #FAE6CB;}
 .ticket-tech-class {
 	width: 100%;
 	padding: 8px 10px 5px;
-	background-color: #ffdcaa;
-	color: #9c4d00;
-	border-top: 1px solid #d98700;
-	min-height: 30px;
+	background-color: #e4e4e4;
+	color: #828282;
+	border-top: 1px solid #a7a7a7;
+	/* min-height: 30px; */
+	overflow: hidden;
 	}
 	.ticket-tech-class p {
 		margin: 0; 
@@ -195,12 +200,13 @@ li.ticket-list.new {background-color: #FAE6CB;}
 .ticket-level-priority {
 	width: 100%;
 	padding: 4px 10px 5px;
-	background-color: #fc7700;
+	background-color: #999999;
 	color: #ffffff;
-	text-shadow: 0px 0px 0px #9c4d00;
-    filter: dropshadow(color=#9c4d00, offx=0, offy=0);
-	border-top: 1px solid #9c4d00;
-	min-height: 15px;
+	text-shadow: 1px 1px 0px #999999;
+    filter: dropshadow(color=#999999, offx=1, offy=1);
+	border-top: 1px solid #ccc;
+	/* min-height: 15px; */
+	overflow: hidden;
 	}
 	.ticket-level-priority p {
 		padding: 0;
@@ -304,6 +310,27 @@ li.ticket-list.new {background-color: #FAE6CB;}
     position: absolute;
     width: 100%;
 	}
+
+/*----------  Ticket Info  ------------*/
+
+ul.ticket_info_list,
+ul.ticket_info_list li p
+ {
+	margin: 0;
+	padding: 0;
+	}
+ul.ticket_info_list li {
+	list-style: none;
+	margin: 0 0 15px 0;
+	padding: 0;
+	font-size: 12px;
+	}
+	ul.ticket_info_list li p {
+		color: #666;
+		}
+	ul.ticket_info_list li strong {
+		font-size: 14px;
+		}
 	
 /* H is for HelpDesk
 -----------------------------------------------------------------------------------------------------------*/
