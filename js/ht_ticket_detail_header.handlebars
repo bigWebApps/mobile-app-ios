@@ -17,11 +17,16 @@
             </div>
         </div>
         <div class="ticket-level-priority">
-            <p class="det-icon"></p>
-            <p class="det-level">Level: <span>{{Level}} - {{LevelName}} </span></p>
-            <p class="det-priority">Priority: <span>{{Priority}} - {{PriorityName}}</span></p>
-            <p class="det-date">{{dateFormat CreateTime format="calendar"}}</p>
+			<div class="det-level">
+            	<p>Level: <span>{{Level}}</span></p>
+                <p><span>{{LevelName}}</span></p>
+            </div>
+            <div class="det-priority">
+            	<p>Priority: <span>{{Priority}}</span></p>
+                <p><span>{{PriorityName}}</span></p>
+            </div>            
+            <p class="det-date">{{dateFormat CreateTime format="calendar"}}</p>			
         </div>
         <div class="ticket-det-subject">
-            <p>{{Subject}}</p>
+            <h3>{{Subject}}</h3>
         </div>
