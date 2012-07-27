@@ -137,14 +137,14 @@ pageReady("ticketqlist", function(){
 pageReady("ticketlist", function(){
 
     checkStorage(false);
-
     var parsetickets = function (data) {
         if (!data)
         {
             return;
         }
 
-        $('ul#tickets_list').handlebars('ht_tickets_list',data);
+        //wrapper needed for this
+        $('ul#tickets_list').handlebars('ht_tickets_list', {objects:data} );
     };
 
     var url = $.url(document.location);
