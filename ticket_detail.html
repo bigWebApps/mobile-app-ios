@@ -23,7 +23,7 @@
 		$( document ).delegate("#ticket_detail_main_page", "pageinit", function(){
 			$('.res-gravatar').each(function(){
 					var email = $.MD5($(this).data('gravatar'));			
-					$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?f=y&d=mm&s=25');
+					$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?d=mm');
 				});				
 		});	
 	</script>	
