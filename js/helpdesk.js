@@ -168,6 +168,8 @@ pageReady("ticket_detail_main", function(){
         }
 
         $('.ticket_detail_header').handlebars('ht_ticket_detail_header', data);
+        $('.ticket_short_header').handlebars('ht_ticket_short_header', data);
+        $('#ticket_detail_subject').handlebart($('#ht_ticket_detail_subject'), data);
         $('ul#ticket_detail_response_list').handlebars('ht_ticket_detail_response_list', data);
 
         $("#ticketInfo").val(JSON.stringify(data));
@@ -344,12 +346,25 @@ Handlebars.getTemplate = function(name) {
     };
 })(jQuery);
 
+(function($) {
+    var compiled = {};
+    $.fn.handlebart = function(template, data) {
+        if (template instanceof jQuery) {
+            template = $(template).html();
+        }
+
+        compiled[template] = Handlebars.compile(template);
+        this.html(compiled[template](data));
+    };
+})(jQuery);
+
 function tooltip(message)
 {
     $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 20, "text-align": "center"})
         .appendTo( $.mobile.pageContainer )
-        .delay( 2000 )
-        .fadeOut( 400, function(){
+        .delay( 1500 )
+        .fadeOut(400)
+        .delay( 1000, function(){
             $(this).remove();
         }
     );

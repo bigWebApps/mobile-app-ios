@@ -11,7 +11,7 @@ function program1(depth0,data) {
   foundHelper = helpers.Id;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.Id; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "\"  class=\"ui-link-inherit\" data-ajax=\"false\" data-transition=\"slide\" rel=\"external\">\r\n        <table>\r\n            <tr>\r\n                <td class=\"ticket-num\">";
+  buffer += escapeExpression(stack1) + "\"  class=\"ui-link-inherit\" data-ajax=\"false\" data-transition=\"slide\" rel=\"external\">\r\n        <table>\r\n            <tr>\r\n                <td class=\"ticket-num\">#";
   foundHelper = helpers.TicketNumber;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.TicketNumber; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
@@ -19,7 +19,7 @@ function program1(depth0,data) {
   foundHelper = helpers.Subject;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.Subject; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</td>\r\n            </tr>\r\n            <tr>\r\n                <table width=\"100%\">\r\n                    <tr>\r\n                        <td>&nbsp;</td>\r\n                        <td class=\"left\">\r\n                            <p class=\"customer\">";
+  buffer += escapeExpression(stack1) + "</td>\r\n            </tr>\r\n            <tr>\r\n                <table width=\"100%\">\r\n                    <tr>\r\n                        <td class=\"left\" width=\"60%\">\r\n                            <p class=\"customer\">";
   foundHelper = helpers.UserLastName;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.UserLastName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
@@ -27,14 +27,18 @@ function program1(depth0,data) {
   foundHelper = helpers.UserFirstName;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.UserFirstName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</p>\r\n                            <p class=\"account\">";
+  foundHelper = helpers.AccountName;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.AccountName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1) + "</p>\r\n                            <p class=\"status ";
-  foundHelper = helpers.Status;
+  foundHelper = helpers.TicketStatus;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.Status; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  else { stack1 = depth0.TicketStatus; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1) + "\">";
-  foundHelper = helpers.Status;
+  foundHelper = helpers.TicketStatus;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.Status; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  else { stack1 = depth0.TicketStatus; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1) + "</p>\r\n                            <p class=\"smalllabel\">Tech</p>\r\n                            <p class=\"tech-name\">";
   foundHelper = helpers.TechnicianLastName;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
@@ -43,17 +47,13 @@ function program1(depth0,data) {
   foundHelper = helpers.TechnicianFirstName;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.TechnicianFirstName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</p>\r\n                        </td>\r\n                        <td class=\"right\">\r\n                            <p class=\"account\">";
-  foundHelper = helpers.AccountName;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.AccountName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</p>\r\n                            <p class=\"date today\">";
+  buffer += escapeExpression(stack1) + "</p>\r\n                        </td>\r\n                        <td class=\"left\">\r\n                            <p class=\"date today\">";
   stack1 = depth0.CreateTime;
   stack2 = {};
   stack2['format'] = "calendar";
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
-  buffer += escapeExpression(stack1) + "</p>\r\n                            <p class=\"smalllabel\">Class</p>\r\n                            <p class=\"class-name\">";
+  buffer += escapeExpression(stack1) + "</p>\r\n                            <p>&nbsp;</p>\r\n                            <p>&nbsp;</p>\r\n                            <p class=\"smalllabel\">Class</p>\r\n                            <p class=\"class-name\">";
   foundHelper = helpers.ClassName;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.ClassName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
@@ -127,11 +127,7 @@ templates['ht_ticket_detail_header'] = template(function (Handlebars,depth0,help
   stack2['format'] = "calendar";
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
-  buffer += escapeExpression(stack1) + "</p>			\r\n        </div>\r\n        <div class=\"ticket-det-subject\">\r\n            <h3>";
-  foundHelper = helpers.Subject;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
-  else { stack1 = depth0.Subject; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "</h3>\r\n        </div>";
+  buffer += escapeExpression(stack1) + "</p>			\r\n        </div>";
   return buffer;});
 templates['ht_ticket_detail_response_list'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
@@ -174,4 +170,39 @@ function program1(depth0,data) {
   stack1 = helpers.each.call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(1, program1, data)});
   if(stack1 || stack1 === 0) { return stack1; }
   else { return ''; }});
+templates['ht_ticket_short_header'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, foundHelper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "        <div class=\"ticket-det-box ";
+  foundHelper = helpers.TicketStatus;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.TicketStatus; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "\">\r\n            <p class=\"status-det\">";
+  foundHelper = helpers.TicketStatus;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.TicketStatus; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</p>\r\n            <p class=\"status-ticket-num\">#";
+  foundHelper = helpers.TicketNumber;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.TicketNumber; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</p>\r\n        </div>\r\n        <div class=\"ticket-det-head\">\r\n            <h1>";
+  foundHelper = helpers.UserFirstName;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.UserFirstName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + " ";
+  foundHelper = helpers.UserLastName;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.UserLastName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</h1>\r\n            <h2>";
+  foundHelper = helpers.AccountName;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.AccountName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</h2>\r\n        </div>\r\n        <!--<div class=\"ticket-tech-class\">\r\n        <div class=\"ticket-det-subject\" style=\"color:#000000;text-shadow: none;margin: 0;\">\r\n            <h3>";
+  foundHelper = helpers.Subject;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.Subject; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</h3>\r\n        </div>\r\n        </div>-->";
+  return buffer;});
 })();
