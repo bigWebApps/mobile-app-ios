@@ -18,16 +18,7 @@
         <script src="js/HelpDeskAPI.js"></script>
         <script src="js/templates.js"></script>
         <script src="js/helpdesk.js"></script>
-    <script>	
-       
-		$( document ).delegate("#ticket_detail_main_page", "pageinit", function(){
-			$('.res-gravatar').each(function(){
-					var email = $.MD5($(this).data('gravatar'));			
-					$(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?d=mm');
-				});				
-		});	
-	</script>	
-</head> 
+</head>
 <body>
 <input id="ticketInfo" type="hidden"/>
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
@@ -70,45 +61,46 @@
     </div> <!--/header -->
     
 	<div data-role="content">
-        <ul data-corners="false" data-wrapperels="div" data-theme="d" class="ticket_info_list">
-        	<li>
-            	<p>Account Location:</p> 
-                <strong>Location</strong>
+        <ul data-corners="false" data-wrapperels="div" data-theme="d" id="ticket_info_list" class="ticket-info-list">
+        </ul>
+        <script id="ht_ticket_info_list" type="text/x-handlebars-template">
+            <li>
+                <p>Account Location:</p>
+                <strong>{{AccountLocationName}}</strong>
             </li>
             <li>
-            	<p>SLA Completion Date:</p> 
-                <strong>8/14/2012 01:44PM (UTC-5)(13d 2h 47m)</strong>
+                <p>SLA Completion Date:</p>
+                <strong>{{dateFormat SLAComplete format="utc"}} ({{dateFormat SLAComplete format="fromNow"}})</strong>
             </li>
             <li>
-            	<p>SLA Response Date:</p> 
-                <strong>7/25/2012 03:44PM (UTC-5)(-4h -13m)</strong>
+                <p>SLA Response Date:</p>
+                <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLARespose format="fromNow"}})</strong>
             </li>
             <li>
-            	<p>Hours:</p> 
-                <strong>0.00hr</strong>
+                <p>Hours:</p>
+                <strong>{{TotalHours}} hr</strong>
             </li>
             <li>
-            	<p>Days Old/Work Day Timer:</p> 
-                <strong>6h 13m</strong>
+                <p>Days Old/Work Day Timer:</p>
+                <strong>{{dateFormat DaysOldInMinutes format="fromNow"}}</strong>
             </li>
             <li>
-            	<p>Project:</p> 
-                <strong>HelpDesk > LDAP v2</strong>
+                <p>Project:</p>
+                <strong>{{ProjectName}}</strong>
             </li>
             <li>
-            	<p>Assets:</p> 
+                <p>Assets:</p>
                 <strong>...</strong>
             </li>
             <li>
-            	<p>Request Completion Date:</p> 
-                <strong>7/30/2012</strong>
+                <p>Request Completion Date:</p>
+                <strong>{{dateFormat RequestCompletionDate format="calendar"}}</strong>
             </li>
             <li>
-            	<p>Custom Fields:</p> 
-                <strong>Custom Fields</strong>
+                <p>Custom Fields:</p>
+                <strong>{{{customFields CustomFieldsXML}}}</strong>
             </li>
-        </ul>
-        
+        </script>
 	</div><!-- /content -->
 	
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">

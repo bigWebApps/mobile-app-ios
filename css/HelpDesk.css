@@ -248,6 +248,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		float: left;
+        color: black !important;
 		}	
 	.ticket-det-class {
 		font-size: 12px;
@@ -255,6 +256,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		float: right;
+        color: black !important;
 		}	
 .ticket-level-priority {
 	width: 100%;
@@ -382,22 +384,22 @@ li.ticket-list.new {background-color: #FAE6CB;}
 
 /*----------  Ticket Info  ------------*/
 
-ul.ticket_info_list,
-ul.ticket_info_list li p
+ul.ticket-info-list,
+ul.ticket-info-list li p
  {
 	margin: 0;
 	padding: 0;
 	}
-ul.ticket_info_list li {
+ul.ticket-info-list li {
 	list-style: none;
 	margin: 0 0 15px 0;
 	padding: 0;
 	font-size: 16px;
 	}
-	ul.ticket_info_list li p {
+	ul.ticket-info-list li p {
 		color: #666;
 		}
-	ul.ticket_info_list li strong {
+	ul.ticket-info-list li strong {
 		font-size: 16px;
 		}
 	

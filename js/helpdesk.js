@@ -171,6 +171,8 @@ pageReady("ticket_detail_main", function(){
         $('.ticket_short_header').handlebars('ht_ticket_short_header', data);
         $('#ticket_detail_subject').handlebart($('#ht_ticket_detail_subject'), data);
         $('ul#ticket_detail_response_list').handlebars('ht_ticket_detail_response_list', data);
+        var template = Handlebars.compile($('#ht_ticket_info_list').html());
+        $('#ticket_info_list').empty().append(template(data));
 
         $("#ticketInfo").val(JSON.stringify(data));
     };
@@ -184,6 +186,14 @@ pageReady("ticket_detail_main", function(){
     else
         history.back();
 
+});
+
+pageLoad("ticket_detail_main", function(){
+    $('.res-gravatar').each(function(){
+        var email = $.MD5($(this).data('gravatar'));
+        $(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?d=mm&s=25');
+    });
+    $("#ticket_detail_response_list").listview('refresh');
 });
 
 pageReady("ticket_transfer", function(){
@@ -376,6 +386,8 @@ function tooltip(message)
 // usage: {{dateFormat creation_date format="MMMM YYYY"}}
 Handlebars.registerHelper('dateFormat', function(context, block) {
     if (window.moment) {
+        if (!context)
+            return "";
         var f = block.hash.format || "MMM Do, YYYY";
         if (f == "calendar")
             return moment(context).calendar();
@@ -384,8 +396,47 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
             var utc_string = moment(context).format("(UTCZZ)").replace(/0/g,"");
             return moment(context).format("MM/DD/YYYY, hh:mmA ") + utc_string;
         }
-        else
+        else if (f == "fromNow")
+        {
+            var fromnow_string = "";
+            context = moment(context);
+            var minutes = context.diff(new Date(),"minutes");
+            if (minutes < 5 && minutes > -5)
+            {
+                return "now";
+            }
+            var days = context.diff(new Date(),"days");
+            if (days != 0)
+            {
+                fromnow_string += days + 'd ';
+                context = context.add("d",-1*days);
+            }
+            var hours = context.diff(new Date(),"hours");
+            if (hours != 0)
+            {
+                fromnow_string += -1*hours + 'h ';
+                context = context.add("h", -1*hours);
+            }
+            minutes = context.diff(new Date(),"minutes");
+            if (minutes != 0)
+            {
+                fromnow_string += -1*minutes + 'm';
+            }
+            return fromnow_string;
+        }else
             return moment(context).format(f);
+    }else{
+        return context; // moment plugin not available. return data as is.
+    }
+});
+
+Handlebars.registerHelper('customFields', function(context) {
+    if (window.moment) {
+        var str = "";
+        $(context).find("field").each(function (){
+            str += $(this).text() + "<br/>";
+        });
+        return str.replace(/\?/g, '? &mdash; ');
     }else{
         return context; // moment plugin not available. return data as is.
     }
