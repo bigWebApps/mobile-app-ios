@@ -62,20 +62,19 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     //alert(this.httpUri + '/' + method);
     //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
-
-    $.mobile.showPageLoadingMsg();
     //console.log(availableParams);
     //console.log(givenParams);
     //console.log(finalParams);
     $.ajax({
         url:this.httpUri + '/' + method,
+        //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:false,
-        async:false,
+        async:true,
         dataType:"json",
         data:JSON.stringify(finalParams), //'{"UserName":"jon.vickers@micajah.com", "Password":"vader"}', //finalParams,
         contentType:"application/json; charset=utf-8",
-        timeout:6000,
+        timeout:10000,
         success:function (data) {
             //alert('success');
             if (typeof data.UserKey !== 'undefined')
@@ -103,9 +102,17 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
             //clearStorage();
             //window.location.replace("login.html")
-        }
+        },
+        complete:function(){
+            $.mobile.hidePageLoadingMsg();
+            mainloaded = true;
+            if (givenParams.refresh  !== 'undefined')
+            {
+            $(givenParams.refresh).listview('refresh');
+            }
+          }
     });
-
+    //mainloaded = true;
     $.mobile.hidePageLoadingMsg();
 };
 
@@ -136,8 +143,8 @@ HelpDeskAPI.prototype.login = function (params, callback) {
  *
  * @see http://developer.helpdesk.bigwebapps.com/
  */
-HelpDeskAPI.prototype.org_inst = function (callback) {
-    var params = {"Method":"GET"};
+HelpDeskAPI.prototype.org_inst = function (params, callback) {
+    params["Method"] = "GET";
     if (typeof params == 'function') {
         callback = params, params = {};
     }

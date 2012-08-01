@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
     <script src="js/moment.min.js"></script>
-	<script src="phonegap.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.md5.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
@@ -18,18 +17,19 @@
     <script src="js/templates.js"></script>
     <script src="js/helpdesk.js"></script>
     <script>
-
+/*
 	$(document).bind("pageload", function(){
 		$('.res-gravatar').each(function(){
 				var email = $.MD5($(this).data('gravatar'));
             $(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?d=mm');
 			});
 	});
+	*/
 	</script>
 	
 </head> 
-<body>  
-
+<body>
+<div id="container"/>
 <div id="ticketlist_page" data-role="page">
 
 	<div data-role="content">						

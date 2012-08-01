@@ -2,8 +2,8 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "K38L7HPDJV.com.bigwebapps.helpdesk"
-        versionCode="1" 
-        version   = "0.1.0">
+        versionCode="9"
+        version   = "0.9.0">
     <!-- versionCode is optional and Android only -->
 
     <access origin="*" />

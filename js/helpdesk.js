@@ -41,8 +41,17 @@ function pageBeforeshow(page_name, func)
     $( document ).delegate("#"+page_name+"_page", "pagebeforeshow", func);
 }
 
+var mainloaded = false;
+
 function pageReady(page_name, func)
 {
+    //Workaround to show page loading on initial page load
+    $( document ).delegate("#"+page_name+"_page","pageshow", function(event) {
+        if(!mainloaded) {
+            $.mobile.showPageLoadingMsg();
+        }
+    });
+
     $( document ).delegate("#"+page_name+"_page", "pagecreate", func);
 }
 
@@ -130,7 +139,7 @@ pageReady("ticketqlist", function(){
         $('ul#tickets_queue_list').empty().append(t_ticketqlist(data) );
     };
 
-    api.ticket_q_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseticketsq);
+    api.ticket_q_list({refresh: "ul#tickets_queue_list","OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseticketsq);
 
 });
 
@@ -152,9 +161,9 @@ pageReady("ticketlist", function(){
     var queueid = url.param("id");
 
     if (queueid > 0)
-        api.queue_ticket_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
+        api.queue_ticket_list({"refresh": "ul#tickets_list", "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
     else
-        api.ticket_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
+        api.ticket_list({"refresh": "ul#tickets_list","OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
 
 });
 
@@ -167,14 +176,24 @@ pageReady("ticket_detail_main", function(){
             return;
         }
 
-        $('.ticket_detail_header').handlebars('ht_ticket_detail_header', data);
-        $('.ticket_short_header').handlebars('ht_ticket_short_header', data);
-        $('#ticket_detail_subject').handlebart($('#ht_ticket_detail_subject'), data);
-        $('ul#ticket_detail_response_list').handlebars('ht_ticket_detail_response_list', data);
-        var template = Handlebars.compile($('#ht_ticket_info_list').html());
-        $('#ticket_info_list').empty().append(template(data));
+        //console.log("compile ticket_detail_main");
+        $('div.ticket_detail_header').handlebars('ht_ticket_detail_header', data);
+        $('div.ticket_short_header').handlebars('ht_ticket_short_header', data);
+        $('div#ticket_detail_subject h3').html(data.Subject);
+        $('ul#ticket_detail_response_list').handlebars('ht_ticket_detail_response_list', {objects: data.TicketLogs});
 
-        $("#ticketInfo").val(JSON.stringify(data));
+        if (data.CustomFieldsXML == "<root />")
+            data.CustomFieldsXML = null;
+
+        $('ul#ticket_info_list').handlebars('ht_ticket_info_list', data);
+
+        $("#ticketId").val(data.Id);
+        $("#ticketNumber").val(data.TicketNumber);
+        $("#ticketTechnicianType").val(data.TechnicianType);
+        $('div.res-gravatar').each(function(){
+            var email = $.MD5($(this).data('gravatar'));
+            $(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?d=mm&s=25');
+        });
     };
 
     var url = $.url(document.location);
@@ -182,22 +201,14 @@ pageReady("ticket_detail_main", function(){
     var ticketid = url.param("id");
 
     if (ticketid > 0)
-        api.ticket_detail({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : ticketid},parseticketdetail);
+        api.ticket_detail({refresh: "ul#ticket_detail_response_list","OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : ticketid},parseticketdetail);
     else
         history.back();
 
 });
 
-pageLoad("ticket_detail_main", function(){
-    $('.res-gravatar').each(function(){
-        var email = $.MD5($(this).data('gravatar'));
-        $(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?d=mm&s=25');
-    });
-    $("#ticket_detail_response_list").listview('refresh');
-});
-
 pageReady("ticket_transfer", function(){
-
+    mainloaded = false;
     var t_tickettechnicians_options = Handlebars.compile( $('#ht_tech_list').html() );
 
     var parsetechnicians = function (data) {
@@ -218,14 +229,11 @@ pageReady("ticket_transfer", function(){
 
 pageBeforeshow("alert_menu", function(){
 
-    var ticketInfo = JSON.parse($("#ticketInfo").val());
     var alert_menu = $("#ticket-detail-more");
     //logic to show only correspondent actions: Transfer, PickUp and Cancel
-    console.log("data.TechnicianType = " + ticketInfo.TechnicianType);
+    //console.log("data.TechnicianType = " + ticketInfo.TechnicianType);
 
-    $("a", alert_menu).closest('.ui-btn').show();
-
-    if (ticketInfo.TechnicianType == "Queue")
+    if ($("#ticketTechnicianType").val() == "Queue")
     {
         $("#ticket_response_action", alert_menu).closest('.ui-btn').hide();
         $("#ticket_addtime_action", alert_menu).closest('.ui-btn').hide();
@@ -233,6 +241,8 @@ pageBeforeshow("alert_menu", function(){
     }
     else
     {
+        if ($("#ticket_response_action", alert_menu).closest('.ui-btn').css("display")=="none")
+            $("a", alert_menu).closest('.ui-btn').show();
         $("#ticket_pickup_action", alert_menu).closest('.ui-btn').hide();
     }
 });
@@ -255,9 +265,10 @@ pageReady("organizations", function(){
         });
 
         $('#organizations_list').empty().append(t_orgs(org_list) );
+        $('#organizations_page').trigger('create');
     };
 
-    api.org_inst(parseorgs);
+    api.org_inst({},parseorgs);
 
 });
 
@@ -297,6 +308,7 @@ pageReady("instances", function(){
         });
 
         $('#instances_list').empty().append(t_insts(inst_list) );
+        $('#instances_page').trigger('create');
     };
 
     parseinsts();
@@ -304,7 +316,8 @@ pageReady("instances", function(){
 
 pageLoad("organizations", function(){
     var selected_org;
-    $("[name=radio-org-1]").change(function() {
+    $("[name='radio-org-1']").live ("change", function() {
+        console.log("pageLoad radio-org-1 change");
         selected_org = $('input[name=radio-org-1]:checked').val();
         console.log('Selected: '+ selected_org);
         setStorage('organization', selected_org);
@@ -314,7 +327,7 @@ pageLoad("organizations", function(){
 
 pageLoad("instances", function(){
     var selected_inst;
-    $("[name=instance-1]").change(function() {
+    $("[name=instance-1]").live("change", function() {
         selected_inst = $('input[name=instance-1]:checked').val();
         console.log('Selected: '+ selected_inst);
         setStorage('instance', selected_inst);
@@ -372,9 +385,8 @@ function tooltip(message)
 {
     $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 20, "text-align": "center"})
         .appendTo( $.mobile.pageContainer )
-        .delay( 1500 )
-        .fadeOut(400)
-        .delay( 1000, function(){
+        .delay( 1000 )
+        .fadeOut(1400, function(){
             $(this).remove();
         }
     );

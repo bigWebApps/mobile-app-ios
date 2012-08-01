@@ -16,6 +16,7 @@
 
 </head>
 <body>
+<div id="container"/>
 <div id="organizations_page" data-role="page">
 
 	<div data-role="header" data-position="fixed" data-theme="h">
@@ -28,7 +29,7 @@
             <legend>Choose an Organization:</legend>
             {{#each this}}
             <input type="radio" name="radio-org-1" id="radio-org-{{key}}" value="{{key}}" />
-            <label for="radio-org-{{key}}">{{name}}</label>
+            <label for="radio-org-{{key}}" name="radio-org-1">{{name}}</label>
             {{/each}}
         </script>
     </div>

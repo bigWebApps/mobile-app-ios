@@ -11,7 +11,6 @@
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery.mobile-1.1.0.min.js"></script>
         <script src="js/moment.min.js"></script>
-        <script src="phonegap.js"></script>
         <script src="js/jquery.md5.min.js"></script>
         <script src="js/jquery.url.js"></script>
         <script src="js/handlebars-1.0.0.beta.6.js"></script>
@@ -20,7 +19,10 @@
         <script src="js/helpdesk.js"></script>
 </head>
 <body>
-<input id="ticketInfo" type="hidden"/>
+<div id="container"/>
+<input id="ticketId" type="hidden"/>
+<input id="ticketNumber" type="hidden"/>
+<input id="ticketTechnicianType" type="hidden"/>
 <div data-role="page" data-role="page" id="ticket_detail_main_page">
 	<div data-theme="h" data-position="fixed" class="ticket_detail_header" data-role="header">
 	</div>
@@ -28,10 +30,8 @@
 
 	<div data-role="content" id="ticket-response-list">
         <div class="ticket-det-subject" id="ticket_detail_subject">
+            <h3></h3>
         </div>
-        <script id="ht_ticket_detail_subject" type="text/x-handlebars-template">
-            <h3>{{Subject}}</h3>
-        </script>
         <ul id="ticket_detail_response_list" data-role="listview" data-theme="b">
         </ul>
 	</div><!-- /content -->
@@ -63,44 +63,6 @@
 	<div data-role="content">
         <ul data-corners="false" data-wrapperels="div" data-theme="d" id="ticket_info_list" class="ticket-info-list">
         </ul>
-        <script id="ht_ticket_info_list" type="text/x-handlebars-template">
-            <li>
-                <p>Account Location:</p>
-                <strong>{{AccountLocationName}}</strong>
-            </li>
-            <li>
-                <p>SLA Completion Date:</p>
-                <strong>{{dateFormat SLAComplete format="utc"}} ({{dateFormat SLAComplete format="fromNow"}})</strong>
-            </li>
-            <li>
-                <p>SLA Response Date:</p>
-                <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLARespose format="fromNow"}})</strong>
-            </li>
-            <li>
-                <p>Hours:</p>
-                <strong>{{TotalHours}} hr</strong>
-            </li>
-            <li>
-                <p>Days Old/Work Day Timer:</p>
-                <strong>{{dateFormat DaysOldInMinutes format="fromNow"}}</strong>
-            </li>
-            <li>
-                <p>Project:</p>
-                <strong>{{ProjectName}}</strong>
-            </li>
-            <li>
-                <p>Assets:</p>
-                <strong>...</strong>
-            </li>
-            <li>
-                <p>Request Completion Date:</p>
-                <strong>{{dateFormat RequestCompletionDate format="calendar"}}</strong>
-            </li>
-            <li>
-                <p>Custom Fields:</p>
-                <strong>{{{customFields CustomFieldsXML}}}</strong>
-            </li>
-        </script>
 	</div><!-- /content -->
 	
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h" data-id="ticket_det_footer" class="ticket-det-footer">
@@ -123,22 +85,20 @@
     </div>
     <script>
         function pickup_ticket() {
-            var ticketInfo = JSON.parse($("#ticketInfo").val());
-            api.pickup_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, pickup_ticket_postback);
+            api.pickup_ticket({"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, pickup_ticket_postback);
             return false;
         }
 
         function pickup_ticket_postback (data)
         {
-            var ticketInfo = JSON.parse($("#ticketInfo").val());
             //$(".submitButton").removeAttr("disabled");
             if (data)
             {
                 $("#ticket_detail_main_page_back_link").attr("href", "ticket_list.html");
-                tooltip("Ticket #" + ticketInfo.TicketNumber +" picked up successfully!");
-                $("#ticket_detail_main_page").page('destroy').page();
-                $("#ticket_detail_response_list").listview('refresh')
-                $.mobile.changePage("#ticket_detail_main_page");
+                tooltip("Ticket #" + $('#ticketNumber').val() +" picked up successfully!");
+                //$("#ticket_detail_main_page").page('destroy').page();
+                //$("#ticket_detail_response_list").listview('refresh')
+                $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
             }
             else
                 alert("Error!");
@@ -178,25 +138,23 @@
         <script>
             // this is what is required for the on the mobile page load
             function addresponse_ticket_submit() {
-                var ticketInfo = JSON.parse($("#ticketInfo").val());
                 var response = htmlEscape($('#ticketresponse').val().trim());
                 if (!response)
                     tooltip('Please enter response!');
                 else
-                    api.addresponse_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": response, "Password":$('#password').val()}, addresponse_ticket_postback);
+                    api.addresponse_ticket({"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": response, "Password":$('#password').val()}, addresponse_ticket_postback);
                 return false;
             }
 
             function addresponse_ticket_postback (data)
             {
-                var ticketInfo = JSON.parse($("#ticketInfo").val());
                 //$(".submitButton").removeAttr("disabled");
                 if (data)
                 {
-                    tooltip("Response added to Ticket #" + ticketInfo.TicketNumber +" successfully!");
-                    $("#ticket_detail_main_page").page('destroy').page();
-                    $("#ticket_detail_response_list").listview('refresh')
-                    $.mobile.changePage("#ticket_detail_main_page");
+                    tooltip("Response added to Ticket #" + $('#ticketNumber').val() +" successfully!");
+                    //$("#ticket_detail_main_page").page('destroy').page();
+                    //$("#ticket_detail_response_list").listview('refresh')
+                    $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
                 }
                 else
                     alert("Error!");
@@ -229,23 +187,21 @@
         <script>
             // this is what is required for the on the mobile page load
             function transfer2tech_ticket_submit() {
-                var ticketInfo = JSON.parse($("#ticketInfo").val());
                 var notes = htmlEscape($('#transferdetails').val().trim());
                 if (!notes)
                     tooltip('Please enter transfer details!');
                 else
                 //$(".submitButton").attr("disabled","disabled");
-                    api.transfer2tech_ticket({"TransferToTechId":$("#tech_list").val(),"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, transfer2tech_ticket_postback);
+                    api.transfer2tech_ticket({"TransferToTechId":$("#tech_list").val(),"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, transfer2tech_ticket_postback);
                 return false;
             }
 
             function transfer2tech_ticket_postback (data)
             {
-                var ticketInfo = JSON.parse($("#ticketInfo").val());
                 //$(".submitButton").removeAttr("disabled");
                 if (data)
                 {
-                    tooltip("Ticket #" + ticketInfo.TicketNumber + " transfered successfully!");
+                    tooltip("Ticket #" + $('#ticketNumber').val() + " transfered successfully!");
                     window.history.go($.mobile.urlHistory.stack.length * -1);
                     //window.location.replace("org_inst.html");
                 }
@@ -358,23 +314,21 @@
         <script>
             // this is what is required for the on the mobile page load
             function close_ticket_submit() {
-                var ticketInfo = JSON.parse($("#ticketInfo").val());
                 var notes = htmlEscape($('#closedetails').val().trim());
                 if (!notes)
                     tooltip('Please enter close details!');
                 else
                 //$(".submitButton").attr("disabled","disabled");
-                  api.close_ticket({"Id": ticketInfo.Id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, close_ticket_postback);
+                  api.close_ticket({"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, close_ticket_postback);
                 return false;
             }
 
             function close_ticket_postback (data)
             {
-                var ticketInfo = JSON.parse($("#ticketInfo").val());
                 //$(".submitButton").removeAttr("disabled");
                 if (data)
                 {
-                    tooltip("Ticket #" + ticketInfo.TicketNumber + " closed successfully!");
+                    tooltip("Ticket #" + $('#ticketNumber').val() + " closed successfully!");
                     window.history.go($.mobile.urlHistory.stack.length * -1);
                     //window.location.replace("org_inst.html");
                 }
