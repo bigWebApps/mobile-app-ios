@@ -20,10 +20,10 @@
     <p>Hours:</p>
     <strong>{{TotalHours}} hr</strong>
 </li>
-{{#if DaysOldInMinutes}}
+{{#if CreateTime}}
 <li>
     <p>Days Old/Work Day Timer:</p>
-    <strong>{{dateFormat DaysOldInMinutes format="fromNow"}}</strong>
+    <strong>{{dateFormat CreateTime format="fromNow+"}}</strong>
 </li>
 {{/if}}
 {{#if ProjectName}}
@@ -32,7 +32,7 @@
     <strong>{{ProjectName}}</strong>
 </li>
 {{/if}}
-{{#if ProjectName}}
+{{#if null}}
 <li>
     <p>Assets:</p>
     <strong>...</strong>

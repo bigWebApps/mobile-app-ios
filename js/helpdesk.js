@@ -131,11 +131,11 @@ pageReady("ticketqlist", function(){
     var t_ticketqlist = Handlebars.compile( $('#ht_tickets_queue_list').html() );
 
     var parseticketsq = function (data) {
+        console.log(data);
         if (!data)
         {
             return;
         }
-
         $('ul#tickets_queue_list').empty().append(t_ticketqlist(data) );
     };
 
@@ -249,8 +249,6 @@ pageBeforeshow("alert_menu", function(){
 
 pageReady("organizations", function(){
 
-    var t_orgs = Handlebars.compile( $('#ht_organizations_list').html() );
-
     var parseorgs = function (data) {
         if (!data)
         {
@@ -259,11 +257,25 @@ pageReady("organizations", function(){
 
         setStorage("org_list", data);
 
+        if (data.length == 1)
+        {
+            setStorage('organization', data[0].Key);
+            if (data[0].Instances.length == 1)
+            {
+                setStorage('instance', data[0].Instances[0].Key);
+                $.mobile.changePage("home.html");
+                return;
+            }
+            $.mobile.changePage("org_inst.html#instances_page");
+            return;
+        }
+
         var org_list = [];//declare array
         $.each(data, function (index, org) {
             org_list.push({key: org.Key, name: org.Name});
         });
 
+        var t_orgs = Handlebars.compile( $('#ht_organizations_list').html() );
         $('#organizations_list').empty().append(t_orgs(org_list) );
         $('#organizations_page').trigger('create');
     };
@@ -285,8 +297,6 @@ pageReady("instances", function(){
             $.mobile.changePage("org_inst.html#organizations_page");
             return;
         }
-
-        result = JSON.parse(result);
 
         var org_index;
         $.each(result, function (index, org) {
@@ -408,8 +418,9 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
             var utc_string = moment(context).format("(UTCZZ)").replace(/0/g,"");
             return moment(context).format("MM/DD/YYYY, hh:mmA ") + utc_string;
         }
-        else if (f == "fromNow")
+        else if (f.indexOf("fromNow") >= 0)
         {
+            var positive = f.indexOf("+") > 0;
             var fromnow_string = "";
             context = moment(context);
             var minutes = context.diff(new Date(),"minutes");
@@ -426,15 +437,15 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
             var hours = context.diff(new Date(),"hours");
             if (hours != 0)
             {
-                fromnow_string += -1*hours + 'h ';
+                fromnow_string += '-' + hours + 'h ';
                 context = context.add("h", -1*hours);
             }
             minutes = context.diff(new Date(),"minutes");
             if (minutes != 0)
             {
-                fromnow_string += -1*minutes + 'm';
+                fromnow_string += '-' + minutes + 'm';
             }
-            return fromnow_string;
+            return !positive ? fromnow_string : fromnow_string.replace(/-/g, '');
         }else
             return moment(context).format(f);
     }else{

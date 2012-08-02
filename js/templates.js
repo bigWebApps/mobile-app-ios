@@ -224,9 +224,9 @@ function program7(depth0,data) {
   
   var buffer = "", stack1, stack2, foundHelper;
   buffer += "\r\n<li>\r\n    <p>Days Old/Work Day Timer:</p>\r\n    <strong>";
-  stack1 = depth0.DaysOldInMinutes;
+  stack1 = depth0.CreateTime;
   stack2 = {};
-  stack2['format'] = "fromNow";
+  stack2['format'] = "fromNow+";
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
   buffer += escapeExpression(stack1) + "</strong>\r\n</li>\r\n";
@@ -286,7 +286,7 @@ function program15(depth0,data) {
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.TotalHours; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1) + " hr</strong>\r\n</li>\r\n";
-  stack1 = depth0.DaysOldInMinutes;
+  stack1 = depth0.CreateTime;
   stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(7, program7, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
@@ -294,7 +294,7 @@ function program15(depth0,data) {
   stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(9, program9, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = depth0.ProjectName;
+  stack1 = depth0.null;
   stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(11, program11, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
