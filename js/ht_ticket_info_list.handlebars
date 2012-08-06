@@ -32,10 +32,10 @@
     <strong>{{ProjectName}}</strong>
 </li>
 {{/if}}
-{{#if null}}
+{{#if Assets}}
 <li>
     <p>Assets:</p>
-    <strong>...</strong>
+    <strong>{{{assetsHelper Assets}}}</strong>
 </li>
 {{/if}}
 {{#if RequestCompletionDate}}

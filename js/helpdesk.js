@@ -180,6 +180,7 @@ pageReady("ticket_detail_main", function(){
         $('div.ticket_detail_header').handlebars('ht_ticket_detail_header', data);
         $('div.ticket_short_header').handlebars('ht_ticket_short_header', data);
         $('div#ticket_detail_subject h3').html(data.Subject);
+        $('#transfer_remove_user b').html(data.TechnicianFirstName + " " + data.TechnicianLastName);
         $('ul#ticket_detail_response_list').handlebars('ht_ticket_detail_response_list', {objects: data.TicketLogs});
 
         if (data.CustomFieldsXML == "<root />")
@@ -190,6 +191,7 @@ pageReady("ticket_detail_main", function(){
         $("#ticketId").val(data.Id);
         $("#ticketNumber").val(data.TicketNumber);
         $("#ticketTechnicianType").val(data.TechnicianType);
+        //$("#ticketTechnicianName").val();
         $('div.res-gravatar').each(function(){
             var email = $.MD5($(this).data('gravatar'));
             $(this).find('img').attr('src', "http://www.gravatar.com/avatar/" + email+'?d=mm&s=25');
@@ -463,6 +465,16 @@ Handlebars.registerHelper('customFields', function(context) {
     }else{
         return context; // moment plugin not available. return data as is.
     }
+});
+
+Handlebars.registerHelper('assetsHelper', function(context) {
+        var str = "";
+        $.each($(context), function() {
+        $.each(this, function(key, value) {
+        str += key + ': ' + value + '<br/>';
+        })
+        });
+        return str;//.replace(/\?/g, '? &mdash; ');
 });
 
 function htmlEscape(str) {

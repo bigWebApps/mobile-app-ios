@@ -79,7 +79,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             //alert('success');
             if (typeof data.UserKey !== 'undefined')
                 setStorage('key', data.UserKey);
-            callback(data);
+            if (callback != null)
+                callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401 || jqXHR.status == 403) {
@@ -207,7 +208,7 @@ HelpDeskAPI.prototype.close_ticket = function (params, callback) {
 
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
-    "Id","Action","NoteText","OrganizationKey","InstanceKey"
+    "Id","Action","NoteText","SendNotifications", "OrganizationKey","InstanceKey"
     ], params, callback);
 };
 
@@ -252,16 +253,32 @@ HelpDeskAPI.prototype.pickup_ticket = function (params, callback) {
  *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
  *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
  */
-HelpDeskAPI.prototype.transfer2tech_ticket = function (params, callback) {
+HelpDeskAPI.prototype.transfer2tech_ticket = function (params, callback, completed) {
     params["Method"] = "PUT";
     params["Action"] = "TransferToTech";
+
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
+        "KeepAttached","Id","Action","NoteText","TransferToTechId","OrganizationKey","InstanceKey"
+    ], params, callback, completed);
+};
+
+/**
+ * Attach tech as alternate on ticket
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
+ */
+HelpDeskAPI.prototype.attachAltTech_ticket = function (params, callback) {
+    params["Method"] = "PUT";
+    params["Action"] = "AttachAltTech";
 
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
         "Id","Action","NoteText","TransferToTechId","OrganizationKey","InstanceKey"
     ], params, callback);
 };
-
 /**
  * List of tickets in queue
  *
