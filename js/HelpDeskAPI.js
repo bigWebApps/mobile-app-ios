@@ -182,6 +182,20 @@ HelpDeskAPI.prototype.technicians_list = function (params, callback) {
 };
 
 /**
+ * List of users
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/users/
+ */
+HelpDeskAPI.prototype.users_list = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/users/'+params.SearchText, ["Method"
+    ], params, callback);
+};
+
+/**
  * Get ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/

@@ -229,6 +229,68 @@ pageReady("ticket_transfer", function(){
     api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
 });
 
+pageReady("create_ticket", function(){
+    mainloaded = false;
+    var t_tickettechnicians_options = Handlebars.compile( $('#ht_tech_list').html() );
+    var parsetechnicians = function (data) {
+        if (!data)
+        {
+            return;
+        }
+
+        $.each(data, function (index, tech) {
+            if ((tech.FirstName + tech.LastName).trim().length == 0)
+                data[index].FirstName = tech.Email;
+        });
+
+        $('select#tech_list').empty();
+        $('select#tech_list').append(t_tickettechnicians_options([{"Id":0, "FirstName":"Use System Routing (Default)"}]));
+        $('select#tech_list').append(t_tickettechnicians_options(data));
+        //$('select#tech_list').listview("refresh");
+    };
+    api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
+});
+
+pageLoad("create_ticket", function(){
+    var sugList = $("#select_customer_list");
+
+    $("#select_customer_name").on("input", function(e) {
+        var text = $(this).val();
+        if(text.length < 1) {
+            sugList.html("");
+            //sugList.listview("refresh");
+            $('#select_customer_list').children('li').on('vclick', get_customer_name);
+        } else {
+            api.users_list({"SearchText": text, "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")}, function(res) {
+                if (res)
+                {
+                    $('#select_customer_list').show("fast");
+                    var str = "<li data-id='0'>Make Me the Customer</li>";
+                    $.each(res, function (index, tech) {
+                        str += "<li data-id='"+tech.Id+"'>";
+                        if (tech.LastName.trim().length > 0)
+                            str +=  tech.LastName + ", ";
+                        if (tech.FirstName.trim().length > 0)
+                            str += tech.FirstName + " - ";
+                        if (tech.Email.trim().length > 0)
+                            str += tech.Email;
+                        str += "</li>";
+                    });
+                    sugList.html(str);
+                    sugList.listview("refresh");
+                    $('#select_customer_list').children('li').on('vclick', get_customer_name);
+                }
+            },"json");
+        }
+    });
+
+        function get_customer_name(){
+            //alert('Selected Name=' + $(this).attr('data-name'));
+            $("#select_customer_name").val("");
+            $("#select_customer_name").attr("placeholder",$(this).text());
+            $('#select_customer_list').hide("fast");
+        };
+});
 pageBeforeshow("alert_menu", function(){
 
     var alert_menu = $("#ticket-detail-more");

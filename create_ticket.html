@@ -22,7 +22,74 @@
 <div id="create_ticket_page" data-role="page">
 	<div data-role="content" data-theme="d">
         <script>
-            function pickup_ticket() {
+            /*$("#create_ticket_page").on("pageshow", function(e) {
+                //console.log("Ready to bring the awesome.");
+                var t_tickettechnicians_options = Handlebars.compile( $('#ht_tech_list').html() );
+                var parsetechnicians = function (data) {
+                    if (!data)
+                    {
+                        return;
+                    }
+
+                    $.each(data, function (index, tech) {
+                        if ((tech.FirstName + tech.LastName).trim().length == 0)
+                            data[index].FirstName = tech.Email;
+                    });
+
+                    $('select#tech_list').empty();
+                    $('select#tech_list').append(t_tickettechnicians_options([{"Id":0, "FirstName":"Use System Routing (Default)"}]));
+                    $('select#tech_list').append(t_tickettechnicians_options(data));
+                    $('select#tech_list').listview("refresh");
+                };
+                api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
+
+                var sugList = $("#select_customer_list");
+
+                $("#select_customer_name").on("input", function(e) {
+                    $.mobile.showPageLoadingMsg();
+                    var text = $(this).val();
+                    if(text.length < 1) {
+                        sugList.html("");
+                        sugList.listview("refresh");
+                        $('#select_customer_list').children('li').on('vclick', get_customer_name);
+                    } else {
+                        api.users_list({"SearchText": text, "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")}, function(res) {
+                            if (res)
+                            {
+                            $('#select_customer_list').show("fast");
+                            var str = "<li data-id='0'>Make Me the Customer</li>";
+                            $.each(res, function (index, tech) {
+                                str += "<li data-id='"+tech.Id+"'>";
+                                if (tech.LastName.trim().length > 0)
+                                    str +=  tech.LastName + ", ";
+                                if (tech.FirstName.trim().length > 0)
+                                    str += tech.FirstName + " - ";
+                                if (tech.Email.trim().length > 0)
+                                    str += tech.Email;
+                                str += "</li>";
+                            });
+                            sugList.html(str);
+                            sugList.listview("refresh");
+                            $('#select_customer_list').children('li').on('vclick', get_customer_name);
+                            }
+                        },"json");
+                    }
+                });
+
+                function get_customer_name(){
+                    //alert('Selected Name=' + $(this).attr('data-name'));
+                    $("#select_customer_name").val("");
+                    $("#select_customer_name").attr("placeholder",$(this).text());
+                    $('#select_customer_list').hide("fast");
+                };
+            });
+            */
+
+            function ticket_create_submit() {
+                var subject = htmlEscape($('#subject').val().trim());
+                if (!subject)
+                    tooltip('Please enter Subject!');
+                else
                 api.pickup_ticket({"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, pickup_ticket_postback);
                 return false;
             }
@@ -44,25 +111,24 @@
             }
         </script>
     	<div align="center" style="margin-bottom: 30px;"><img src="img/helpdesk_logo.png"></div>		
-		<form data-ajax="false" onsubmit="return pickup_ticket();">
-          
-				  <select name="select-customer" id="customer" data-role="none">
-                    <option value="ben@bigwebapps.com">ben@bigwebapps.com</option>
-                    <option value="makemeuser">Make me the user</option>
-                    <option value="addnewuser">Add new user</option>
-				  </select>
-               <br>
+		<form data-ajax="false" onsubmit="return ticket_create_submit();">
+
+            <input type="text" id="select_customer_name" value="" placeholder="Customer"/>
+            <ul id="select_customer_list" data-role="listview" data-inset="true"></ul>
+            <br>
 				  <select name="select-account" id="account" data-role="none">
 				     <option value="bigwebapps">bigWebApps</option>
 				     <option value="someoneelse">Someone Else</option>
 				     <option value="anothercompany">Another Company</option>
 				  </select>
                 <br>
-				  <select name="select-tech" id="tech" data-role="none">
-				     <option value="default">Tech (Default Routing)</option>
-				     <option value="someoneelse">Someone Else</option>
-				     <option value="anothercompany">Another Company</option>
-				  </select>                 
+            <select name="status" id="tech_list" data-role="none">
+            </select>
+            <script id="ht_tech_list" type="text/x-handlebars-template">
+                {{#each this}}
+                <option value="{{Id}}">{{FirstName}} {{LastName}}</option>
+                {{/each}}
+            </script>
          		<br>
             	<label><input type="checkbox" name="alternate" /> Make me the alternate </label>
                 <br>              
