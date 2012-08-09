@@ -93,13 +93,13 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             else
             if (errorThrown == 'timeout') {
                 //alert('401');
-                alert('timeout');
+                alert('Timeout');
             }
             else if (errorThrown == 'parsererror')
                 alert('Error parsing JSON answer from  HelpDeskAPI.');
             //callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
             else
-                alert('Unable to connect to the  HelpDeskAPI endpoint.' + errorThrown);
+                alert(errorThrown);
             //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
             //clearStorage();
             //window.location.replace("login.html")
@@ -192,6 +192,34 @@ HelpDeskAPI.prototype.users_list = function (params, callback) {
     //console.log(params);
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/users/'+params.SearchText, ["Method"
+    ], params, callback);
+};
+
+/**
+ * List of accounts
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/accounts/{UserId}
+ */
+HelpDeskAPI.prototype.accounts_list = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/accounts/'+params.UserId, ["Method"
+    ], params, callback);
+};
+
+/**
+ * Create ticket
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ */
+HelpDeskAPI.prototype.ticket_create = function (params, callback) {
+    params["Method"] = "POST";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets', ["Method", "Ticket"
     ], params, callback);
 };
 

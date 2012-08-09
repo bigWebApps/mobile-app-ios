@@ -254,42 +254,78 @@ pageReady("create_ticket", function(){
 pageLoad("create_ticket", function(){
     var sugList = $("#select_customer_list");
 
+    get_customer_name(getStorage("login"), true);
+
     $("#select_customer_name").on("input", function(e) {
         var text = $(this).val();
         if(text.length < 1) {
             sugList.html("");
-            //sugList.listview("refresh");
-            $('#select_customer_list').children('li').on('vclick', get_customer_name);
+            sugList.listview("refresh");
+            $('#select_customer_list').children('li').on('vclick', set_customer_name);
         } else {
-            api.users_list({"SearchText": text, "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")}, function(res) {
-                if (res)
-                {
-                    $('#select_customer_list').show("fast");
-                    var str = "<li data-id='0'>Make Me the Customer</li>";
-                    $.each(res, function (index, tech) {
-                        str += "<li data-id='"+tech.Id+"'>";
-                        if (tech.LastName.trim().length > 0)
-                            str +=  tech.LastName + ", ";
-                        if (tech.FirstName.trim().length > 0)
-                            str += tech.FirstName + " - ";
-                        if (tech.Email.trim().length > 0)
-                            str += tech.Email;
-                        str += "</li>";
-                    });
-                    sugList.html(str);
-                    sugList.listview("refresh");
-                    $('#select_customer_list').children('li').on('vclick', get_customer_name);
-                }
-            },"json");
+            get_customer_name(text, false);
         }
     });
 
-        function get_customer_name(){
+    function get_customer_name(text, force_selection)
+    {
+        api.users_list({"SearchText": text, "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")}, function(res) {
+        if (res)
+        {
+            $('#select_customer_list').show("fast");
+            var str = "<li data-id='0'>Make Me the Customer</li>";
+            $.each(res, function (index, tech) {
+                str += "<li data-id='"+tech.Id+"'>";
+                if (tech.LastName.trim().length > 0)
+                    str +=  tech.LastName + ", ";
+                if (tech.FirstName.trim().length > 0)
+                    str += tech.FirstName + " - ";
+                if (tech.Email.trim().length > 0)
+                    str += tech.Email;
+                str += "</li>";
+            });
+            sugList.html(str);
+            sugList.listview("refresh");
+            if (!force_selection)
+                $('#select_customer_list').children('li').on('vclick', set_customer_name);
+            else
+            {
+                if ($('#select_customer_list').children('li').length > 1)
+                {
+                    var default_opt = $($('#select_customer_list').children('li')[1]);
+                    $('#select_customer_list').empty();
+                    $("#select_customer_name").attr("placeholder",default_opt.text());
+                    get_account_list(default_opt.attr('data-id'));
+                }
+            }
+
+        }
+    },"json");
+    };
+        function set_customer_name(){
             //alert('Selected Name=' + $(this).attr('data-name'));
             $("#select_customer_name").val("");
             $("#select_customer_name").attr("placeholder",$(this).text());
             $('#select_customer_list').hide("fast");
+            get_account_list($(this).attr('data-id'));
         };
+
+    function get_account_list(userId)
+    {
+        $("#ticketUserId").val(userId);
+        mainloaded = false;
+        var t_account_list = Handlebars.compile( $('#ht_account_list').html() );
+        var parseaccountlist = function (data) {
+            if (!data)
+            {
+                return;
+            }
+
+            $('select#account_list').empty().append(t_account_list(data));
+            //$('select#account_list').listview("refresh");
+        };
+        api.accounts_list({"UserId": userId, "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseaccountlist);
+    };
 });
 pageBeforeshow("alert_menu", function(){
 
