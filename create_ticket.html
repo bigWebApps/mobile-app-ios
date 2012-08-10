@@ -36,12 +36,13 @@
                     ticket["Subject"] = subject;
                     ticket["InitialPost"] = htmlEscape($('#details').val().trim());
 
+                    /*
                     //Not defined yet
                     ticket["AccountLocationId"] = 0;
                     ticket["LocationId"] = 0;
                     ticket["ClassId"] = 0;
                     ticket["Level"] = 0;
-                    ticket["SubmissionCategory"] = 0;
+                    ticket["SubmissionCategory"] = "";
                     ticket["IsHandleByCallCentre"] = false;
                     ticket["CreationCategoryId"] = 0;
                     ticket["PriorityId"] = 0;
@@ -52,19 +53,56 @@
                     ticket["ProjectId"] = 0;
                     ticket["FolderId"] = 0;
                     ticket["EstimatedTime"] = 0;
+                    */
 
                     console.log(ticket);
                 api.ticket_create({"Ticket": ticket,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, create_ticket_postback);
                 }
+
+                //todo: need to check when Id initialized notification
+                if ($("#transfer_me_alternate").is(":checked"))
+                {
+                    setTimeout(attachAltTech_ticket_submit, 3000);
+                }
+                else
+                    attachAltTech_ticket_submit ();
+
                 return false;
             }
+
+            var id;
+            var ticketNumber;
 
             function create_ticket_postback (data)
             {
                 //$(".submitButton").removeAttr("disabled");
                 if (data)
                 {
-                    tooltip("Ticket created successfully!");
+                    id= data.Id;
+                    ticketNumber = data.TicketNumber;
+                    return false;
+                }
+                else
+                    alert("Error!");
+                return false;
+            }
+
+            function attachAltTech_ticket_submit ()
+            {
+                if ($("#transfer_me_alternate").is(":checked"))
+                {
+                    api.attachAltTech_ticket({"TransferToTechId":$("#ticketUserId").val(),"Id": id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, attachAltTech_ticket_postback);
+                }
+                else
+                    attachAltTech_ticket_postback({data:1});
+                return false;
+            }
+
+            function attachAltTech_ticket_postback (data)
+            {
+                if (data)
+                {
+                    tooltip("Ticket #" + ticketNumber + " created successfully!");
                     $.mobile.changePage("home.html");
                 }
                 else
@@ -94,7 +132,7 @@
                 {{/each}}
             </script>
          		<br>
-            	<label><input type="checkbox" name="alternate" /> Make me the alternate </label>
+            	<label><input type="checkbox" id="transfer_me_alternate" /> Make me the alternate </label>
                 <br>              
 				<input type="text" name="subject" id="subject" value="" placeholder="Subject"/>
 				<br>
