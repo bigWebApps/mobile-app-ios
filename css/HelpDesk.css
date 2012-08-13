@@ -162,9 +162,8 @@ li.ticket-list.new {background-color: #FAE6CB;}
 .customer, 
 .account {
 			font-weight: bold;
-
-			font-size: 16px;
-			width: 100%;
+			font-size: 14px;
+			width: 98%;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -177,12 +176,12 @@ li.ticket-list.new {background-color: #FAE6CB;}
 .status.closed, .status.Closed {color: #900;}
 .status.onhold,  .status.Onhold {color:#C60;}
 
-.date {color: #09F; font-size: 16px;}
+.date {color: #09F; font-size: 14px;}
 
 .smalllabel {font-size: 10px; margin: 5px 0 5px 0 !important;}
 
 .tech-name,
-.class-name {font-size: 16px; color: #999;}
+.class-name {font-size: 14px; color: #999;}
 
 
 
@@ -562,3 +561,12 @@ ul.ticket-info-list li {
 	 font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
