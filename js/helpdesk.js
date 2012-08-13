@@ -180,7 +180,7 @@ pageReady("ticket_detail_main", function(){
         $('div.ticket_detail_header').handlebars('ht_ticket_detail_header', data);
         $('div.ticket_short_header').handlebars('ht_ticket_short_header', data);
         $('div#ticket_detail_subject h3').html(data.Subject);
-        $('#transfer_remove_user b').html(data.TechnicianFirstName + " " + data.TechnicianLastName);
+        $('#lb_transfer_remove_user b').html(data.TechnicianFirstName + " " + data.TechnicianLastName);
         $('ul#ticket_detail_response_list').handlebars('ht_ticket_detail_response_list', {objects: data.TicketLogs});
 
         if (data.CustomFieldsXML == "<root />")
@@ -498,7 +498,7 @@ function tooltip(message)
 {
     $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 5, "text-align": "center"})
         .appendTo( $.mobile.pageContainer )
-        .delay( 500 )
+        .delay( 1000 )
         .fadeOut(1400, function(){
             $(this).remove();
         }

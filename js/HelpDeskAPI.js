@@ -93,7 +93,9 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             else
             if (errorThrown == 'timeout') {
                 //alert('401');
-                alert('Timeout');
+                if (confirm('Connection timeout.\n\nDo you want to reload this page?'))
+                location.href = location.href;
+
             }
             else if (errorThrown == 'parsererror')
                 alert('Error parsing JSON answer from  HelpDeskAPI.');
