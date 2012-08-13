@@ -132,9 +132,9 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     this.email = params.UserName;
     this.pass = params.Password;
     setStorage("login", params.UserName);
-    console.log(getStorage("login"));
+    //console.log(getStorage("login"));
     setStorage("password", params.Password);
-    console.log(getStorage("password"));
+    //console.log(getStorage("password"));
     this.execute('login', ["UserName", "Password"
     ], params, callback);
 };

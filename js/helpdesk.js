@@ -10,7 +10,7 @@ function getStorage(key)
 {
     localStorage.length;
     var value = localStorage.getItem(key);
-    if (value && value.indexOf("{") == 0)
+    if (value && (value.indexOf("{") == 0 || value.indexOf("[") == 0))
     {
         return JSON.parse(value);
     }
@@ -65,7 +65,7 @@ function pageInit(page_name, func)
 //region All pages wide functions
 function checkStorage(changelocation)
 {
-    console.log(changelocation && window.location.href.indexOf("home.html")<0);
+    //console.log(changelocation && window.location.href.indexOf("home.html")<0);
     var login      = getStorage("login");
     var pass      = getStorage("password");
     var selected_org = getStorage("organization");
@@ -131,7 +131,7 @@ pageReady("ticketqlist", function(){
     var t_ticketqlist = Handlebars.compile( $('#ht_tickets_queue_list').html() );
 
     var parseticketsq = function (data) {
-        console.log(data);
+        //console.log(data);
         if (!data)
         {
             return;
@@ -394,14 +394,13 @@ pageReady("instances", function(){
 
         var org_key =  getStorage("organization");
         if (!org_key || !result) {
-            $.mobile.changePage("org_inst.html#organizations_page");
+            $.mobile.changePage("#organizations_page");
             return;
         }
-
+        //console.log('parseinsts');
         var org_index;
         $.each(result, function (index, org) {
             //Add after the default val
-            //console.log(org.Key);
             if (org.Key == org_key)
             {
                 org_index = index;
@@ -409,7 +408,9 @@ pageReady("instances", function(){
             }
 
         });
-        //console.log(org_index);
+
+        if (!result[org_index])
+            return;
         var data = result[org_index].Instances;
 
         var inst_list = [];//declare array
@@ -425,21 +426,23 @@ pageReady("instances", function(){
 });
 
 pageLoad("organizations", function(){
+    //console.log('pageLoad("organizations"');
     var selected_org;
     $("[name='radio-org-1']").live ("change", function() {
-        console.log("pageLoad radio-org-1 change");
+        //console.log("pageLoad radio-org-1 change");
         selected_org = $('input[name=radio-org-1]:checked').val();
-        console.log('Selected: '+ selected_org);
+        //console.log('Selected: '+ selected_org);
         setStorage('organization', selected_org);
-        $.mobile.changePage("org_inst.html#instances_page");
+        $.mobile.changePage("#instances_page");
     });
 });
 
 pageLoad("instances", function(){
+    //console.log('pageLoad("instances"');
     var selected_inst;
     $("[name=instance-1]").live("change", function() {
         selected_inst = $('input[name=instance-1]:checked').val();
-        console.log('Selected: '+ selected_inst);
+        //console.log('Selected: '+ selected_inst);
         setStorage('instance', selected_inst);
         $.mobile.changePage("home.html");
     });
@@ -493,9 +496,9 @@ Handlebars.getTemplate = function(name) {
 
 function tooltip(message)
 {
-    $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 20, "text-align": "center"})
+    $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 5, "text-align": "center"})
         .appendTo( $.mobile.pageContainer )
-        .delay( 1000 )
+        .delay( 500 )
         .fadeOut(1400, function(){
             $(this).remove();
         }
