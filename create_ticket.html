@@ -26,7 +26,10 @@
             function create_ticket_submit() {
                 var subject = htmlEscape($('#subject').val().trim());
                 if (!subject)
+                {
                     tooltip('Please enter Subject!');
+                    return false;
+                }
                 else
                 {
                     var ticket = {};
@@ -80,6 +83,8 @@
                 {
                     id= data.Id;
                     ticketNumber = data.TicketNumber;
+                    $('#subject').val('');
+                    $('#details').val('')
                     return false;
                 }
                 else
