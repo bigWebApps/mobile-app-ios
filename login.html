@@ -7,12 +7,36 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
-  	<script src="js/jquery.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.1.0.min.js"></script>
     <script src="js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
     <script src="js/helpdesk.js"></script>
+    <script>
+        document.addEventListener("deviceready", onDeviceReady, false);
+        // Cordova is loaded and it is now safe to make calls Cordova methods
+        //
+        function onDeviceReady() {
+            //navigator.splashscreen.hide();
+            checkConnection();
+        }
 
+        function checkConnection() {
+            var networkState = navigator.network.connection.type;
+
+            var states = {};
+            states[Connection.UNKNOWN]  = 'Unknown connection';
+            states[Connection.ETHERNET] = 'Ethernet connection';
+            states[Connection.WIFI]     = 'WiFi connection';
+            states[Connection.CELL_2G]  = 'Cell 2G connection';
+            states[Connection.CELL_3G]  = 'Cell 3G connection';
+            states[Connection.CELL_4G]  = 'Cell 4G connection';
+            states[Connection.NONE]     = 'No network connection';
+
+            alert('Connection type: ' + states[networkState]);
+        }
+
+    </script>
 </head>
 <body>
 <div id="container"/>

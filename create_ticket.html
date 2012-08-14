@@ -19,25 +19,56 @@
     </head>
     <body>
     <input id="ticketUserId" type="hidden"/>
+    <input id="ticketMakeMeUserId" type="hidden"/>
+    <input id="ticketMakeMeUserName" type="hidden"/>
     <div id="container"/>
 <div id="create_ticket_page" data-role="page">
 	<div data-role="content" data-theme="d">
         <script>
+            function Event(){
+                this.eventHandlers = new Array();
+            }
+
+            Event.prototype.addHandler = function(eventHandler){
+                this.eventHandlers.push(eventHandler);
+            }
+
+            Event.prototype.execute = function(args){
+
+                for(var i = 0; i < this.eventHandlers.length; i++){
+                    this.eventHandlers[i](args);
+                }
+            }
+
+            //create event
+            myHandler = new Event();
+
             function create_ticket_submit() {
                 var subject = htmlEscape($('#subject').val().trim());
+                var details = htmlEscape($('#details').val().trim());
                 if (!subject)
                 {
                     tooltip('Please enter Subject!');
                     return false;
                 }
+                else if (subject.length > 100)
+                {
+                    tooltip('Subject should be less 100 chars!');
+                    return false;
+                }
+                else if (details.length > 5000)
+                {
+                    tooltip('Details should be less 5000 chars!');
+                    return false;
+                }
                 else
                 {
                     var ticket = {};
-                    ticket["TechnicianId"] = $("#ticketUserId").val();
-                    ticket["UserId"] = $("#tech_list").val();
+                    ticket["TechnicianId"] = $("#tech_list").val();
+                    ticket["UserId"] = $("#ticketUserId").val();
                     ticket["AccountId"] = $("#account_list").val();
                     ticket["Subject"] = subject;
-                    ticket["InitialPost"] = htmlEscape($('#details').val().trim());
+                    ticket["InitialPost"] = details;
 
                     /*
                     //Not defined yet
@@ -58,14 +89,14 @@
                     ticket["EstimatedTime"] = 0;
                     */
 
-                    console.log(ticket);
+                    //console.log(ticket);
                 api.ticket_create({"Ticket": ticket,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, create_ticket_postback);
                 }
 
                 //todo: need to check when Id initialized notification
                 if ($("#transfer_me_alternate").is(":checked"))
                 {
-                    setTimeout(attachAltTech_ticket_submit, 3000);
+                    myHandler.addHandler(attachAltTech_ticket_submit);
                 }
                 else
                     attachAltTech_ticket_submit ();
@@ -83,8 +114,10 @@
                 {
                     id= data.Id;
                     ticketNumber = data.TicketNumber;
+                    tooltip("Ticket #" + ticketNumber + " created successfully!");
                     $('#subject').val('');
-                    $('#details').val('')
+                    $('#details').val('');
+                    setTimeout(myHandler.execute(), 2000);
                     return false;
                 }
                 else
@@ -107,7 +140,6 @@
             {
                 if (data)
                 {
-                    tooltip("Ticket #" + ticketNumber + " created successfully!");
                     $.mobile.changePage("home.html");
                 }
                 else

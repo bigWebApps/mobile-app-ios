@@ -144,6 +144,11 @@
                     tooltip('Please enter response!');
                     return false;
                 }
+                else if (response.length > 5000)
+                {
+                    tooltip('Response should be less 5000 chars!');
+                    return false;
+                }
                 else
                     api.addresponse_ticket({"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": response, "Password":$('#password').val()}, addresponse_ticket_postback);
                 return false;
@@ -195,6 +200,11 @@
                 if (!notes)
                 {
                     tooltip('Please enter transfer details!');
+                    return false;
+                }
+                else if (notes.length > 5000)
+                {
+                    tooltip('Transfer details should be less 5000 chars!');
                     return false;
                 }
                 else
@@ -346,6 +356,11 @@
                 if (!notes)
                 {
                     tooltip('Please enter close details!');
+                    return false;
+                }
+                else if (notes.length > 5000)
+                {
+                    tooltip('Close details should be less 5000 chars!');
                     return false;
                 }
                 else

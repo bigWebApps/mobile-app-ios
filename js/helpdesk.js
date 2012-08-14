@@ -244,7 +244,7 @@ pageReady("create_ticket", function(){
         });
 
         $('select#tech_list').empty();
-        $('select#tech_list').append(t_tickettechnicians_options([{"Id":0, "FirstName":"Use System Routing (Default)"}]));
+        //$('select#tech_list').append(t_tickettechnicians_options([{"Id":0, "FirstName":"Use System Routing (Default)"}]));
         $('select#tech_list').append(t_tickettechnicians_options(data));
         //$('select#tech_list').listview("refresh");
     };
@@ -252,6 +252,7 @@ pageReady("create_ticket", function(){
 });
 
 pageLoad("create_ticket", function(){
+    mainloaded = false;
     var sugList = $("#select_customer_list");
 
     get_customer_name(getStorage("login"), true);
@@ -269,6 +270,7 @@ pageLoad("create_ticket", function(){
 
     function get_customer_name(text, force_selection)
     {
+        mainloaded = false;
         api.users_list({"SearchText": text, "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")}, function(res) {
         if (res)
         {
@@ -295,23 +297,41 @@ pageLoad("create_ticket", function(){
                     var default_opt = $($('#select_customer_list').children('li')[1]);
                     $('#select_customer_list').empty();
                     $("#select_customer_name").attr("placeholder",default_opt.text());
+                    $('#ticketMakeMeUserName').val(default_opt.text());
+                    $('#ticketMakeMeUserId').val(default_opt.attr('data-id'));
                     get_account_list(default_opt.attr('data-id'));
                 }
             }
-
         }
     },"json");
-    };
-        function set_customer_name(){
+    }
+
+    function set_customer_name(){
             //alert('Selected Name=' + $(this).attr('data-name'));
+            var ticketMakeMeUserId = 0;
+            var ticketMakeMeUserName = "";
             $("#select_customer_name").val("");
-            $("#select_customer_name").attr("placeholder",$(this).text());
+            if ($(this).attr('data-id') == "0")
+            {
+                ticketMakeMeUserId = $('#ticketMakeMeUserId').val();
+                ticketMakeMeUserName = $('#ticketMakeMeUserName').val();
+            }
+            else
+            {
+                ticketMakeMeUserId = $(this).attr('data-id');
+                ticketMakeMeUserName = $(this).text();
+            }
+
+        console.log(ticketMakeMeUserName);
+        console.log(ticketMakeMeUserId);
+            $("#select_customer_name").attr("placeholder",ticketMakeMeUserName);
             $('#select_customer_list').hide("fast");
-            get_account_list($(this).attr('data-id'));
+            get_account_list(ticketMakeMeUserId);
         };
 
     function get_account_list(userId)
     {
+        mainloaded = false;
         $("#ticketUserId").val(userId);
         mainloaded = false;
         var t_account_list = Handlebars.compile( $('#ht_account_list').html() );
