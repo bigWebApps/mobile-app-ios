@@ -591,9 +591,14 @@ Handlebars.registerHelper('customFields', function(context) {
 Handlebars.registerHelper('assetsHelper', function(context) {
         var str = "";
         $.each($(context), function() {
-        $.each(this, function(key, value) {
-        str += key + ': ' + value + '<br/>';
-        })
+	        $.each(this, function(key, value) {
+				if (value != "") 
+					{
+						str += key + ': ' + value + '<br/>';
+					} else {
+						str += "";		
+					}  	
+	        })
         });
         return str;//.replace(/\?/g, '? &mdash; ');
 });
