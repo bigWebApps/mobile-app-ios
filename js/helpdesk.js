@@ -18,12 +18,12 @@ function checkConnection() {
     states[Connection.CELL_4G]  = 'Cell 4G connection';
     states[Connection.NONE]     = 'No network connection';
 
-    if(states[networkState]==states[Connection.NONE] || states[networkState]==states[Connection.UNKNOWN]){
+    if(states[networkState]==states[Connection.NONE]){// || states[networkState]==states[Connection.UNKNOWN]){
         alert('A network connection is required to access this page.');
-        return false;
+        //return false;
     } else {
-        alert(states[networkState]);
-        return true;
+        //alert(states[networkState]);
+        //return true;
     }
 }
 //endregion
@@ -272,7 +272,35 @@ pageReady("create_ticket", function(){
         //$('select#tech_list').listview("refresh");
     };
     api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
+
+    var t_ticket_classes = Handlebars.compile( $('#ht_class_list').html() );
+    var parseclasses = function (data) {
+        if (!data)
+        {
+            return;
+        }
+
+        classes = data;
+
+        $('select#class_list').empty();
+        $('select#class_list').append(t_ticket_classes([{Id: -1, Name: "Choose a class", IsLastChild:false}]));
+        $('select#class_list').append(t_ticket_classes(getParentClasses(classes, 0, '')));
+        //$('select#tech_list').listview("refresh");
+    };
+    api.classes_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseclasses);
 });
+
+function getParentClasses(data, parentId, prefix)
+{
+    if (prefix != '')
+        prefix += " > "
+    var parent = [];
+    $.each(data, function (index, clas) {
+        if (clas.ParentId == parentId)
+            parent.push({Id: clas.Id, Name: prefix + clas.Name, IsLastChild:clas.IsLastChild});
+    });
+    return parent;
+}
 
 pageLoad("create_ticket", function(){
     mainloaded = false;

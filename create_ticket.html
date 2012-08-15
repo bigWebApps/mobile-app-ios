@@ -25,25 +25,44 @@
 <div id="create_ticket_page" data-role="page">
 	<div data-role="content" data-theme="d">
         <script>
+            var classes;
             function Event(){
                 this.eventHandlers = new Array();
             }
 
             Event.prototype.addHandler = function(eventHandler){
                 this.eventHandlers.push(eventHandler);
-            }
+            };
 
             Event.prototype.execute = function(args){
 
                 for(var i = 0; i < this.eventHandlers.length; i++){
                     this.eventHandlers[i](args);
                 }
-            }
+            };
 
             //create event
             myHandler = new Event();
 
+            $("select#class_list").live("change", function() {
+                if (!$("#class_list option:selected").attr("data-last-child"))
+                {
+                    var t_ticket_classes = Handlebars.compile( $('#ht_class_list').html() );
+                    var class_id = $("#class_list option:selected").val();
+                    var class_name = $("#class_list option:selected").text();
+                    $('select#class_list').empty();
+                    $('select#class_list').append(t_ticket_classes([{Id: -1, Name: class_name + " > Choose a class", IsLastChild:false}]));
+                    $('select#class_list').append(t_ticket_classes(getParentClasses(classes, class_id, class_name)));
+                    //$('select#class_list').listview("refresh");
+                }
+            });
+
             function create_ticket_submit() {
+                if (!$("#class_list option:selected") || !$("#class_list option:selected").attr("data-last-child"))
+                {
+                    tooltip('Please select Class!');
+                    return false;
+                }
                 var subject = htmlEscape($('#subject').val().trim());
                 var details = htmlEscape($('#details').val().trim());
                 if (!subject)
@@ -69,12 +88,12 @@
                     ticket["AccountId"] = $("#account_list").val();
                     ticket["Subject"] = subject;
                     ticket["InitialPost"] = details;
+                    ticket["ClassId"] = $("#class_list").val();
 
                     /*
                     //Not defined yet
                     ticket["AccountLocationId"] = 0;
                     ticket["LocationId"] = 0;
-                    ticket["ClassId"] = 0;
                     ticket["Level"] = 0;
                     ticket["SubmissionCategory"] = "";
                     ticket["IsHandleByCallCentre"] = false;
@@ -170,7 +189,15 @@
             </script>
          		<br>
             	<label><input type="checkbox" id="transfer_me_alternate" /> Make me the alternate </label>
-                <br>              
+                <br>
+            <br>
+            <select id="class_list" data-role="none">
+            </select>
+            <script id="ht_class_list" type="text/x-handlebars-template">
+                {{#each this}}
+                <option data-last-child="{{IsLastChild}}" value="{{Id}}">{{Name}}</option>
+                {{/each}}
+            </script>
 				<input type="text" name="subject" id="subject" value="" placeholder="Subject"/>
 				<br>
 				<textarea name="details" id="details" placeholder="Details"></textarea>

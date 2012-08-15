@@ -184,6 +184,20 @@ HelpDeskAPI.prototype.technicians_list = function (params, callback) {
 };
 
 /**
+ * List of classes
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/classes
+ */
+HelpDeskAPI.prototype.classes_list = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/classes', ["Method"
+    ], params, callback);
+};
+
+/**
  * List of users
  *
  * @see http://developer.helpdesk.bigwebapps.com/
@@ -304,6 +318,23 @@ HelpDeskAPI.prototype.transfer2tech_ticket = function (params, callback, complet
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
         "KeepAttached","Id","Action","NoteText","TransferToTechId","OrganizationKey","InstanceKey"
+    ], params, callback, completed);
+};
+
+/**
+ * Add time on ticket
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
+ */
+HelpDeskAPI.prototype.addtime_ticket = function (params, callback, completed) {
+    params["Method"] = "PUT";
+    params["Action"] = "InputTime";
+
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
+        "Hours","HoursOffset","Id","Action","NoteText","OrganizationKey","InstanceKey"
     ], params, callback, completed);
 };
 
