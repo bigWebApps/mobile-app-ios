@@ -1,30 +1,28 @@
 {{#if objects}}
 {{#each objects}}
-<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right">
-    <a href="ticket_detail.html?id={{Id}}"  class="ui-link-inherit" rel="external">
-		<div class="ticket-num-title">
-			<div class="ticket-num left">{{TicketNumber}}</div>
-			<div class="ticket-subject left">{{Subject}}</div>
-		</div>   
-		<div class="ticket-list-det">
-			<div class="ticket-list-det-left">
-				<p class="customer">{{UserLastName}}, {{UserFirstName}}</p>
-				<p class="status {{TicketStatus}}">{{TicketStatus}}</p>
-				<p class="smalllabel">Tech</p>
-				<p class="tech-name">{{TechnicianLastName}}, {{TechnicianFirstName}}</p>
-			</div>
-			<div class="ticket-list-det-right">
-				<p class="account">{{AccountName}}</p>
-				<p class="date today">{{dateFormat CreateTime format="calendar"}}</p>
-				<p class="smalllabel">Class</p>
-				<p class="class-name">{{ClassName}}</p>
-			</div>
+<li data-ticketurl="ticket_detail.html?id={{Id}}" data-corners="false" data-shadow="false" data-icon="arrow-r" data-iconpos="right">    
+	<div class="ticket-num-title">
+		<div class="ticket-num left">{{TicketNumber}}</div>
+		<div class="ticket-subject left">{{Subject}}</div>
+	</div>   
+	<div class="ticket-list-det">
+		<div class="ticket-list-det-left">
+			<p class="customer">{{UserLastName}}, {{UserFirstName}}</p>
+			<p class="status {{TicketStatus}}">{{TicketStatus}}</p>
+			<p class="smalllabel">Tech</p>
+			<p class="tech-name">{{TechnicianLastName}}, {{TechnicianFirstName}}</p>
 		</div>
-    </a>
+		<div class="ticket-list-det-right">
+			<p class="account">{{AccountName}}</p>
+			<p class="date today">{{dateFormat CreateTime format="calendar"}}</p>
+			<p class="smalllabel">Class</p>
+			<p class="class-name">{{ClassName}}</p>
+		</div>
+	</div>
 </li>
 {{/each}}
 {{else}}
-<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="left">
+<li data-corners="false" data-shadow="false" data-icon="arrow-l" data-iconpos="left">
 	<a href="home.html" class="ui-link-inherit" rel="external">
 		<h2>No assigned tickets found.</h2>
 	</a>
