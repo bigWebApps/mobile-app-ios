@@ -1,34 +1,32 @@
 {{#if objects}}
 {{#each objects}}
-<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
+<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right">
     <a href="ticket_detail.html?id={{Id}}"  class="ui-link-inherit" rel="external">
-        <table>
-            <tr>
-                <td class="ticket-num">#{{TicketNumber}}</td>
-                <td class="ticket-subject">{{Subject}}</td>
-            </tr>
-            <tr>
-                <table width="100%">
-                    <tr>
-                        <td class="left" width="45%">
-                            <p class="customer">{{UserLastName}}, {{UserFirstName}}</p>                            
-                            <p class="status {{TicketStatus}}">{{TicketStatus}}</p>
-                            <p class="smalllabel">Tech</p>
-                            <p class="tech-name">{{TechnicianLastName}}, {{TechnicianFirstName}}</p>
-                        </td>
-                        <td class="right" width="55%">
-							<p class="account">{{AccountName}}</p>
-                            <p class="date today">{{dateFormat CreateTime format="calendar"}}</p>
-                            <p class="smalllabel">Class</p>
-                            <p class="class-name">{{ClassName}}</p>
-                        </td>
-                    </tr>
-                </table>
-            </tr>
-        </table>
+		<div class="ticket-num-title">
+			<div class="ticket-num left">{{TicketNumber}}</div>
+			<div class="ticket-subject left">{{Subject}}</div>
+		</div>   
+		<div class="ticket-list-det">
+			<div class="ticket-list-det-left">
+				<p class="customer">{{UserLastName}}, {{UserFirstName}}</p>
+				<p class="status {{TicketStatus}}">{{TicketStatus}}</p>
+				<p class="smalllabel">Tech</p>
+				<p class="tech-name">{{TechnicianLastName}}, {{TechnicianFirstName}}</p>
+			</div>
+			<div class="ticket-list-det-right">
+				<p class="account">{{AccountName}}</p>
+				<p class="date today">{{dateFormat CreateTime format="calendar"}}</p>
+				<p class="smalllabel">Class</p>
+				<p class="class-name">{{ClassName}}</p>
+			</div>
+		</div>
     </a>
 </li>
 {{/each}}
 {{else}}
-<h2>No assigned tickets found.</h2>
+<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="left">
+	<a href="home.html" class="ui-link-inherit" rel="external">
+		<h2>No assigned tickets found.</h2>
+	</a>
+</li>
 {{/if}}
