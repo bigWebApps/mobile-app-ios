@@ -45,6 +45,24 @@ text-shadow: 0 0 0;
 
 .ticket-det-footer {padding:0;}
 
+
+/*list override to help scrolling issue 
+
+*.ui-listview *.ui-btn-up-d,
+*.ui-listview *.ui-btn-down-d,
+*.ui-listview *.ui-btn-hover-d,
+*.ui-listview *.ui-btn-up-h,
+*.ui-listview *.ui-btn-down-h,
+*.ui-listview *.ui-btn-hover-h
+  {
+  	border: 1px solid #cccccc;
+	background: #eeeeee;
+	font-weight: bold;
+	color: #2F3E46;
+	text-shadow: none;
+	background-image: none;
+  }*/
+
 /* Red button theme for JQuery Mobile
 * - Use data-theme="r" for red versions of the default JQuery Mobile Buttons.
 ******************************************************************************************/
