@@ -32,7 +32,7 @@
 </div><!-- /page -->
 
 <script>
-	$('li.ticketListItem').live('click tap', function(e) {
+	$('li.ticketListItem').bind('tap', function(e) {
 		var url = $(this).data('ticketurl');
 		window.location.replace(url);
 	});	
