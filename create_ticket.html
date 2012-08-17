@@ -165,13 +165,16 @@
                 return false;
             }
         </script>
-    	<div align="center" style="margin-bottom: 30px;"><img src="img/helpdesk_logo.png"></div>		
+    	<div align="center" style="margin-top: 10px;"><img src="img/helpdesk_logo.png"></div>		
 		<form data-ajax="false" onsubmit="return create_ticket_submit();">
-
+			
+            <p>
             <label>Customer</label>
             <input type="text" id="select_customer_name" value="" placeholder="Customer"/>
             <ul id="select_customer_list" data-role="listview" data-inset="true"></ul>
-			<label>Account</label>
+			</p>
+            <p>
+            <label>Account</label>
             <select id="account_list" >
 			</select>
             <script id="ht_account_list" type="text/x-handlebars-template">
@@ -179,6 +182,8 @@
                 <option value="{{Id}}">{{Name}}</option>
                 {{/each}}
             </script>
+            </p>
+            <p>
             <label>Technician</label>
             <select id="tech_list">
             </select>
@@ -187,6 +192,8 @@
                 <option value="{{Id}}">{{FirstName}} {{LastName}}</option>
                 {{/each}}
             </script>
+            </p>
+            <p>
             <label>Class</label>
             <select id="class_list">
             </select>
@@ -195,18 +202,19 @@
                 <option data-last-child="{{IsLastChild}}" value="{{Id}}">{{Name}}</option>
                 {{/each}}
             </script>
-              	<p>
-				<input type="text" name="subject" id="subject" value="" placeholder="Subject"/>
-                </p>
-                <p>
-				<textarea name="details" id="details" placeholder="Details"></textarea>
-                </p>
-				<p>
-                <label><input type="checkbox" id="transfer_me_alternate" data-role="none" /> Make me the alternate </label>
-                </p>
-                <button type="submit" data-theme="b" name="submit" value="submit-value" >
-					Submit Ticket
-				</button>
+            </p>
+            <p>
+            <input type="text" name="subject" id="subject" value="" placeholder="Subject"/>
+            </p>
+            <p>
+            <textarea name="details" id="details" placeholder="Details"></textarea>
+            </p>
+            <p>
+            <label><input type="checkbox" id="transfer_me_alternate" data-role="none" /> Make me the alternate </label>
+            </p>
+            <button type="submit" data-theme="b" name="submit" value="submit-value" >
+                Submit Ticket
+            </button>
 			</form>
             <br>
 	</div><!-- /content -->

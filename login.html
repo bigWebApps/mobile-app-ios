@@ -16,7 +16,7 @@
 <body>
 <div id="container"/>
 <div id="login_page" data-role="page">
-        <div style="margin-bottom: 30px;"><img src="img/helpdesk_logo.png"></div>
+        <div align="center" style="margin-top: 10px;"><img src="img/helpdesk_logo.png"></div>
 
     <div data-role="content">
         <script>
@@ -48,12 +48,14 @@
             }
         </script>
         <form id="loginForm" data-ajax="false" onsubmit="return form_submit();">
+            <p>
             <label for="email" class="ui-hidden-accessible">Email</label>
             <input type="email" name="email" id="email" value="" placeholder="email"/>
-            <br/>
+            </p>
+            <p>
             <label for="password" class="ui-hidden-accessible">Password</label>
             <input type="password" name="password" id="password" value="" placeholder="password"/>
-            <br/>
+            </p>
             <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden submitButton"
                     aria-disabled="false">
                 Submit
