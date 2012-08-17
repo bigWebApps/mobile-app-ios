@@ -4,13 +4,12 @@
 	<title>HelpDesk</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
         <meta name="format-detection" content="telephone=no">
-        <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
+        <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
         <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
         <script src="js/jquery.min.js"></script>
-        <script src="js/jquery.mobile-1.1.0.min.js"></script>
+        <script src="js/jquery.mobile-1.1.1.min.js"></script>
         <script src="js/moment.min.js"></script>
-        <script src="js/jquery.md5.min.js"></script>
         <script src="js/jquery.url.js"></script>
         <script src="js/handlebars-1.0.0.beta.6.js"></script>
         <script src="js/HelpDeskAPI.js"></script>
@@ -169,50 +168,52 @@
     	<div align="center" style="margin-bottom: 30px;"><img src="img/helpdesk_logo.png"></div>		
 		<form data-ajax="false" onsubmit="return create_ticket_submit();">
 
+            <label>Customer</label>
             <input type="text" id="select_customer_name" value="" placeholder="Customer"/>
             <ul id="select_customer_list" data-role="listview" data-inset="true"></ul>
-            <br>
-			<select id="account_list" data-role="none">
+			<label>Account</label>
+            <select id="account_list" >
 			</select>
             <script id="ht_account_list" type="text/x-handlebars-template">
                 {{#each this}}
                 <option value="{{Id}}">{{Name}}</option>
                 {{/each}}
             </script>
-                <br>
-            <select id="tech_list" data-role="none">
+            <label>Technician</label>
+            <select id="tech_list">
             </select>
             <script id="ht_tech_list" type="text/x-handlebars-template">
                 {{#each this}}
                 <option value="{{Id}}">{{FirstName}} {{LastName}}</option>
                 {{/each}}
             </script>
-         		<br>
-            	<label><input type="checkbox" id="transfer_me_alternate" /> Make me the alternate </label>
-                <br>
-            <select id="class_list" data-role="none">
+            <label>Class</label>
+            <select id="class_list">
             </select>
             <script id="ht_class_list" type="text/x-handlebars-template">
                 {{#each this}}
                 <option data-last-child="{{IsLastChild}}" value="{{Id}}">{{Name}}</option>
                 {{/each}}
             </script>
+              	<p>
 				<input type="text" name="subject" id="subject" value="" placeholder="Subject"/>
-				<br>
+                </p>
+                <p>
 				<textarea name="details" id="details" placeholder="Details"></textarea>
-				
-                <a href="home.html" data-role="button" data-inline="true">Cancel</a>
-				
-                <button type="submit" data-theme="b" data-inline="true" name="submit" value="submit-value" >
+                </p>
+				<p>
+                <label><input type="checkbox" id="transfer_me_alternate" data-role="none" /> Make me the alternate </label>
+                </p>
+                <button type="submit" data-theme="b" name="submit" value="submit-value" >
 					Submit Ticket
 				</button>
-                
-                
-                	
 			</form>
+            <br>
 	</div><!-- /content -->
-
-
+    
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
+    	<a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Cancel</a>		
+	</div>
 
 </div><!-- /page -->
 

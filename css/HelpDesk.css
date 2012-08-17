@@ -18,6 +18,13 @@ body {
     margin: 0;
 }
 
+label {
+	margin: 0;
+	font-size: 12px;
+	color: #999;
+	padding: 0;
+	}
+
 /* #container div with absolute position and 100% width and height so it takes up whole window */
 #container {
     position: absolute;
