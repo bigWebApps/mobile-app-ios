@@ -92,16 +92,18 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             }
             else
             if (errorThrown == 'timeout') {
-                //alert('401');
                 if (confirm('Connection timeout.\n\nDo you want to reload this page?'))
                 location.href = location.href;
-
             }
             else if (errorThrown == 'parsererror')
                 alert('Error parsing JSON answer from  HelpDeskAPI.');
             //callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
-            else
+            else if (jqXHR.status == 500)
                 alert(errorThrown);
+            else
+            {
+                alert('Unknown error ('+errorThrown+').\n\nPlease check your Internet connection.');
+            }
             //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
             //clearStorage();
             //window.location.replace("login.html")

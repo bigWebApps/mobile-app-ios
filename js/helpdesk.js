@@ -272,7 +272,7 @@ pageReady("create_ticket", function(){
         //$('select#tech_list').listview("refresh");
     };
     api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
-
+    mainloaded = false;
     var t_ticket_classes = Handlebars.compile( $('#ht_class_list').html() );
     var parseclasses = function (data) {
         if (!data)
@@ -373,8 +373,8 @@ pageLoad("create_ticket", function(){
                 ticketMakeMeUserName = $(this).text();
             }
 
-        console.log(ticketMakeMeUserName);
-        console.log(ticketMakeMeUserId);
+        //console.log(ticketMakeMeUserName);
+        //console.log(ticketMakeMeUserId);
             $("#select_customer_name").attr("placeholder",ticketMakeMeUserName);
             $('#select_customer_list').hide("fast");
             get_account_list(ticketMakeMeUserId);
