@@ -12,14 +12,14 @@
         <gap:platform name="ios"/>
     </gap:platforms>
 
-    <name>HD ios test</name>
+    <name>HelpDesk Mobile</name>
 
     <description>
-        Testing for ios 
+        HelpDesk by bigWebApps mobile version.  Create, Read and respond tickets sent through your HelpDesk by bigWebApps account.  http://helpdesk.bigwebapps.com 
     </description>
 
     <author href="http://helpdesk.bigwebapps.com" email="support@bigwebapps.com">
-        Jon Vickers
+        bigWebApps
     </author>
 	
 	<preference name="orientation" value="portrait" />
