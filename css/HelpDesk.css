@@ -60,18 +60,16 @@ text-shadow: 0 0 0;
 
 *.ui-listview *.ui-btn-up-d,
 *.ui-listview *.ui-btn-down-d,
-*.ui-listview *.ui-btn-hover-d,
-*.ui-listview *.ui-btn-up-h,
-*.ui-listview *.ui-btn-down-h,
-*.ui-listview *.ui-btn-hover-h
+*.ui-listview *.ui-btn-hover-d
   {
   	border: 1px solid #cccccc;
-	background: #eeeeee;
+	background: #F9F9F9;
 	font-weight: bold;
 	color: #2F3E46;
 	text-shadow: none;
 	background-image: none;
   }
+ .ui-body-d, .ui-overlay-d {text-shadow: none;}
 
 /* Red button theme for JQuery Mobile
 * - Use data-theme="r" for red versions of the default JQuery Mobile Buttons.
@@ -171,7 +169,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 .ticket-list-det p {margin:0; padding: 0;}
 
 
-a.ui-link-inherit {
+#tickets_list a.ui-link-inherit {
 	padding-top: 5px !important;
 	padding-bottom: 0 !important;
 	}
