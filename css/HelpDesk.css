@@ -54,6 +54,7 @@ text-shadow: 0 0 0;
 
 /*Over ride for the loading icon*/
 .ui-loader-default {opacity: 1.0;}
+.ui-loader-verbose { box-shadow: none; }
 
 /*list override to help scrolling issue */
 
