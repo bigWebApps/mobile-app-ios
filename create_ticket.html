@@ -50,7 +50,7 @@
                     var class_id = $("#class_list option:selected").val();
                     var class_name = $("#class_list option:selected").text();
                     $('select#class_list').empty();
-                    $('select#class_list').append(t_ticket_classes([{Id: -1, Name: class_name + "-> Select sub-class", IsLastChild:false, IsSelectedClass:"selected"}]));
+                    $('select#class_list').append(t_ticket_classes([{Id: -1, Name: class_name + "-> Select sub-class", IsLastChild:false}]));
                     $('select#class_list').append(t_ticket_classes(getParentClasses(classes, class_id, class_name)));
                     //$('select#class_list').listview("refresh");
                 }
@@ -199,7 +199,7 @@
             </select>
             <script id="ht_class_list" type="text/x-handlebars-template">
                 {{#each this}}
-                <option data-last-child="{{IsLastChild}}" value="{{Id}}" selected="{{IsSelectedClass}}">{{Name}}</option>
+                <option data-last-child="{{IsLastChild}}" value="{{Id}}">{{Name}}</option>
                 {{/each}}
             </script>
             </p>
