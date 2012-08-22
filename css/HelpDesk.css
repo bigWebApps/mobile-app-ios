@@ -59,7 +59,6 @@ text-shadow: 0 0 0;
 /*list override to help scrolling issue */
 
 *.ui-listview *.ui-btn-up-d,
-*.ui-listview *.ui-btn-down-d,
 *.ui-listview *.ui-btn-hover-d
   {
   	border: 1px solid #cccccc;
@@ -69,6 +68,7 @@ text-shadow: 0 0 0;
 	text-shadow: none;
 	background-image: none;
   }
+*.ui-listview *.ui-btn-down-d {background: #e8e8e8;}
  .ui-body-d, .ui-overlay-d {text-shadow: none;}
 
 /* Red button theme for JQuery Mobile
@@ -202,6 +202,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 .ticket-subject {
 	font-weight: bold;
 	font-size: 16px;
+	color: #333333;
 	}
 .ticket-num {
 	height: 100%;

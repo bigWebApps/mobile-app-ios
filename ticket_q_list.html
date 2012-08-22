@@ -32,7 +32,11 @@
             <li><a href="ticket_list.html?id={{Id}}" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
             {{/each}}
             {{else}}
-            <h2>No queue lists found.</h2>
+			<li data-corners="false" data-shadow="false" data-icon="arrow-l" data-iconpos="left">
+				<a href="home.html" class="ui-link-inherit" rel="external">
+					<h2>No queue lists found.</h2>
+				</a>
+		  	</li>            
             {{/if}}
         </script>
 	</div><!-- /content -->
