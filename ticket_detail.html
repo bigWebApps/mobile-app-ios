@@ -210,12 +210,12 @@
                 else
                 //$(".submitButton").attr("disabled","disabled");
                     api.transfer2tech_ticket({"KeepAttached": !($("#transfer_remove_user").is(":checked")), "TransferToTechId":$("#tech_list").val(),"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, transfer2tech_ticket_postback);
-                attachAltTech_ticket_submit ();
                 return false;
             }
 
             function transfer2tech_ticket_postback(data) {
                 if (data) {
+                    setTimeout(attachAltTech_ticket_submit (), 2000);
                     return false;
                 }
                 else

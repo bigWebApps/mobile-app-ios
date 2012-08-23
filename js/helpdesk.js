@@ -123,10 +123,10 @@ function checkStorage(changelocation)
 
 function logout() {
     var login      = getStorage("login");
-    var pass      = getStorage("password");
+    //var pass      = getStorage("password");
     clearStorage();
     setStorage("login", login);
-    setStorage("password", pass);
+    //setStorage("password", pass);
     window.location.replace("login.html");
     return false;
 }
@@ -200,6 +200,11 @@ pageReady("ticket_detail_main", function(){
         }
 
         //console.log("compile ticket_detail_main");
+        if (data.AccountId == -1)
+        {
+            data.AccountName = data.LocationName;
+        }
+
         $('div.ticket_detail_header').handlebars('ht_ticket_detail_header', data);
         $('div.ticket_short_header').handlebars('ht_ticket_short_header', data);
         $('div#ticket_detail_subject h3').html(data.Subject);
@@ -267,8 +272,10 @@ pageReady("create_ticket", function(){
         });
 
         $('select#tech_list').empty();
-        //$('select#tech_list').append(t_tickettechnicians_options([{"Id":0, "FirstName":"Use System Routing (Default)"}]));
+        $('select#tech_list').append(t_tickettechnicians_options([{"Id":0, "FirstName":"Use System Routing (Default)"}]));
         $('select#tech_list').append(t_tickettechnicians_options(data));
+        $("select#tech_list").selectmenu("refresh");
+        //$("select#tech_list").val($("select#tech_list option:first").val());
         //$('select#tech_list').listview("refresh");
     };
     api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
@@ -283,8 +290,9 @@ pageReady("create_ticket", function(){
         classes = data;
 
         $('select#class_list').empty();
-        $('select#class_list').append(t_ticket_classes([{Id: -1, Name: "Choose a class", IsLastChild:false}]));
+        $('select#class_list').append('<option data-last-child="false" value="-1" data-placeholder="true">Choose a class</option>');
         $('select#class_list').append(t_ticket_classes(getParentClasses(classes, 0, '')));
+        $("select#class_list").selectmenu("refresh");
         //$('select#tech_list').listview("refresh");
     };
     api.classes_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseclasses);
@@ -393,6 +401,9 @@ pageLoad("create_ticket", function(){
             }
 
             $('select#account_list').empty().append(t_account_list(data));
+            $("select#account_list").selectmenu("refresh");
+            //$("select#account_list").val($("select#account_list option:first").val());
+
             //$('select#account_list').listview("refresh");
         };
         api.accounts_list({"UserId": userId, "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseaccountlist);
