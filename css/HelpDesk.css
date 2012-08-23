@@ -70,6 +70,7 @@ text-shadow: 0 0 0;
   }
 *.ui-listview *.ui-btn-down-d {background: #e8e8e8;}
  .ui-body-d, .ui-overlay-d {text-shadow: none;}
+ .ui-loader .ui-icon { background-color: #fff; }
 
 /* Red button theme for JQuery Mobile
 * - Use data-theme="r" for red versions of the default JQuery Mobile Buttons.
@@ -250,6 +251,11 @@ li.ticket-list.new {background-color: #FAE6CB;}
 	overflow: hidden;
 	}
 .class-name {text-overflow: clip;}
+
+
+/*------- Ticket Queue List ------*/
+
+.tickets_queue_list {color: #333333;} 
 
 
 /*------- Ticket Details ------*/
