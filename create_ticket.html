@@ -61,7 +61,7 @@
                     var class_name = sel_opt.text();
                     $('select#class_list').empty();
                     $('select#class_list').append('<option data-last-child="false" value="-1" data-placeholder="true">' + class_name + ' -> Select sub-class</option>');
-                    $('select#class_list').append(t_ticket_classes([{Id: 0, Name: "<- Root Level", IsLastChild:false}]));
+                    $('select#class_list').append(t_ticket_classes([{Id: 0, Name: "<- Go Back", IsLastChild:false}]));
                     $('select#class_list').append(t_ticket_classes(getParentClasses(classes, class_id, class_name)));
                     $("select#class_list").selectmenu("refresh");
                 }
