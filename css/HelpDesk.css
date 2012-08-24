@@ -203,35 +203,41 @@ li.ticket-list.new {background-color: #FAE6CB;}
 .ticket-subject {
 	font-weight: bold;
 	font-size: 16px;
-	color: #333333;
+	color: #000;
 	}
 .ticket-num {
 	height: 100%;
-	float:left; 
-	margin:0 10px 0 0; 
-	color: #9e6026;
+	float:left;
+	margin:-1px 10px 0 0;
+	font-size: 18px;
 	}
 .ticket-subject {
 	white-space: normal;
-	text-align: right;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	}
 
-.customer, 
 .smalllabel, 
 .tech-name, 
-.account, 
 .class-name {color: #999;}
 
 .customer, 
 .account {
-			font-weight: normal;
-			font-size: 16px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
+	font-weight: normal;
+	font-size: 14px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #666;
 			}
 
-.status, .date {margin-bottom: 0; font-size: 14px;}
+.status, .date {
+	margin-bottom: 0;
+	font-size: 13px;
+	color: #666;
+}
 .status, .date.today {font-weight: bold;}
 
 .status {color:#666666;}
@@ -245,8 +251,8 @@ li.ticket-list.new {background-color: #FAE6CB;}
 
 .tech-name,
 .class-name {
-	font-size: 14px; 
-	color: #999;
+	font-size: 14px;
+	color: #666;
 	white-space: nowrap;
 	overflow: hidden;
 	}
