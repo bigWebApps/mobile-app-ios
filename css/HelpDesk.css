@@ -32,6 +32,14 @@ label {
     height: 100%;
 }
 
+#select_customer_name::-webkit-input-placeholder  {
+   color: #333;
+}
+
+#select_customer_name:-moz-placeholder {  
+   color: #666;  
+}
+
 /*--- Overrides ---*/
 .ui-page {
 	background: #ffffff;
@@ -71,6 +79,8 @@ text-shadow: 0 0 0;
 *.ui-listview *.ui-btn-down-d {background: #e8e8e8;}
  .ui-body-d, .ui-overlay-d {text-shadow: none;}
  .ui-loader .ui-icon { background-color: #fff; }
+ 
+ textarea.ui-input-text {height: 100px;} /* height fix for textareas */
 
 /* Red button theme for JQuery Mobile
 * - Use data-theme="r" for red versions of the default JQuery Mobile Buttons.
