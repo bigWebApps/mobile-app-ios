@@ -611,7 +611,7 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
             var minutes = context.diff(new Date(),"minutes");
             if (minutes < 5 && minutes > -5)
             {
-                return "now";
+                return "Just Now";
             }
             var days = context.diff(new Date(),"days");
             if (days != 0)
