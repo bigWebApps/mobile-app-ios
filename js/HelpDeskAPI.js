@@ -85,7 +85,14 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         error:function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401 || jqXHR.status == 403) {
                 if (window.location.href.indexOf("login.html") >= 0) {
-                    alert("Incorrect login or password!");
+                    navigator.notification.alert(
+					      'Incorrect login or password!',  	// message
+					      function(){return false},			// callback
+					      'Login Failed',            		// title
+					      'Try Again'             			// buttonName
+					  );			  					
+					
+					// alert("Incorrect login or password!");  - Add codova notification method
                 }
                 else
                     window.location.replace("login.html");
