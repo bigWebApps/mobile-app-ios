@@ -370,12 +370,14 @@
             // this is what is required for the on the mobile page load
             function close_ticket_submit() {
                 var notes = htmlEscape($('#closedetails').val().trim());
-                if (!notes)
-                {
-                    tooltip('Please enter close details!');
-                    return false;
-                }
-                else if (notes.length > 5000)
+                //Removed Notes Requirement
+				//if (!notes)
+                //{
+                //    tooltip('Please enter close details!');
+                //    return false;
+                //}
+                //else 				
+				if (notes.length > 5000)
                 {
                     tooltip('Close details should be less 5000 chars!');
                     return false;
