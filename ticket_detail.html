@@ -202,6 +202,11 @@
                     tooltip('Please enter transfer details!');
                     return false;
                 }
+                else if (!$("#tech_list").val())
+                {
+                    tooltip('Please select Technician!');
+                    return false;
+                }
                 else if (notes.length > 5000)
                 {
                     tooltip('Transfer details should be less 5000 chars!');
