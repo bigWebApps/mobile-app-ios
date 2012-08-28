@@ -253,6 +253,7 @@ pageReady("ticket_transfer", function(){
         });
 
         $('select#tech_list').empty().append(t_tickettechnicians_options(data));
+        $('select#tech_list').selectmenu("refresh");
     };
     api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
 });
@@ -663,6 +664,16 @@ Handlebars.registerHelper('assetsHelper', function(context) {
 	        })
         });
         return str;//.replace(/\?/g, '? &mdash; ');
+});
+
+Handlebars.registerHelper('reverselist', function(context, options) {
+    var ret = "";
+
+    for(var i=context.length -1; i>=0; i--) {
+        ret = ret + options.fn(context[i]);
+    }
+
+    return ret;
 });
 
 function htmlEscape(str) {

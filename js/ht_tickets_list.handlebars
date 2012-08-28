@@ -1,5 +1,5 @@
 {{#if objects}}
-{{#each objects}}
+{{#reverselist objects}}
 <li data-corners="false" data-shadow="false" data-icon="arrow-r" data-iconpos="right">
 	<a href="ticket_detail.html?id={{Id}}" rel="external">
 	<div class="ticket-num-title">
@@ -22,7 +22,7 @@
 	</div>
 	</a>
 </li>
-{{/each}}
+{{/reverselist}}
 {{else}}
 <li data-corners="false" data-shadow="false" data-icon="arrow-l" data-iconpos="left">
 	<a href="home.html" class="ui-link-inherit" rel="external">

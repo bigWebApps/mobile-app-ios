@@ -74,7 +74,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         dataType:"json",
         data:JSON.stringify(finalParams), //'{"UserName":"jon.vickers@micajah.com", "Password":"vader"}', //finalParams,
         contentType:"application/json; charset=utf-8",
-        timeout:10000,
+        timeout:15000,
         success:function (data) {
             //alert('success');
             if (typeof data.UserKey !== 'undefined')
@@ -85,7 +85,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         error:function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401 || jqXHR.status == 403) {				
                 if (window.location.href.indexOf("login.html") >= 0) {
-					alert("Incorrect login or password!");
+					tooltip("Incorrect Password");
                 }
                 else
                     window.location.replace("login.html");
