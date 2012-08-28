@@ -68,7 +68,7 @@
             });
 
             function create_ticket_submit() {
-                if (!$("#class_list option:selected") || !$("#class_list option:selected").attr("data-last-child"))
+                if (!$("#class_list option:selected") || $("#class_list option:selected").attr("data-last-child") == 'false')
                 {
                     tooltip('Please select Class!');
                     return false;

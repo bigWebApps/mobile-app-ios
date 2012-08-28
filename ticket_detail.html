@@ -257,18 +257,18 @@
         	<form action="#ticket_detail_main_page" method="post">
                 	
                 	<label id="lb_transfer_remove_user"><input id="transfer_remove_user" type="checkbox" name="transfer_remove_user"/> Remove <b></b> after transfer. </label>
-                    <br>
+                    <br/>
                     <label><input type="checkbox" name="transfer_me_alternate" id="transfer_me_alternate"/> Make me the alternate </label>
-                    <br>                   
-                    <label for="tech_list" class="select">Transfer to </label>
-                      <select name="status" id="tech_list" data-role="none">
-                      </select>
-                     <script id="ht_tech_list" type="text/x-handlebars-template">
-                     {{#each this}}
-                     <option value="{{Id}}">{{FirstName}} {{LastName}}</option>
-                     {{/each}}
-                     </script>
-                      
+                    <br/>
+                    <label>Transfer to</label>
+                    <select id="tech_list">
+                    </select>
+                    <script id="ht_tech_list" type="text/x-handlebars-template">
+                        {{#each this}}
+                        <option value="{{Id}}">{{FirstName}} {{LastName}}</option>
+                        {{/each}}
+                    </script>
+                    <br/>
                   	<label for="transferdetails" class="ui-hidden-accessible">Details</label>
                 	<textarea name="transferdetails" id="transferdetails" placeholder="Details"></textarea>
                  

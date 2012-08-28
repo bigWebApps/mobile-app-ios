@@ -318,6 +318,7 @@ pageLoad("create_ticket", function(){
     get_customer_name(getStorage("login"), true);
 
     $("#select_customer_name").on("input", function(e) {
+        $.mobile.showPageLoadingMsg();
         var text = $(this).val();
         if(text.length < 1) {
             sugList.html("");
