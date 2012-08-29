@@ -652,6 +652,10 @@ Handlebars.registerHelper('customFields', function(context) {
     }
 });
 
+Handlebars.registerHelper('linebreaks', function(context) {
+    return context.replace(/\n/g, "<br />");
+});
+
 Handlebars.registerHelper('assetsHelper', function(context) {
         var str = "";
         $.each($(context), function() {
@@ -684,7 +688,8 @@ function htmlEscape(str) {
         .replace(/'/g, '&#39;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-        .replace(/\n/g, "<br />");
+        //.replace(/\n/g, "<br />")
+        ;
 }
 
 //endregion Helper functions
