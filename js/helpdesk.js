@@ -3,6 +3,19 @@
 //$("a", alert_menu).closest('.ui-btn').hide();
 //endregion Tips & Trics
 
+//region Mobile transitions fix
+$(document).one("mobileinit", function () {
+
+    // Setting #container div as a jqm pageContainer
+    $.mobile.pageContainer = $('#container');
+
+    // Setting default page transition to slide
+    $.mobile.defaultPageTransition = 'none';
+    $.mobile.ajaxEnabled = false;
+
+});
+//endregion
+
 api = new HelpDeskAPI();
 
 //region Connection
@@ -578,8 +591,19 @@ Handlebars.getTemplate = function(name) {
     };
 })(jQuery);
 
-function tooltip(message)
+function tooltip(message, func)
 {
+    var id_value = "popupResponse";
+    $('#'+id_value).remove();
+    $('<div data-role="popup" id="'+id_value+'" style="max-width:400px;" class="ui-content"><div data-role="content" data-theme="d" class="ui-corner-bottom ui-content"><h3 class="ui-title">'+message+'</h3></div></div>')
+        .appendTo( $.mobile.pageContainer );
+    var popupResponse = $('#'+id_value);
+    //popupResponse.unbind('popupafterclose');
+    if (func != null && typeof func == 'function')
+        popupResponse.bind('popupafterclose', func);
+    popupResponse.popup();/*{ transition: "pop" }*/
+    popupResponse.popup("open");
+    /*
     $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 5, "text-align": "center"})
         .appendTo( $.mobile.pageContainer )
         .delay( 1000 )
@@ -587,6 +611,7 @@ function tooltip(message)
             $(this).remove();
         }
     );
+    */
 };
 
 // format an ISO date using Moment.js
