@@ -591,27 +591,15 @@ Handlebars.getTemplate = function(name) {
     };
 })(jQuery);
 
-function tooltip(message, func)
+function tooltip(message)
 {
-    var id_value = "popupResponse";
-    $('#'+id_value).remove();
-    $('<div data-role="popup" id="'+id_value+'" style="max-width:400px;" class="ui-content"><div data-role="content" data-theme="d" class="ui-corner-bottom ui-content"><h3 class="ui-title">'+message+'</h3></div></div>')
-        .appendTo( $.mobile.pageContainer );
-    var popupResponse = $('#'+id_value);
-    //popupResponse.unbind('popupafterclose');
-    if (func != null && typeof func == 'function')
-        popupResponse.bind('popupafterclose', func);
-    popupResponse.popup();/*{ transition: "pop" }*/
-    popupResponse.popup("open");
-    /*
-    $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>"+message+"</h2></div>").css({ "padding": "20px", "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100, "left": $(window).scrollLeft() + 5, "text-align": "center"})
-        .appendTo( $.mobile.pageContainer )
-        .delay( 1000 )
-        .fadeOut(1400, function(){
-            $(this).remove();
-        }
-    );
-    */
+     $("<div class='ui-popup ui-overlay-shadow ui-corner-all ui-body-c ui-content ui-loader' data-theme='c' data-position-to='origin'><h3 class='ui-title'>"+message+"</h3></div>").css({ "max-width" : "400px", "padding": "20px", "display": "block", "opacity": 0.96, "left": $(window).width() / 2 -100, "text-align": "center"})
+     .appendTo( $.mobile.pageContainer )
+     .delay( 1500 )
+     .fadeOut(500, function(){
+     $(this).remove();
+     }
+     );
 };
 
 // format an ISO date using Moment.js

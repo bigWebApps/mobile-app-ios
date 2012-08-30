@@ -60,7 +60,7 @@
                     var class_id = sel_opt.val();
                     var class_name = sel_opt.text();
                     $('select#class_list').empty();
-                    $('select#class_list').append('<option data-last-child="false" value="-1" data-placeholder="true">' + class_name + ' -> Select sub-class</option>');
+                    $('select#class_list').append('<option data-last-child="false" value="'+class_id+'">' + class_name + ' (see sub-classes below)</option>');
                     $('select#class_list').append(t_ticket_classes([{Id: 0, Name: "<- Go Back", IsLastChild:false}]));
                     $('select#class_list').append(t_ticket_classes(getParentClasses(classes, class_id, class_name)));
                     $("select#class_list").selectmenu("refresh");
@@ -68,7 +68,8 @@
             });
 
             function create_ticket_submit() {
-                if (!$("#class_list option:selected") || $("#class_list option:selected").attr("data-last-child") == 'false')
+                if ($("select#class_list").val()<1)
+                  //|| $("#class_list option:selected").attr("data-last-child") == 'false')
                 {
                     tooltip('Please select Class!');
                     return false;
@@ -95,10 +96,10 @@
                     var ticket = {};
                     ticket["TechnicianId"] = $("#tech_list").val();
                     ticket["UserId"] = $("#ticketUserId").val();
-                    ticket["AccountId"] = $("#account_list").val();
+                    ticket["AccountId"] = $("select#account_list").val();
                     ticket["Subject"] = subject;
                     ticket["InitialPost"] = details;
-                    ticket["ClassId"] = $("#class_list").val();
+                    ticket["ClassId"] = $("select#class_list").val();
 
                     /*
                     //Not defined yet

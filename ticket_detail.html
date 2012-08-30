@@ -160,11 +160,8 @@
                 if (data)
                 {
                     $('#ticketresponse').val('');
-                    tooltip("Response added to Ticket #" + $('#ticketNumber').val() +" successfully!",
-                            function () {
-                            $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
-                            }
-                    );
+                    tooltip("Response added to Ticket #" + $('#ticketNumber').val() +" successfully!");
+                    $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
                     //$("#ticket_detail_main_page").page('destroy').page();
                     //$("#ticket_detail_response_list").listview('refresh')
 
