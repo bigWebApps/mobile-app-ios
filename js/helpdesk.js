@@ -271,6 +271,27 @@ pageReady("ticket_transfer", function(){
     api.technicians_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetechnicians);
 });
 
+pageReady("ticket_addtime", function(){
+    mainloaded = false;
+    var t_tickettypes = Handlebars.compile( $('#ht_task_type_list').html() );
+
+    var parsetask_types = function (data) {
+        if (!data)
+        {
+            return;
+        }
+
+        /*$.each(data, function (index, tech) {
+            if ((tech.FirstName + tech.LastName).trim().length == 0)
+                data[index].FirstName = tech.Email;
+        });
+        */
+        $('select#task_type_list').empty().append(t_tickettypes(data));
+        $('select#task_type_list').selectmenu("refresh");
+    };
+    api.tasktypes_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), Id: $("#ticketId").val()},parsetask_types);
+});
+
 pageReady("create_ticket", function(){
     mainloaded = false;
     var t_tickettechnicians_options = Handlebars.compile( $('#ht_tech_list').html() );
@@ -510,6 +531,14 @@ pageReady("instances", function(){
             return;
         var data = result[org_index].Instances;
 
+        if (data.length == 1)
+        {
+            setStorage('instance', data[0].Key);
+            $.mobile.changePage("home.html");
+            return;
+        }
+        else
+        {
         var inst_list = [];//declare array
         $.each(data, function (index, inst) {
             inst_list.push({key: inst.Key, name: inst.Name});
@@ -517,6 +546,7 @@ pageReady("instances", function(){
 
         $('#instances_list').empty().append(t_insts(inst_list) );
         $('#instances_page').trigger('create');
+        }
     };
 
     parseinsts();
@@ -593,13 +623,24 @@ Handlebars.getTemplate = function(name) {
 
 function tooltip(message)
 {
-     $("<div class='ui-popup ui-overlay-shadow ui-corner-all ui-body-c ui-content ui-loader' data-theme='c' data-position-to='origin'><h3 class='ui-title'>"+message+"</h3></div>").css({ "max-width" : "400px", "padding": "20px", "display": "block", "opacity": 0.96, "left": $(window).width() / 2 -100, "text-align": "center"})
-     .appendTo( $.mobile.pageContainer )
-     .delay( 1500 )
-     .fadeOut(500, function(){
-     $(this).remove();
-     }
-     );
+     $("<div class='ui-popup ui-overlay-shadow ui-corner-all ui-body-c ui-content ui-loader' data-theme='c' data-position-to='origin'><h3 class='ui-title'>" + message + "</h3></div>").css({ "max-width":"400px", "padding":"20px", "display":"block", "opacity":0.96, "left":$(window).width() / 2 - 100, "text-align":"center"})
+         .appendTo($.mobile.pageContainer)
+         .delay(1500)
+         .fadeOut(500, function(){
+              $(this).remove();
+            }
+         );
+};
+
+function error(message)
+{
+    $("<div class='ui-popup ui-overlay-shadow ui-corner-all ui-body-a ui-content ui-loader' data-theme='a' data-position-to='origin'><h3 class='ui-title'>" + message + "</h3><p><button style='padding: 5px 20px;'>OK</button></p></div>").css({ "max-width":"400px", "padding":"20px", "display":"block", "opacity":0.96, "left":$(window).width() / 2 - 100, "text-align":"center"})
+        .appendTo($.mobile.pageContainer)
+        .one("vclick",
+        function () {
+            $(this).remove();
+        }
+    );
 };
 
 // format an ISO date using Moment.js

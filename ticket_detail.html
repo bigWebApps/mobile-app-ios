@@ -101,7 +101,7 @@
                 $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
             }
             else
-                alert("Error!");
+                error("Error!");
             return false;
         }
     </script>
@@ -167,7 +167,7 @@
 
                 }
                 else
-                    alert("Error!");
+                    error("Error!");
                 return false;
             }
         </script>
@@ -225,7 +225,7 @@
                     return false;
                 }
                 else
-                    alert("Error!");
+                    error("Error!");
             }
 
             function attachAltTech_ticket_submit ()
@@ -249,7 +249,7 @@
                     window.history.go($.mobile.urlHistory.stack.length * -1);
                 }
                 else
-                    alert("Error!");
+                    error("Error!");
                 return false;
             }
 
@@ -261,7 +261,7 @@
                     <br/>
                     <label><input type="checkbox" name="transfer_me_alternate" id="transfer_me_alternate"/> Make me the alternate </label>
                     <br/>
-                    <label>Transfer to</label>
+                    <label for="tech_list">Transfer to</label>
                     <select id="tech_list">
                     </select>
                     <script id="ht_tech_list" type="text/x-handlebars-template">
@@ -312,7 +312,7 @@
                     return false;
                 }
                 else
-                    api.addtime_ticket({"Hours":hours,"HoursOffset":moment().zone()/60,"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, ticket_addtime_postback);
+                    api.addtime_ticket({"TaskTypeId": $("select#task_type_list").val(),"Hours":hours,"HoursOffset":moment().zone()/60,"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, ticket_addtime_postback);
                 return false;
             }
 
@@ -321,29 +321,29 @@
                 if (data)
                 {
                     tooltip("Ticket #" + $('#ticketNumber').val() + " added hours successfully!");
-                    $.mobile.changePage("#ticket_detail_main_page", {reloadPage : false});
+                    $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
                 }
                 else
-                    alert("Error!");
+                    error("Error!");
                 return false;
             }
 
         </script>
 
         	<form action="#" data-ajax="false" onsubmit="return ticket_addtime_submit();">
-                <!-- <label for="time_tech">Technician</label>
-                <select name="status" id="time_tech" data-role="none">
-                </select>
-                <script id="ht_time_tech" type="text/x-handlebars-template">
-                    {{#each this}}
-                    <option value="{{Id}}">{{LastName}}, {{FirstName}}</option>
-                    {{/each}}
-                </script>
-                -->
                     <label for="time_hours">Hours</label>
                     <input name="time_hours" id="time_hours" placeholder="0.00" type="number" name="currency" min="0.01" max="24" step="0.01" size="2"
                            title="#.## hours"  />
-					<br/>
+
+                <label for="task_type_list">Task Type</label>
+                <select id="task_type_list">
+                </select>
+                <script id="ht_task_type_list" type="text/x-handlebars-template">
+                    {{#each this}}
+                    <option value="{{Id}}">{{Name}}</option>
+                    {{/each}}
+                </script>
+                <br/>
                     <!--<label for="time_task">Task Type</label>
                       <select name="time_task" id="time_task" data-role="none">
                         <option value="marketing/communications">Marketing/Communications</option>
@@ -405,7 +405,7 @@
                     //window.location.replace("org_inst.html");
                 }
                 else
-                    alert("Error!");
+                    error("Error!");
                 return false;
             }
         </script>

@@ -24,7 +24,7 @@ var HelpDeskAPI = function (options) {
     this.pass = getStorage('password');
     this.secure = true;//options.secure || false;
     this.packageInfo = options.packageInfo;
-    this.httpHost = 'app.bigwebapps.com/api/';//'api.beta.helpdesk.bigwebapps.com';
+    this.httpHost = 'app.bigwebapps.com/api';//'api.beta.helpdesk.bigwebapps.com';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
@@ -65,6 +65,9 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     //console.log(availableParams);
     //console.log(givenParams);
     //console.log(finalParams);
+
+    var error_message;
+
     $.ajax({
         url:this.httpUri + '/' + method,
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
@@ -96,13 +99,18 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                     location.href = location.href;
             }
             else if (errorThrown == 'parsererror')
-                alert('Error parsing JSON answer from  HelpDeskAPI.');
-            //callback({ 'error':'Error parsing JSON answer from  HelpDeskAPI.', 'code':'xxx' });
+                error('Error parsing JSON answer from  HelpDeskAPI.');
             else if (jqXHR.status == 500)
-                alert(errorThrown);
+                error(errorThrown);
+            else if (jqXHR.status == 404)
+            {
+                error('Ticket Info not found. Back to home page.');
+                $.mobile.changePage("home.html");
+            }
             else
             {
-                alert('Unknown error ('+errorThrown+').\n\nPlease check your Internet connection.');
+                error_message = errorThrown + ' ';
+                //error('Unknown error ('+errorThrown+').\n\nPlease check your Internet connection.');
             }
             //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
             //clearStorage();
@@ -111,9 +119,34 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         complete:function(){
             $.mobile.hidePageLoadingMsg();
             mainloaded = true;
+            if (error_message != null)
+            {
+                //check Ping
+                $.ajax({
+                    url:this.httpUri + '/ping',
+                    type:'GET',
+                    cache:false,
+                    async:false,
+                    dataType:"json",
+                    contentType:"application/json; charset=utf-8",
+                    timeout:15000,
+                    success:function (data) {
+                        if (data == "All works")
+                            error('Unknown error ('+error_message+').\n\nPlease check your Internet connection.');
+                        else
+                            error('Sorry, our service is unavailable at this time. <br/>Please check back later.');
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        error('Sorry, our service is unavailable at this time. <br/>Please check back later.');
+                    }
+                });
+            }
+            else
+            {
             if (givenParams.refresh  !== 'undefined')
             {
             $(givenParams.refresh).listview('refresh');
+            }
             }
           }
     });
@@ -161,7 +194,7 @@ HelpDeskAPI.prototype.org_inst = function (params, callback) {
  * List of open tickets
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets
  */
 HelpDeskAPI.prototype.ticket_list = function (params, callback) {
     params["Method"] = "GET";
@@ -175,7 +208,7 @@ HelpDeskAPI.prototype.ticket_list = function (params, callback) {
  * List of technicians
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/technicians
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/technicians
  */
 HelpDeskAPI.prototype.technicians_list = function (params, callback) {
     params["Method"] = "GET";
@@ -186,10 +219,24 @@ HelpDeskAPI.prototype.technicians_list = function (params, callback) {
 };
 
 /**
+ * List of task types
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  https://app.bigwebapps.com/api/rn062f/jghbxs/tasktypes/tickets/5267924
+ */
+HelpDeskAPI.prototype.tasktypes_list = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tasktypes/tickets/' + params.Id, ["Method"
+    ], params, callback);
+};
+
+/**
  * List of classes
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/classes
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/classes
  */
 HelpDeskAPI.prototype.classes_list = function (params, callback) {
     params["Method"] = "GET";
@@ -203,7 +250,7 @@ HelpDeskAPI.prototype.classes_list = function (params, callback) {
  * List of users
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/users/
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/users/
  */
 HelpDeskAPI.prototype.users_list = function (params, callback) {
     params["Method"] = "GET";
@@ -217,7 +264,7 @@ HelpDeskAPI.prototype.users_list = function (params, callback) {
  * List of accounts
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/accounts/{UserId}
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/accounts/{UserId}
  */
 HelpDeskAPI.prototype.accounts_list = function (params, callback) {
     params["Method"] = "GET";
@@ -231,7 +278,7 @@ HelpDeskAPI.prototype.accounts_list = function (params, callback) {
  * Create ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
  */
 HelpDeskAPI.prototype.ticket_create = function (params, callback) {
     params["Method"] = "POST";
@@ -245,7 +292,7 @@ HelpDeskAPI.prototype.ticket_create = function (params, callback) {
  * Get ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
  */
 HelpDeskAPI.prototype.ticket_detail = function (params, callback) {
     params["Method"] = "GET";
@@ -259,7 +306,7 @@ HelpDeskAPI.prototype.ticket_detail = function (params, callback) {
  * Close ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
  *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
  */
 HelpDeskAPI.prototype.close_ticket = function (params, callback) {
@@ -276,7 +323,7 @@ HelpDeskAPI.prototype.close_ticket = function (params, callback) {
  * Add response to ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
  *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
  */
 HelpDeskAPI.prototype.addresponse_ticket = function (params, callback) {
@@ -293,7 +340,7 @@ HelpDeskAPI.prototype.addresponse_ticket = function (params, callback) {
  * Pick up ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
  *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
  */
 HelpDeskAPI.prototype.pickup_ticket = function (params, callback) {
@@ -310,7 +357,7 @@ HelpDeskAPI.prototype.pickup_ticket = function (params, callback) {
  * Transfer to tech ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
  *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
  */
 HelpDeskAPI.prototype.transfer2tech_ticket = function (params, callback, completed) {
@@ -327,8 +374,8 @@ HelpDeskAPI.prototype.transfer2tech_ticket = function (params, callback, complet
  * Add time on ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
- *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
+ *  {"TaskTypeId":2,"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
  */
 HelpDeskAPI.prototype.addtime_ticket = function (params, callback, completed) {
     params["Method"] = "PUT";
@@ -336,7 +383,7 @@ HelpDeskAPI.prototype.addtime_ticket = function (params, callback, completed) {
 
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
-        "Hours","HoursOffset","Id","Action","NoteText","OrganizationKey","InstanceKey"
+        "TaskTypeId","Hours","HoursOffset","Id","Action","NoteText","OrganizationKey","InstanceKey"
     ], params, callback, completed);
 };
 
@@ -344,7 +391,7 @@ HelpDeskAPI.prototype.addtime_ticket = function (params, callback, completed) {
  * Attach tech as alternate on ticket
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/id
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/id
  *  {"Id":0,"Action":"Response","NoteText":"String","Hours":0,"HoursOffset":0,"TransferToTechId":0,"TransferToClassId":0,"OrganizationKey":"String","InstanceKey":"String"}
  */
 HelpDeskAPI.prototype.attachAltTech_ticket = function (params, callback) {
@@ -360,7 +407,7 @@ HelpDeskAPI.prototype.attachAltTech_ticket = function (params, callback) {
  * List of tickets in queue
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/tickets/queues/8695
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/tickets/queues/8695
  */
 HelpDeskAPI.prototype.queue_ticket_list = function (params, callback) {
     params["Method"] = "GET";
@@ -373,7 +420,7 @@ HelpDeskAPI.prototype.queue_ticket_list = function (params, callback) {
  * List of unassigned queues
  *
  * @see http://developer.helpdesk.bigwebapps.com/
- *  http://api.beta.helpdesk.bigwebapps.com/bamtzm/j9jnmg/queues
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/queues
  */
 HelpDeskAPI.prototype.ticket_q_list = function (params, callback) {
     params["Method"] = "GET";
