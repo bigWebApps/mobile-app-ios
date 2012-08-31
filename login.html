@@ -28,7 +28,7 @@
                 var email = $("#email").val().trim();
                 var pass = $("#password").val().trim();
                 if (!email || !pass)
-                    error('Please provide login and password!');
+                    tooltip('Please provide login and password!', 'error');
                 else
                     api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
                 

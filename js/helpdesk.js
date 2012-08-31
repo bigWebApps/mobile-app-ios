@@ -621,12 +621,12 @@ Handlebars.getTemplate = function(name) {
     };
 })(jQuery);
 
-function tooltip(message)
+function tooltip(message, type)
 {
-     $("<div class='popupcontainer'><p>" + message + "</p></div>")
+     $("<div class='popupcontainer " + type + "'><p>" + message + "</p></div>")
          .appendTo($.mobile.pageContainer)
          .delay(1500)
-         .fadeOut(500, function(){
+         .fadeOut(1000, function(){
               $(this).remove();
             }
          );
