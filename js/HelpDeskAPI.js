@@ -107,8 +107,15 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 error('Ticket Info not found. Back to home page.');
                 $.mobile.changePage("home.html");
             }
+			else if (jqXHR.status == 0)
+            {
+                error('Connection failed.<br/>Please check your Internet connection.');
+            }
             else
             {
+			//console.log(jqXHR.status);
+			//console.log(textStatus);
+			//console.log(errorThrown);
                 error_message = errorThrown + ' ';
                 //error('Unknown error ('+errorThrown+').\n\nPlease check your Internet connection.');
             }
@@ -132,7 +139,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                     timeout:15000,
                     success:function (data) {
                         if (data == "All works")
-                            error('Unknown error ('+error_message+').\n\nPlease check your Internet connection.');
+                            error('Unknown error ('+error_message+').<br/>Please check your Internet connection.');
                         else
                             error('Sorry, our service is unavailable at this time. <br/>Please check back later.');
                     },
