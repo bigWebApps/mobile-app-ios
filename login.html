@@ -21,17 +21,17 @@
     <div data-role="content">
         <script>
             // this is what is required for the on the mobile page load
-            function form_submit() {
+            function form_submit(e) {
                 //if(!checkConnection()){return false};
                 //checkConnection();
                 $(".submitButton").attr("disabled","disabled");
                 var email = $("#email").val().trim();
                 var pass = $("#password").val().trim();
                 if (!email || !pass)
-                    tooltip('Please provide login and password!');
+                    error('Please provide login and password!');
                 else
                     api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
-                $(".submitButton").removeAttr("disabled");
+                
                 return false;
                 }
 
@@ -56,10 +56,8 @@
             <label for="password" class="ui-hidden-accessible">Password</label>
             <input type="password" name="password" id="password" value="" placeholder="password"/>
             </p>
-            <button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden submitButton"
-                    aria-disabled="false">
-                Submit
-            </button>
+            <input type="submit" data-theme="b" name="submit" value="Login" class="ui-btn-hidden submitButton" aria-disabled="false">
+            </input>
         </form>
         </div>
     </div>

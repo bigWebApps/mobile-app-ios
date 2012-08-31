@@ -623,7 +623,7 @@ Handlebars.getTemplate = function(name) {
 
 function tooltip(message)
 {
-     $("<div class='ui-popup ui-overlay-shadow ui-corner-all ui-body-c ui-content ui-loader' data-theme='c' data-position-to='window'><h3 class='ui-title'>" + message + "</h3></div>").css({ "max-width":"400px", "padding":"20px", "display":"block", "opacity":0.96, "left":$(window).width() / 2 - 100, "text-align":"center"})
+     $("<div class='popupcontainer'><p>" + message + "</p></div>")
          .appendTo($.mobile.pageContainer)
          .delay(1500)
          .fadeOut(500, function(){
@@ -634,11 +634,12 @@ function tooltip(message)
 
 function error(message)
 {
-    $("<div class='ui-popup ui-overlay-shadow ui-corner-all ui-body-a ui-content ui-loader' data-theme='a' data-position-to='origin'><h3 class='ui-title'>" + message + "</h3><p><button style='padding: 5px 20px;'>OK</button></p></div>").css({ "max-width":"400px", "padding":"20px", "display":"block", "opacity":0.96, "left":$(window).width() / 2 - 100, "text-align":"center"})
+    $("<div class='popupcontainer error'><p>" + message + "</p><p><button style='padding: 5px 20px;'>OK</button></p></div>")
         .appendTo($.mobile.pageContainer)
         .one("vclick",
         function () {
             $(this).remove();
+			$(".submitButton").removeAttr("disabled");
         }
     );
 };
