@@ -43,18 +43,21 @@ label {
 /*--- Pop up Container ---*/
 
 .popupcontainer {
-	padding: 5px;
-	text-align: center;
-	background-color: #f8f8f8;	
-	max-width: 260px;
-	margin: 10% auto;
-	opacity:0.99;
-	-webkit-border-radius: 12px;
-	border-radius: 12px;
-	-webkit-box-shadow:  0px 0px 400px 0px rgba(0, 0, 0, .8);
-	box-shadow:  0px 0px 400px 0px rgba(0, 0, 0, .8);
-	z-index: 9999999;
-	}
+		margin-right: 5%;
+		margin-left: 5%;
+		margin-top: 30%;
+		position: absolute;
+		padding: 5px;
+		text-align: center;
+		background-color: #F8F8F8;
+		opacity: 0.99;
+		-webkit-border-radius: 12px;
+		border-radius: 12px;
+		-webkit-box-shadow: 0px 0px 400px 0px rgba(0, 0, 0, .8);
+		box-shadow: 0px 0px 400px 0px rgba(0, 0, 0, .8);
+		z-index: 9999999;
+		border: 2px solid #e7e7e7;
+		}
 	.popupcontainer.error{
 		border: 2px solid red;
 		}
@@ -63,6 +66,7 @@ label {
 	  font-weight: bold;
 	  color: #222;
 	  text-shadow: 1px 1px 0px #ffffff;
+	  font-family: Arial, sans-serif;
 	  }
 
 /*--- Overrides ---*/
