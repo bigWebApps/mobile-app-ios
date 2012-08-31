@@ -628,6 +628,7 @@ function tooltip(message, type)
          .delay(1500)
          .fadeOut(1000, function(){
               $(this).remove();
+			  $(".submitButton").removeAttr("disabled");
             }
          );
 };
@@ -639,7 +640,7 @@ function error(message)
         .one("vclick",
         function () {
             $(this).remove();
-			$(".submitButton").removeAttr("disabled");
+			
         }
     );
 };
