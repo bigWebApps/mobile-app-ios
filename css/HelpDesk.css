@@ -40,6 +40,31 @@ label {
    color: #666;  
 }
 
+/*--- Pop up Container ---*/
+
+.popupcontainer {
+	padding: 5px;
+	text-align: center;
+	background-color: #f8f8f8;	
+	max-width: 260px;
+	margin: 10% auto;
+	opacity:0.99;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	-webkit-box-shadow:  0px 0px 400px 0px rgba(0, 0, 0, .8);
+	box-shadow:  0px 0px 400px 0px rgba(0, 0, 0, .8);
+	z-index: 9999999;
+	}
+	.popupcontainer.error{
+		border: 2px solid red;
+		}
+  .popupcontainer p {
+	  font-size: 16px;
+	  font-weight: bold;
+	  color: #222;
+	  text-shadow: 1px 1px 0px #ffffff;
+	  }
+
 /*--- Overrides ---*/
 .ui-page {
 	background: #ffffff;
@@ -69,7 +94,7 @@ text-shadow: 0 0 0;
 *.ui-listview *.ui-btn-up-d,
 *.ui-listview *.ui-btn-hover-d
   {
-  	border: 1px solid #cccccc;
+  	border-top: 1px solid #cccccc;
 	background: #F9F9F9;
 	font-weight: bold;
 	color: #2F3E46;
@@ -558,6 +583,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 	.response-text-img {
 		width: 100%;
 		min-height: 35px;
+		margin-top: 4px;
 		}
 	.res-gravatar {float: left; margin-right: 10px;}
 	.res-gravatar img {

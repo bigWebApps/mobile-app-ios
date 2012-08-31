@@ -141,10 +141,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                         if (data == "All works")
                             error('Unknown error ('+error_message+').<br/>Please check your Internet connection.');
                         else
-                            error('Sorry, our service is unavailable at this time. <br/>Please check back later.');
+                            error('Sorry, our service is temporarily unavailable at this time. <br/>Please check back later.');
                     },
                     error:function (jqXHR, textStatus, errorThrown) {
-                        error('Sorry, our service is unavailable at this time. <br/>Please check back later.');
+                        error('Sorry, our service is temporarily unavailable at this time. <br/>Please check back later.');
                     }
                 });
             }
