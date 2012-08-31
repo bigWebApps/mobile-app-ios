@@ -11,7 +11,7 @@
 	        <gap:platform name="ios"/>
 	    </gap:platforms>
 	
-	    <name>HelpDesk Mobile</name>
+	    <name>HelpDesk</name>
 	
 	    <description>
 	        HelpDesk by bigWebApps mobile version.  Create, Read and respond tickets sent through your HelpDesk by bigWebApps account.  http://helpdesk.bigwebapps.com 
