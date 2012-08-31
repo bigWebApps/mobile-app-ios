@@ -94,7 +94,7 @@ text-shadow: 0 0 0;
 *.ui-listview *.ui-btn-up-d,
 *.ui-listview *.ui-btn-hover-d
   {
-  	border: 1px solid #cccccc;
+  	border-top: 1px solid #cccccc;
 	background: #F9F9F9;
 	font-weight: bold;
 	color: #2F3E46;
@@ -583,6 +583,7 @@ li.ticket-list.new {background-color: #FAE6CB;}
 	.response-text-img {
 		width: 100%;
 		min-height: 35px;
+		margin-top: 4px;
 		}
 	.res-gravatar {float: left; margin-right: 10px;}
 	.res-gravatar img {
