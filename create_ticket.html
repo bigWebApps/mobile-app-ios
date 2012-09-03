@@ -91,8 +91,7 @@
                     tooltip('Details should be less 5000 chars!');
                     return false;
                 }
-                else
-                {
+
                     var ticket = {};
                     ticket["TechnicianId"] = $("#tech_list").val();
                     ticket["UserId"] = $("#ticketUserId").val();
@@ -120,16 +119,8 @@
                     */
 
                     //console.log(ticket);
+                tooltip("Please wait a moment. Processing request ...");
                 api.ticket_create({"Ticket": ticket,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, create_ticket_postback);
-                }
-
-                //todo: need to check when Id initialized notification
-                if ($("#transfer_me_alternate").is(":checked"))
-                {
-                    myHandler.addHandler(attachAltTech_ticket_submit);
-                }
-                else
-                    attachAltTech_ticket_submit ();
 
                 return false;
             }
@@ -147,7 +138,8 @@
                     tooltip("Ticket #" + ticketNumber + " created successfully!");
                     $('#subject').val('');
                     $('#details').val('');
-                    setTimeout(myHandler.execute(), 2000);
+                    //todo: need to check when Id initialized notification
+                    setTimeout(attachAltTech_ticket_submit (), 2000);
                     return false;
                 }
                 else
