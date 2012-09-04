@@ -198,6 +198,20 @@ HelpDeskAPI.prototype.org_inst = function (params, callback) {
 };
 
 /**
+ * Config of department
+ *
+ * @see http://developer.helpdesk.bigwebapps.com/
+ *  https://app.bigwebapps.com/api/bamtzm/j9jnmg/config
+ */
+HelpDeskAPI.prototype.config = function (params, callback) {
+    params["Method"] = "GET";
+    //console.log(params);
+    if (typeof params == 'function') callback = params, params = {};
+    this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/config', ["Method"
+    ], params, callback);
+};
+
+/**
  * List of open tickets
  *
  * @see http://developer.helpdesk.bigwebapps.com/
