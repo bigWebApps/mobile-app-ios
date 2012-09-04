@@ -292,6 +292,18 @@ pageReady("ticket_addtime", function(){
     api.tasktypes_list({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), Id: $("#ticketId").val()},parsetask_types);
 });
 
+
+
+pageBeforeshow("create_ticket", function(){
+
+    var create_ticket_show = $(".create_ticket_show");
+    if (getStorage("User.IsTechOrAdmin") != 'true')
+    {
+        $(create_ticket_show).hide();
+    }
+});
+
+
 pageReady("create_ticket", function(){
     mainloaded = false;
     var t_tickettechnicians_options = Handlebars.compile( $('#ht_tech_list').html() );

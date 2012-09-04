@@ -185,8 +185,8 @@
             <label>Customer</label>
             <input type="text" id="select_customer_name" value="" placeholder="Start typing customer name"/>
             <ul id="select_customer_list" data-role="listview" data-inset="true"></ul>
-			
-            <p>
+			</p>
+            <p class="create_ticket_show">
             <label>Account</label>
             <select id="account_list" >
 			</select>
@@ -196,7 +196,7 @@
                 {{/each}}
             </script>
             </p>
-            <p>
+            <p class="create_ticket_show">
             <label>Technician</label>
             <select id="tech_list">
             </select>
@@ -222,7 +222,7 @@
             <p>
             <textarea name="details" id="details" placeholder="Details"></textarea>
             </p>
-            <p>
+            <p class="create_ticket_show">
             <label><input type="checkbox" id="transfer_me_alternate" data-role="none" /> Make me the alternate </label>
             </p>
             <button type="submit" data-theme="b" name="submit" value="submit-value" >
