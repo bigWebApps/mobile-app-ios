@@ -450,7 +450,8 @@ pageBeforeshow("alert_menu", function(){
     var alert_menu = $("#ticket-detail-more");
     //logic to show only correspondent actions: Transfer, PickUp and Cancel
     //console.log("data.TechnicianType = " + ticketInfo.TechnicianType);
-
+    if (getStorage("User.IsTechOrAdmin") == 'true')
+    {
     if ($("#ticketTechnicianType").val() == "Queue")
     {
         $("#ticket_response_action", alert_menu).closest('.ui-btn').hide();
@@ -460,8 +461,34 @@ pageBeforeshow("alert_menu", function(){
     else
     {
         if ($("#ticket_response_action", alert_menu).closest('.ui-btn').css("display")=="none")
+        {
             $("a", alert_menu).closest('.ui-btn').show();
+        }
         $("#ticket_pickup_action", alert_menu).closest('.ui-btn').hide();
+    }
+    }
+    else
+    {
+        if ($("#ticket_addtime_action", alert_menu).closest('.ui-btn').css("display")!="none")
+        {
+            $("a", alert_menu).closest('.ui-btn').hide();
+            $("#ticket_close_action", alert_menu).closest('.ui-btn').show();
+            $("#ticket_cancel_action", alert_menu).closest('.ui-btn').show();
+            $("#ticket_response_action", alert_menu).closest('.ui-btn').show();
+        }
+    }
+});
+
+pageBeforeshow("home", function(){
+
+    var ticket_q_list = $("#ticket_q_list");
+    //console.log(getStorage("User.IsTechOrAdmin"));
+    //logic to show only correspondent actions: Transfer, PickUp and Cancel
+    //console.log("data.TechnicianType = " + ticketInfo.TechnicianType);
+
+    if (getStorage("User.IsTechOrAdmin") != 'true')
+    {
+        $(ticket_q_list).closest('.ui-btn').hide();
     }
 });
 
@@ -481,7 +508,7 @@ pageReady("organizations", function(){
             if (data[0].Instances.length == 1)
             {
                 setStorage('instance', data[0].Instances[0].Key);
-                $.mobile.changePage("home.html");
+                getConfig(function(){$.mobile.changePage("home.html");});
                 return;
             }
             $.mobile.changePage("org_inst.html#instances_page");
@@ -502,11 +529,22 @@ pageReady("organizations", function(){
 
 });
 
+function getConfig(callback){
+    var parseconfig = function (data) {
+        if (!data)
+        {
+            return;
+        }
+        setStorage("User.IsTechOrAdmin", data.User.IsTechOrAdmin);
+        if (callback != null)
+            callback();
+    };
+    api.config({"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parseconfig);
+}
+
 pageReady("instances", function(){
 
     var result = getStorage("org_list");
-
-    var t_insts = Handlebars.compile( $('#ht_instances_list').html() );
 
     var parseinsts = function () {
 
@@ -529,12 +567,13 @@ pageReady("instances", function(){
 
         if (!result[org_index])
             return;
+
         var data = result[org_index].Instances;
 
         if (data.length == 1)
         {
             setStorage('instance', data[0].Key);
-            $.mobile.changePage("home.html");
+            getConfig(function(){$.mobile.changePage("home.html");});
             return;
         }
         else
@@ -543,7 +582,7 @@ pageReady("instances", function(){
         $.each(data, function (index, inst) {
             inst_list.push({key: inst.Key, name: inst.Name});
         });
-
+        var t_insts = Handlebars.compile( $('#ht_instances_list').html() );
         $('#instances_list').empty().append(t_insts(inst_list) );
         $('#instances_page').trigger('create');
         }
@@ -571,7 +610,7 @@ pageLoad("instances", function(){
         selected_inst = $('input[name=instance-1]:checked').val();
         //console.log('Selected: '+ selected_inst);
         setStorage('instance', selected_inst);
-        $.mobile.changePage("home.html");
+        getConfig(function(){$.mobile.changePage("home.html");});
     });
 });
 //endregion Page specific functions

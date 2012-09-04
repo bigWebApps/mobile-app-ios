@@ -100,23 +100,31 @@
                     ticket["InitialPost"] = details;
                     ticket["ClassId"] = $("select#class_list").val();
 
-                    /*
-                    //Not defined yet
-                    ticket["AccountLocationId"] = 0;
-                    ticket["LocationId"] = 0;
-                    ticket["Level"] = 0;
-                    ticket["SubmissionCategory"] = "";
-                    ticket["IsHandleByCallCentre"] = false;
-                    ticket["CreationCategoryId"] = 0;
-                    ticket["PriorityId"] = 0;
-                    ticket["SerialNumber"] = 0;
-                    ticket["IDMethod"] = 0;
-                    ticket["CustomFieldsXML"] = 0;
-                    ticket["TicketStatus"] = 0;
-                    ticket["ProjectId"] = 0;
-                    ticket["FolderId"] = 0;
-                    ticket["EstimatedTime"] = 0;
+                    /* //Put alternatives to collection
+                if ($("#transfer_me_alternate").is(":checked"))
+                {
+                    //It is collection, so can be
+                    ticket["Technicians"] = [{"UserId":$("#ticketUserId").val()}];
+                }
                     */
+
+                /*
+                //Not defined yet
+                ticket["AccountLocationId"] = 0;
+                ticket["LocationId"] = 0;
+                ticket["Level"] = 0;
+                ticket["SubmissionCategory"] = "";
+                ticket["IsHandleByCallCentre"] = false;
+                ticket["CreationCategoryId"] = 0;
+                ticket["PriorityId"] = 0;
+                ticket["SerialNumber"] = 0;
+                ticket["IDMethod"] = 0;
+                ticket["CustomFieldsXML"] = 0;
+                ticket["TicketStatus"] = 0;
+                ticket["ProjectId"] = 0;
+                ticket["FolderId"] = 0;
+                ticket["EstimatedTime"] = 0;
+                */
 
                     //console.log(ticket);
                 tooltip("Please wait a moment. Processing request ...");
@@ -139,7 +147,8 @@
                     $('#subject').val('');
                     $('#details').val('');
                     //todo: need to check when Id initialized notification
-                    setTimeout(attachAltTech_ticket_submit (), 2000);
+                    if ($("#transfer_me_alternate").is(":checked"))
+                       setTimeout(attachAltTech_ticket_submit (), 2000);
                     return false;
                 }
                 else

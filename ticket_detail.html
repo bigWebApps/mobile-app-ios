@@ -221,7 +221,8 @@
 
             function transfer2tech_ticket_postback(data) {
                 if (data) {
-                    setTimeout(attachAltTech_ticket_submit (), 2000);
+                    if ($("#transfer_me_alternate").is(":checked"))
+                        setTimeout(attachAltTech_ticket_submit (), 2000);
                     return false;
                 }
                 else
