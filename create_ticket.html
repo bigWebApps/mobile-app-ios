@@ -146,9 +146,17 @@
                     tooltip("Ticket #" + ticketNumber + " created successfully!");
                     $('#subject').val('');
                     $('#details').val('');
-                    //todo: need to check when Id initialized notification
-                    if ($("#transfer_me_alternate").is(":checked"))
-                       setTimeout(attachAltTech_ticket_submit (), 2000);
+                    //todo: need to check when Id initialized notification                   
+					if (getStorage("User.IsTechOrAdmin") != 'true')
+					{
+						$.mobile.changePage("home.html");
+					} 
+					else if ($("#transfer_me_alternate").is(":checked"))
+					{
+						setTimeout(attachAltTech_ticket_submit (), 2000);
+						return false;
+					}
+												   
                     return false;
                 }
                 else
