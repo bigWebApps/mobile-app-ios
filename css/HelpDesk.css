@@ -44,9 +44,10 @@ label {
 
 .popupcontainer {
 		margin-right: 5%;
-		margin-left: 5%;
-		margin-top: 30%;
-		position: absolute;
+		margin-left: 3%;
+		margin-top: 25%;
+		width: 85%;
+		position: fixed;
 		padding: 5px;
 		text-align: center;
 		background-color: #F8F8F8;

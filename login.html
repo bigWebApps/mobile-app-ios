@@ -30,8 +30,7 @@
                 if (!email || !pass)
                     tooltip('Please provide login and password!', 'error');
                 else
-                    api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);
-                
+                    api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);                
                 return false;
                 }
 

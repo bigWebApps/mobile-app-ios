@@ -71,24 +71,24 @@
                 if ($("select#class_list").val()<1)
                   //|| $("#class_list option:selected").attr("data-last-child") == 'false')
                 {
-                    tooltip('Please select Class!');
+                    tooltip('Please select Class!', 'error');
                     return false;
                 }
                 var subject = htmlEscape($('#subject').val().trim());
                 var details = htmlEscape($('#details').val().trim());
                 if (!subject)
                 {
-                    tooltip('Please enter Subject!');
+                    tooltip('Please enter Subject!', 'error');
                     return false;
                 }
                 else if (subject.length > 100)
                 {
-                    tooltip('Subject should be less 100 chars!');
+                    tooltip('Subject should be less 100 chars!', 'error');
                     return false;
                 }
                 else if (details.length > 5000)
                 {
-                    tooltip('Details should be less 5000 chars!');
+                    tooltip('Details should be less 5000 chars!', 'error');
                     return false;
                 }
 

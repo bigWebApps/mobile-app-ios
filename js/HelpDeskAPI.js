@@ -88,7 +88,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         error:function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401 || jqXHR.status == 403) {				
                 if (window.location.href.indexOf("login.html") >= 0) {
-					tooltip("Incorrect Password");
+					tooltip("Incorrect Password", "error");
                 }
                 else
                     window.location.replace("login.html");
@@ -158,7 +158,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
           }
     });
     //mainloaded = true;
-    $.mobile.hidePageLoadingMsg();
+    //$.mobile.hidePageLoadingMsg();
 };
 
 /*****************************************************************************/
