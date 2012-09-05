@@ -95,7 +95,7 @@
             if (data)
             {
                 $("#ticket_detail_main_page_back_link").attr("href", "ticket_list.html");
-                tooltip("Ticket #" + $('#ticketNumber').val() +" picked up successfully!").delay(600);
+                tooltip("Ticket #" + $('#ticketNumber').val() +" picked up successfully!", 'hdsuccess');
                 //$("#ticket_detail_main_page").page('destroy').page();
                 //$("#ticket_detail_response_list").listview('refresh')
                 $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
@@ -160,7 +160,7 @@
                 if (data)
                 {
                     $('#ticketresponse').val('');
-                    tooltip("Response added to Ticket #" + $('#ticketNumber').val() +" successfully!").delay(600);
+                    tooltip("Response added to Ticket #" + $('#ticketNumber').val() +" successfully!", 'hdsuccess');
                     $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
                     //$("#ticket_detail_main_page").page('destroy').page();
                     //$("#ticket_detail_response_list").listview('refresh')
@@ -246,8 +246,11 @@
             {
                 if (data)
                 {
-                    tooltip("Ticket #" + $('#ticketNumber').val() + " transfered successfully!");
-                    window.history.go($.mobile.urlHistory.stack.length * -1);
+                    tooltip("Ticket #" + $('#ticketNumber').val() + " transfered successfully!", 'hdsuccess');
+                    
+					setTimeout ( function() {
+						 window.history.go($.mobile.urlHistory.stack.length * -1);
+						 }, 900 );
                 }
                 else
                     error("Error!");
@@ -321,7 +324,7 @@
             {
                 if (data)
                 {
-                    tooltip("Ticket #" + $('#ticketNumber').val() + " added hours successfully!");
+                    tooltip("Ticket #" + $('#ticketNumber').val() + " added hours successfully!", 'hdsuccess');
                     $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
                 }
                 else
