@@ -60,7 +60,10 @@ label {
 		border: 2px solid #e7e7e7;
 		}
   		.error{
-		border: 2px solid red;
+			text-shadow: 1px 1px 0px #7C0000 !important;
+			color: white;
+			background: #EC1818;
+			border: 2px solid red;
 		}
   .popupcontainer p {
 	  font-size: 16px;
