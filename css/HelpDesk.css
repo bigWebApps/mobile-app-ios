@@ -59,7 +59,7 @@ label {
 		z-index: 9999999;
 		border: 2px solid #e7e7e7;
 		}
-	.popupcontainer.error{
+  		.error{
 		border: 2px solid red;
 		}
   .popupcontainer p {

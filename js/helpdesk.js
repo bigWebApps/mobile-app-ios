@@ -677,15 +677,15 @@ Handlebars.getTemplate = function(name) {
 
 function tooltip(message, type)
 {
-     $("<div class='popupcontainer " + type + "'><p>" + message + "</p></div>")
-         .appendTo($.mobile.pageContainer)
-         .delay(1500)
-         .fadeOut(400, function(){
-              $(this).remove();
-			  $(".submitButton").removeAttr("disabled");
-            }
-         );
+     $("<div class='ui-popup ui-overlay-shadow ui-corner-all ui-body-c ui-content ui-loader " + type + " ' data-theme='c'><p>"+message+"</p></div>").css({ "width" : "85%", "padding": "5px 5px", "display": "block", "opacity": 0.96, "left": "3.5%", "margin": ".5em 0","text-align": "center"})
+     .appendTo( $.mobile.pageContainer )
+     .delay( 1500 )
+     .fadeOut(500, function(){
+     $(this).remove();
+     }
+     );
 };
+
 
 function error(message)
 {
