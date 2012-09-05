@@ -25,23 +25,6 @@
 	<div data-role="content" data-theme="d">
         <script>
             var classes;
-            function Event(){
-                this.eventHandlers = new Array();
-            }
-
-            Event.prototype.addHandler = function(eventHandler){
-                this.eventHandlers.push(eventHandler);
-            };
-
-            Event.prototype.execute = function(args){
-
-                for(var i = 0; i < this.eventHandlers.length; i++){
-                    this.eventHandlers[i](args);
-                }
-            };
-
-            //create event
-            myHandler = new Event();
 
             $("select#class_list").live("change", function() {
                 var sel_opt = $("#class_list option:selected");

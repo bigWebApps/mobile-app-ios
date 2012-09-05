@@ -296,6 +296,7 @@ pageReady("ticket_addtime", function(){
 
 pageBeforeshow("create_ticket", function(){
 
+    console.log('pageBeforeshow("create_ticket"');
     var create_ticket_show = $(".create_ticket_show");
     if (getStorage("User.IsTechOrAdmin") != 'true')
     {
@@ -459,6 +460,7 @@ pageLoad("create_ticket", function(){
 });
 pageBeforeshow("alert_menu", function(){
 
+    console.log('pageBeforeshow("alert_menu"');
     var alert_menu = $("#ticket-detail-more");
     //logic to show only correspondent actions: Transfer, PickUp and Cancel
     //console.log("data.TechnicianType = " + ticketInfo.TechnicianType);
@@ -493,6 +495,7 @@ pageBeforeshow("alert_menu", function(){
 
 pageBeforeshow("home", function(){
 
+    console.log('pageBeforeshow("home"');
     var ticket_q_list = $("#ticket_q_list");
     //console.log(getStorage("User.IsTechOrAdmin"));
     //logic to show only correspondent actions: Transfer, PickUp and Cancel
@@ -677,7 +680,7 @@ function tooltip(message, type)
      $("<div class='popupcontainer " + type + "'><p>" + message + "</p></div>")
          .appendTo($.mobile.pageContainer)
          .delay(1500)
-         .fadeOut(1000, function(){
+         .fadeOut(400, function(){
               $(this).remove();
 			  $(".submitButton").removeAttr("disabled");
             }
