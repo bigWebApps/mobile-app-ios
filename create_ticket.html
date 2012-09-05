@@ -126,7 +126,7 @@
                 {
                     id= data.Id;
                     ticketNumber = data.TicketNumber;
-                    tooltip("Ticket #" + ticketNumber + " created successfully!");
+                    tooltip("Ticket #" + ticketNumber + " created successfully!", 'hdsuccess');
                     $('#subject').val('');
                     $('#details').val('');
                     //todo: need to check when Id initialized notification                   
@@ -137,9 +137,11 @@
 					else if ($("#transfer_me_alternate").is(":checked"))
 					{
 						setTimeout(attachAltTech_ticket_submit (), 2000);
-						return false;
 					}
-												   
+					else 
+					{
+						$.mobile.changePage("home.html");
+					}												   
                     return false;
                 }
                 else
@@ -154,7 +156,9 @@
                     api.attachAltTech_ticket({"TransferToTechId":$("#ticketUserId").val(),"Id": id,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, attachAltTech_ticket_postback);
                 }
                 else
-                    attachAltTech_ticket_postback({data:1});
+                {
+					attachAltTech_ticket_postback({data:1});
+				}
                 return false;
             }
 

@@ -693,8 +693,7 @@ function error(message)
         .appendTo($.mobile.pageContainer)
         .one("vclick",
         function () {
-            $(this).remove();
-			
+            $(this).remove();			
         }
     );
 };

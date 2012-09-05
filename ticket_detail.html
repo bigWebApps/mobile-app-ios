@@ -95,7 +95,7 @@
             if (data)
             {
                 $("#ticket_detail_main_page_back_link").attr("href", "ticket_list.html");
-                tooltip("Ticket #" + $('#ticketNumber').val() +" picked up successfully!");
+                tooltip("Ticket #" + $('#ticketNumber').val() +" picked up successfully!").delay(600);
                 //$("#ticket_detail_main_page").page('destroy').page();
                 //$("#ticket_detail_response_list").listview('refresh')
                 $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
@@ -141,12 +141,12 @@
                 var response = htmlEscape($('#ticketresponse').val().trim());
                 if (!response)
                 {
-                    tooltip('Please enter response!');
+                    tooltip('Please enter response!', 'error');
                     return false;
                 }
                 else if (response.length > 5000)
                 {
-                    tooltip('Response should be less 5000 chars!');
+                    tooltip('Response should be less 5000 chars!', 'error');
                     return false;
                 }
                 else
@@ -160,7 +160,7 @@
                 if (data)
                 {
                     $('#ticketresponse').val('');
-                    tooltip("Response added to Ticket #" + $('#ticketNumber').val() +" successfully!");
+                    tooltip("Response added to Ticket #" + $('#ticketNumber').val() +" successfully!").delay(600);
                     $.mobile.changePage("#ticket_detail_main_page", {reloadPage : true});
                     //$("#ticket_detail_main_page").page('destroy').page();
                     //$("#ticket_detail_response_list").listview('refresh')
@@ -200,17 +200,17 @@
                 var notes = htmlEscape($('#transferdetails').val().trim());
                 if (!notes)
                 {
-                    tooltip('Please enter transfer details!');
+                    tooltip('Please enter transfer details!', 'error');
                     return false;
                 }
                 else if (!$("#tech_list").val())
                 {
-                    tooltip('Please select Technician!');
+                    tooltip('Please select Technician!', 'error');
                     return false;
                 }
                 else if (notes.length > 5000)
                 {
-                    tooltip('Transfer details should be less 5000 chars!');
+                    tooltip('Transfer details should be less 5000 chars!', 'error');
                     return false;
                 }
                 else
@@ -299,17 +299,17 @@
                 var hours = htmlEscape($('#time_hours').val().trim());
                 if (!hours)
                 {
-                    tooltip('Please enter hours!');
+                    tooltip('Please enter hours!', 'error');
                     return false;
                 }
                 else if (hours <= 0 || hours > 24)
                 {
-                    tooltip('Hours should be less 24 and more that 0!');
+                    tooltip('Hours should be less 24 and more that 0!', 'error');
                     return false;
                 }
                 else if (notes.length > 5000)
                 {
-                    tooltip('Hours details should be less 5000 chars!');
+                    tooltip('Hours details should be less 5000 chars!', 'error');
                     return false;
                 }
                 else
@@ -386,7 +386,7 @@
                 //else 				
 				if (notes.length > 5000)
                 {
-                    tooltip('Close details should be less 5000 chars!');
+                    tooltip('Close details should be less 5000 chars!', 'error');
                     return false;
                 }
                 else
@@ -401,8 +401,11 @@
                 if (data)
                 {
                     $('#closedetails').val('');
-                    tooltip("Ticket #" + $('#ticketNumber').val() + " closed successfully!");
-                    window.history.go($.mobile.urlHistory.stack.length * -1);
+                    tooltip("Ticket #" + $('#ticketNumber').val() + " closed successfully!", 'hdsuccess');
+					 setTimeout ( function() {
+						 window.history.go($.mobile.urlHistory.stack.length * -1);
+						 }, 900 );
+                    
                     //window.location.replace("org_inst.html");
                 }
                 else
