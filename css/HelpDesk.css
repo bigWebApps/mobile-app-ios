@@ -59,25 +59,28 @@ label {
 		z-index: 9999999;
 		border: 2px solid #e7e7e7;
 		}
-  		.error{
+		.popupcontainer p {
+	  	  font-size: 16px;
+	  	  font-weight: bold;
+	  	  color: #222;
+	  	  text-shadow: 1px 1px 0px #ffffff;
+	  	  font-family: Arial, sans-serif;
+	  	  }
+  		.error,
+		.error p{
 			text-shadow: 1px 1px 0px #7C0000 !important;
-			color: white;
+			color: white !important;
 			background: #EC1818;
 			border: 2px solid red;
 		}
-		.hdsuccess{
+		.hdsuccess,
+		.hdsuccess p{
 			text-shadow: 1px 1px 0px #007c00 !important;
-			color: white;
+			color: white !important;
 			background: #359946;
 			border: 2px solid #4bb55d;
 		}
-  .popupcontainer p {
-	  font-size: 16px;
-	  font-weight: bold;
-	  color: #222;
-	  text-shadow: 1px 1px 0px #ffffff;
-	  font-family: Arial, sans-serif;
-	  }
+  
 
 /*--- Overrides ---*/
 .ui-page {
