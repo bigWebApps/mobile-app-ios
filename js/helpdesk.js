@@ -682,6 +682,7 @@ function tooltip(message, type)
      .delay( 1500 )
      .fadeOut(600, function(){
      $(this).remove();
+	 $(".submitButton").removeAttr("disabled");
      }
      );
 };
