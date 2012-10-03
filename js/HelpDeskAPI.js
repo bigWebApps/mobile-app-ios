@@ -86,7 +86,17 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status == 401 || jqXHR.status == 403) {				
+            if (jqXHR.status == 0)
+            {
+		var data = JSON.parse(jqXHR.responseText);
+            if (typeof data.UserKey !== 'undefined')
+                setStorage('key', data.UserKey);
+            if (callback != null)
+                callback(data);
+                
+                //error('Connection failed.<br/>Please check your Internet connection.');
+            }
+            else if (jqXHR.status == 401 || jqXHR.status == 403) {				
                 if (window.location.href.indexOf("login.html") >= 0) {
 					tooltip("Incorrect Password", "error");
                 }
@@ -106,10 +116,6 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             {
                 error('Ticket Info not found. Back to home page.');
                 $.mobile.changePage("home.html");
-            }
-			else if (jqXHR.status == 0)
-            {
-                error('Connection failed.<br/>Please check your Internet connection.');
             }
             else
             {
