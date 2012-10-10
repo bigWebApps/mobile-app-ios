@@ -1,0 +1,48 @@
+<head> 
+	<title>HelpDesk</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/moment.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.md5.min.js"></script>
+    <script src="js/jquery.mobile-1.1.1.min.js"></script>
+    <script src="js/handlebars-1.0.0.beta.6.js"></script>
+    <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/templates.js"></script>
+    <script src="js/helpdesk.js"></script>
+	
+</head>
+<body>
+<div id="container"/>
+<div id="ticketqlist_page" data-role="page">
+
+	<div data-role="header" data-position="fixed" data-theme="h">
+		<h1>Ticket Queues</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">		
+		<ul id="tickets_queue_list" data-role="listview" data-theme="d">
+		</ul>
+        <script id="ht_tickets_queue_list" type="text/x-handlebars-template">
+            {{#if this}}
+            {{#each this}}
+            <li><a href="ticket_list.html?id={{Id}}" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
+            {{/each}}
+            {{else}}
+			<li data-corners="false" data-shadow="false" data-icon="arrow-l" data-iconpos="left">
+				<a href="home.html" class="ui-link-inherit" rel="external">
+					<h2>No queue lists found.</h2>
+				</a>
+		  	</li>            
+            {{/if}}
+        </script>
+	</div><!-- /content -->
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
+        <a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Back</a>
+    </div>
+
+</div>
+</body><!-- /page -->

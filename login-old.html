@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HelpDesk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+    <script src="cordova-2.1.0.js"></script>
+	<script src="js/jquery.min.js"></script> 
+	<script src="js/login.js"></script>
+    
+</head>
+<body>
+<div id="login_page" class="container">
+        <div align="center" style="margin-top: 10px;"><img src="img/helpdesk_logo.png"></div>
+
+    	<div data-role="content">
+        	
+                <p>
+                <label for="email" class="ui-hidden-accessible">Email</label>
+                <input type="email" name="email" id="email" value="" placeholder="email"/>
+                </p>
+                <p>
+                <label for="password" class="ui-hidden-accessible">Password</label>
+                <input type="password" name="password" id="password" value="" placeholder="password"/>
+                </p>
+                <button class="gbutton huge fullwidth" onClick="submitForm();" data-theme="b">Log In</button>
+			
+        </div>
+    </div>
+    
+    
+    
+    
+    <script>
+		function submitForm() {
+			var email = $("#email").val().trim();
+			var pass = $("#password").val().trim()
+			
+			if (!email || !pass) {
+				alert('Please enter an Email and Password');
+				return;
+				}
+			
+			$.hdLogin = function( user, pass ) {
+					
+					
+					var dfd = $.Deferred();
+					
+					$.ajax({
+						url: 'https://app.bigwebapps.com/api/login',
+						data: JSON.stringify({"UserName":user, "Password":pass}),
+						async:true,
+						cache:false,
+						dataType:"json",
+						contentType:"application/json; charset=utf-8",
+						success: dfd.resolve,
+						error: dfd.reject
+					});
+					return dfd.promise();
+				};
+			
+			$.hdLogin( email, pass ).then(
+				//if dfd.resolve
+				function (results) {
+					window.localStorage.clear();					
+					window.localStorage.setItem("login", email);
+					window.localStorage.setItem("password", pass);
+					window.location.replace("org_inst.html");
+				},
+				function (jqXHR, textStatus, errorThrown) {
+					if (jqXHR.status == 0) {
+						alert(jqXHR.status)						
+						//window.localStorage.setItem("login", email);
+						//window.localStorage.setItem("password", pass);
+						//window.location.replace("org_inst.html");
+						}
+					else
+						if (jqXHR.status == 401 || jqXHR.status == 403) {
+								alert("Incorrect email / Password");
+						}
+					else
+						if (errorThrown == 'timeout') {
+							if (confirm('Connection timeout. Do you want to reload this page?'))
+								location.href = location.href;
+						}
+					else if (errorThrown == 'parsererror')
+						{ 
+							alert('Error parsing JSON answer from  HelpDeskAPI. ' + jqXHR.status);
+						}
+					else
+						{
+							alert( "Some kind of Err " + jqXHR.status );
+						}				
+				}				
+			);
+		};		
+	</script>
+</body>
+    <!-- /content -->
+</html>

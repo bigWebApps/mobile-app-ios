@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HelpDesk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.1.1.min.js"></script>
+    <script src="js/handlebars-1.0.0.beta.6.js"></script>
+    <script src="js/HelpDeskAPI.js"></script>
+    <script src="js/helpdesk.js"></script>
+
+</head>
+<body>
+<div id="container"/>
+<div id="organizations_page" data-role="page">
+
+	<div data-role="header" data-position="fixed" data-theme="h">
+        <h1>HelpDesk</h1>
+    </div>
+	<div id="content_org" data-role="content" data-add-back-btn="false">
+        <fieldset data-role="controlgroup" id="organizations_list">
+        </fieldset>
+        <script id="ht_organizations_list" type="text/x-handlebars-template">
+            <legend>Choose an Organization:</legend>
+            {{#each this}}
+            <input type="radio" name="radio-org-1" id="radio-org-{{key}}" value="{{key}}" />
+            <label for="radio-org-{{key}}" name="radio-org-1">{{name}}</label>
+            {{/each}}
+        </script>
+    </div>
+    <div data-role="footer" data-theme="h" data-position="fixed">
+        <a href="#" onclick="logout()" data-theme="g" data-role="button" data-icon="arrow-l" data-iconpos="left" data-corners="true" >Logout</a>
+    </div>
+</div>
+
+<div id="instances_page" data-role="page">
+	<div data-role="header" data-position="fixed" data-theme="h">
+        <h1>HelpDesk</h1>
+    </div>
+	<div id="content_inst" data-role="content" data-add-back-btn="false">
+        <fieldset data-role="controlgroup" id="instances_list">
+        </fieldset>
+        <script id="ht_instances_list" type="text/x-handlebars-template">
+            <legend>Choose an Instance:</legend>
+            {{#each this}}
+            <input type="radio" name="instance-1" id="instance-{{key}}" value="{{key}}" />
+            <label for="instance-{{key}}">{{name}}</label>
+            {{/each}}
+        </script>
+	</div>
+    <div data-role="footer" data-theme="h" data-position="fixed">
+        <a href="#" onclick="logout()" data-theme="g" data-role="button" data-icon="arrow-l" data-iconpos="left" data-corners="true" >Logout</a>
+    </div>
+</div>
+
+</body>
+</html>

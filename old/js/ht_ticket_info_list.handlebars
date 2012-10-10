@@ -1,0 +1,52 @@
+{{#if AccountLocationName}}
+<li>
+    <p>Account Location:</p>
+    <strong>{{AccountLocationName}}</strong>
+</li>
+{{/if}}
+{{#if SLAComplete}}
+<li>
+    <p>SLA Completion Date:</p>
+    <strong>{{dateFormat SLAComplete format="utc"}} ({{dateFormat SLAComplete format="fromNow"}})</strong>
+</li>
+{{/if}}
+{{#if SLARespose}}
+<li>
+    <p>SLA Response Date:</p>
+    <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLARespose format="fromNow"}})</strong>
+</li>
+{{/if}}
+<li>
+    <p>Hours:</p>
+    <strong>{{TotalHours}} hr</strong>
+</li>
+{{#if CreateTime}}
+<li>
+    <p>Days Old/Work Day Timer:</p>
+    <strong>{{dateFormat CreateTime format="fromNow+"}}</strong>
+</li>
+{{/if}}
+{{#if ProjectName}}
+<li>
+    <p>Project:</p>
+    <strong>{{ProjectName}}</strong>
+</li>
+{{/if}}
+{{#if Assets}}
+<li>
+    <p>Assets:</p>
+    <strong>{{{assetsHelper Assets}}}</strong>
+</li>
+{{/if}}
+{{#if RequestCompletionDate}}
+<li>
+    <p>Request Completion Date:</p>
+    <strong>{{dateFormat RequestCompletionDate format="calendar"}}</strong>
+</li>
+{{/if}}
+{{#if CustomFieldsXML}}
+<li>
+    <p>Custom Fields:</p>
+    <p><strong>{{{customFields CustomFieldsXML}}}</strong></p>
+</li>
+{{/if}}

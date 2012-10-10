@@ -1,29 +1,23 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head>
-    <title>HelpDesk</title>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
+  <head>
+    <meta name="viewport" content="width=320; user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>HelpDesk Mobile</title>    
+    <script src="cordova-2.1.0.js"></script>
+    <script src="js/login.js"></script>
+	<script>	
+		function init() {
+			document.addEventListener("deviceready", onDeviceReady, true);
+		}
+		function onDeviceReady() {			
+			checkConnection();
+			checkStorage(true);          
+		};
+    </script>
+ 
 
-    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
-    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
-    <script src="js/moment.min.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.mobile-1.1.1.min.js"></script>
-    <script src="js/handlebars-1.0.0.beta.6.js"></script>
-    <script src="js/HelpDeskAPI.js"></script>
-    <script src="js/helpdesk.js"></script>
-
-
-</head>
-<body>
-<div id="container"/>
-<div id="index_page" data-role="page" data-add-back-btn="false">
-
-</div>
-<!-- /page -->
-
-</body>
+    </head>
+	<body onload="init();">		
+	</body>
 </html>
