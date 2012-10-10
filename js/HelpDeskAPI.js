@@ -10,16 +10,16 @@
  * @return Instance of {@link HelpDeskAPI}
  */
 
-var ua = navigator.userAgent;
-var android = false;
+//var ua = navigator.userAgent;
+//var android = false;
 
 var HelpDeskAPI = function (options) {
 
-    if(ua.match(/Android/i)){
-        android = true;
-    }
+    //if(ua.match(/Android/i)){
+    //    android = true;
+    //}
 
-    console.log("android:"+android);
+    //console.log("android:"+android);
 
         if (!options)
         var options = {};
@@ -34,17 +34,6 @@ var HelpDeskAPI = function (options) {
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
-/**
- * Sends a given request as a JSON object to the  HelpDeskAPI and finally
- * calls the given callback function with the resulting JSON object. This
- * method should not be called directly but will be used internally by all HelpDeskAPI
- * methods defined.
- *
- * @param method  HelpDeskAPI method to call
- * @param availableParams Parameters available for the specified HelpDeskAPI method
- * @param givenParams Parameters to call the  HelpDeskAPI with
- * @param callback Callback function to call on success
- */
 HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, callback) {
 
     var finalParams = {};//"";
@@ -59,16 +48,82 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     }
     //finalParams += "}";
 
+    var requestUrl;
+
     if (this.key) {
         var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
-        this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
+        requestUrl = this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
     }
+    else
+        requestUrl =  this.httpUri;
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams.Method : 'POST';
 
     var error_message;
 
-    $.ajax({
+    xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = oncallback;
+    var timeoutRequest;
+
+    function oncallback() {
+        if(xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 201 || xhr.status == 0)) {
+            clearTimeout(timeoutRequest);
+            //console.log(xhr.responseText);
+            var data = JSON.parse(xhr.responseText);
+            if (typeof data.UserKey !== 'undefined')
+                setStorage('key', data.UserKey);
+            if (callback != null)
+                callback(data);
+            $.mobile.hidePageLoadingMsg();
+            mainloaded = true;
+            if (givenParams.refresh  !== 'undefined')
+            {
+                $(givenParams.refresh).listview('refresh');
+            }
+        }
+         else if (xhr.readyState == 4){
+            clearTimeout(timeoutRequest);
+            if (xhr.status == 401 || xhr.status == 403) {
+                if (window.location.href.indexOf("login.html") >= 0) {
+                    tooltip("Incorrect Password", "error");
+                }
+                else
+                    window.location.replace("login.html");
+            }
+            else if (xhr.status == 500)
+                error(errorThrown);
+            else if (xhr.status == 404)
+            {
+                error('Ticket Info not found. Back to home page.');
+                $.mobile.changePage("home.html");
+            }
+            else
+            {
+                error_message = xhr.responseText + ' ';
+                alert(error_message);
+            }
+        }
+    };
+
+    function request() {
+        xhr.open(requestType, requestUrl + '/' + method + '?_=' + $.now(), true);
+        xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        if (requestType == 'POST')
+           xhr.send(JSON.stringify(finalParams));
+        else
+           xhr.send(null);
+        // set timeout 20 seconds
+        timeoutRequest = setTimeout( function(){ xhr.abort(); handleTimeout() }, 20000);
+    };
+
+    function handleTimeout() {
+            if (confirm('Connection timeout.\n\nDo you want to reload this page?'))
+                location.href = location.href;
+    }
+
+    setTimeout(request, 500);
+
+    /*$.ajax({
         url:this.httpUri + '/' + method + '?_=' + $.now(),
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
@@ -96,9 +151,9 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                     error('Status 0 on Android. <br/>Cached version loaded.');
                 }
             }
-            else if (jqXHR.status == 401 || jqXHR.status == 403) {				
+            else if (jqXHR.status == 401 || jqXHR.status == 403) {
                 if (window.location.href.indexOf("login.html") >= 0) {
-					tooltip("Incorrect Password", "error");
+                    tooltip("Incorrect Password", "error");
                 }
                 else
                     window.location.replace("login.html");
@@ -120,7 +175,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             else
             {
                 error_message = errorThrown + ' ';
-             }
+            }
         },
         complete:function(){
             $.mobile.hidePageLoadingMsg();
@@ -154,10 +209,11 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                     $(givenParams.refresh).listview('refresh');
                 }
             }
-          }
+        }
     });
     //mainloaded = true;
     //$.mobile.hidePageLoadingMsg();
+    */
 };
 
 /*****************************************************************************/
@@ -449,3 +505,130 @@ HelpDeskAPI.prototype.ticket_q_list = function (params, callback) {
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/queues', ["Method"
     ], params, callback);
 };
+
+/**
+ * Sends a given request as a JSON object to the  HelpDeskAPI and finally
+ * calls the given callback function with the resulting JSON object. This
+ * method should not be called directly but will be used internally by all HelpDeskAPI
+ * methods defined.
+ *
+ * @param method  HelpDeskAPI method to call
+ * @param availableParams Parameters available for the specified HelpDeskAPI method
+ * @param givenParams Parameters to call the  HelpDeskAPI with
+ * @param callback Callback function to call on success
+
+ HelpDeskAPI.prototype.execute2 = function (method, availableParams, givenParams, callback) {
+
+    var finalParams = {};//"";
+
+    //finalParams = "{";
+    for (var i = 0; i < availableParams.length; i++) {
+        var currentParam = availableParams[i];
+        if (typeof givenParams[currentParam] !== 'undefined') {
+            finalParams[currentParam] = givenParams[currentParam];
+            //finalParams += '"' + currentParam + '":"' + givenParams[i] + '", ';
+        }
+    }
+    //finalParams += "}";
+
+    if (this.key) {
+        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+ this.httpUri = (this.secure) ? 'https://' + basicUrl : 'http://' + basicUrl;  //+ ':443'
+ }
+
+ var requestType = typeof finalParams.Method !== 'undefined' ? finalParams.Method : 'POST';
+
+ var error_message;
+
+ $.ajax({
+        url:this.httpUri + '/' + method + '?_=' + $.now(),
+        //beforeSend:function(){$.mobile.showPageLoadingMsg();},
+        type:requestType,
+        //cache:false,
+        async:true,
+        dataType:"json",
+        data:JSON.stringify(finalParams), //'{"UserName":"jon.vickers@micajah.com", "Password":"vader"}', //finalParams,
+ contentType:"application/json; charset=utf-8",
+ timeout:15000,
+ success:function (data) {
+            //alert('success');
+            if (typeof data.UserKey !== 'undefined')
+                setStorage('key', data.UserKey);
+            if (callback != null)
+                callback(data);
+        },
+ error:function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status == 0)
+            {
+                if(!android){
+                    error('Connection failed.<br/>Please check your Internet connection.');
+                }
+                else
+                {
+                    error('Status 0 on Android. <br/>Cached version loaded.');
+                }
+            }
+            else if (jqXHR.status == 401 || jqXHR.status == 403) {
+                if (window.location.href.indexOf("login.html") >= 0) {
+					tooltip("Incorrect Password", "error");
+                }
+                else
+                    window.location.replace("login.html");
+            }
+            else
+            if (errorThrown == 'timeout') {
+                if (confirm('Connection timeout.\n\nDo you want to reload this page?'))
+                    location.href = location.href;
+            }
+            else if (errorThrown == 'parsererror')
+                error('Error parsing JSON answer from  HelpDeskAPI.');
+            else if (jqXHR.status == 500)
+                error(errorThrown);
+            else if (jqXHR.status == 404)
+            {
+                error('Ticket Info not found. Back to home page.');
+                $.mobile.changePage("home.html");
+            }
+            else
+            {
+                error_message = errorThrown + ' ';
+             }
+        },
+ complete:function(){
+            $.mobile.hidePageLoadingMsg();
+            mainloaded = true;
+            if (error_message != null)
+            {
+                //check Ping
+                $.ajax({
+                    url:this.httpUri + '/ping',
+                    type:'GET',
+                    cache:false,
+                    async:false,
+                    dataType:"json",
+                    contentType:"application/json; charset=utf-8",
+                    timeout:15000,
+                    success:function (data) {
+                        if (data == "All works")
+                            error('Unknown error ('+error_message+').<br/>Please check your Internet connection.');
+                        else
+                            error('Sorry, our service is temporarily unavailable at this time. <br/>Please check back later.');
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        error('Sorry, our service is temporarily unavailable at this time. <br/>Please check back later.');
+                    }
+                });
+            }
+            else
+            {
+                if (givenParams.refresh  !== 'undefined')
+                {
+                    $(givenParams.refresh).listview('refresh');
+                }
+            }
+          }
+ });
+ //mainloaded = true;
+ //$.mobile.hidePageLoadingMsg();
+ };
+ */
