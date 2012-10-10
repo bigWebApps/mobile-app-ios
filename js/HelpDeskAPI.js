@@ -10,13 +10,19 @@
  * @return Instance of {@link HelpDeskAPI}
  */
 
+var ua = navigator.userAgent;
+var android = false;
+
 var HelpDeskAPI = function (options) {
 
-    if (!options)
-        var options = {};
+    if(ua.match(/Android/i)){
+        android = true;
+    }
 
-    //if (!email || !pass)
-    //    throw 'You have to provide an login and pass for this to work.';
+    console.log("android:"+android);
+
+        if (!options)
+        var options = {};
 
     this.key = getStorage('key');
     this.version = '1.0';
@@ -60,19 +66,13 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams.Method : 'POST';
 
-    //alert(this.httpUri + '/' + method);
-    //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
-    //console.log(availableParams);
-    //console.log(givenParams);
-    //console.log(finalParams);
-
     var error_message;
 
     $.ajax({
-        url:this.httpUri + '/' + method,
+        url:this.httpUri + '/' + method + '?_=' + $.now(),
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
-        cache:false,
+        //cache:false,
         async:true,
         dataType:"json",
         data:JSON.stringify(finalParams), //'{"UserName":"jon.vickers@micajah.com", "Password":"vader"}', //finalParams,
@@ -88,13 +88,13 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         error:function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 0)
             {
-		var data = JSON.parse(jqXHR.responseText);
-            if (typeof data.UserKey !== 'undefined')
-                setStorage('key', data.UserKey);
-            if (callback != null)
-                callback(data);
-                
-                //error('Connection failed.<br/>Please check your Internet connection.');
+                if(!android){
+                    error('Connection failed.<br/>Please check your Internet connection.');
+                }
+                else
+                {
+                    error('Status 0 on Android. <br/>Cached version loaded.');
+                }
             }
             else if (jqXHR.status == 401 || jqXHR.status == 403) {				
                 if (window.location.href.indexOf("login.html") >= 0) {
@@ -119,15 +119,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             }
             else
             {
-			//console.log(jqXHR.status);
-			//console.log(textStatus);
-			//console.log(errorThrown);
                 error_message = errorThrown + ' ';
-                //error('Unknown error ('+errorThrown+').\n\nPlease check your Internet connection.');
-            }
-            //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
-            //clearStorage();
-            //window.location.replace("login.html")
+             }
         },
         complete:function(){
             $.mobile.hidePageLoadingMsg();
@@ -156,10 +149,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             }
             else
             {
-            if (givenParams.refresh  !== 'undefined')
-            {
-            $(givenParams.refresh).listview('refresh');
-            }
+                if (givenParams.refresh  !== 'undefined')
+                {
+                    $(givenParams.refresh).listview('refresh');
+                }
             }
           }
     });
