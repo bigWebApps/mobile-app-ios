@@ -39,5 +39,20 @@
 		<feature name="http://api.phonegap.com/1.0/file"/>
 		<feature name="http://api.phonegap.com/1.0/network"/>
 		<feature name="http://api.phonegap.com/1.0/notification"/>
+		
+		<!-- Android Specific -->
+		<preference name="android-minSdkVersion" value="10" />
+		<preference name="android-installLocation" value="internalOnly" />
+		
+		<!-- Android Icons -->
+		<icon src="icon_at_2x.png" />
+		<icon src="img/icons/android/ldpi.png" gap:platform="android" gap:density="ldpi" />
+		<icon src="img/icons/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
+		<icon src="img/icons/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
+		
+		<!-- Android Splash -->
+		<gap:splash src="img/splash/android/ldpi.png" gap:platform="android" gap:density="ldpi" />
+		<gap:splash src="img/splash/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
+		<gap:splash src="img/splash/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
 	
 	</widget>

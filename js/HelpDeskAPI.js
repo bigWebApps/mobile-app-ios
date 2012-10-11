@@ -70,24 +70,21 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             clearTimeout(timeoutRequest);
             //console.log(xhr.responseText);
             var data = JSON.parse(xhr.responseText);
-			$.mobile.hidePageLoadingMsg();
-			alert(data);
-            //if (typeof data.UserKey !== 'undefined')				
-                //window.localStorage.setItem("key", data.UserKey);
-            //if (callback != null)
-                //callback(data);
-            //$.mobile.hidePageLoadingMsg();
-            //mainloaded = true;
-           // if (givenParams.refresh  !== 'undefined')
-            //{
-            //    $(givenParams.refresh).listview('refresh');
-            //}
+            if (typeof data.UserKey !== 'undefined')
+                setStorage('key', data.UserKey);
+            if (callback != null)
+                callback(data);
+            $.mobile.hidePageLoadingMsg();
+            mainloaded = true;
+            if (givenParams.refresh  !== 'undefined')
+            {
+                $(givenParams.refresh).listview('refresh');
+            }
         }
          else if (xhr.readyState == 4){
             clearTimeout(timeoutRequest);
             if (xhr.status == 401 || xhr.status == 403) {
-                if (window.location.href.indexOf("login") > -1) {
-					$.mobile.hidePageLoadingMsg();
+                if (window.location.href.indexOf("login.html") >= 0) {
                     tooltip("Incorrect Password", "error");
                 }
                 else
