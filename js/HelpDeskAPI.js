@@ -59,7 +59,9 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     }
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams.Method : 'POST';
-
+    delete finalParams['Method'];
+    console.log(requestType);
+    console.log(finalParams);
     //alert(this.httpUri + '/' + method);
     //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
     //console.log(availableParams);
@@ -69,9 +71,9 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     var error_message;
 
     $.ajax({
-		beforeSend: function (xhr) {
-									xhr.withCredentials = true;									
-									},
+		//beforeSend: function (xhr) {
+		//							xhr.withCredentials = true;
+		//							},
         url:this.httpUri + '/' + method,
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
@@ -85,7 +87,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 			if (typeof data.UserKey !== 'undefined')
 			{
 				setStorage('key', data.UserKey);
-				}       
+			}
 				
             if (callback != null)
                 callback(data);
