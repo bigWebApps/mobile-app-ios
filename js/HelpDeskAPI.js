@@ -58,10 +58,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
     }
 
-    var requestType = typeof finalParams.Method !== 'undefined' ? finalParams.Method : 'POST';
+    var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
     console.log(requestType);
-    console.log(finalParams);
+    console.log(finalParams.length);
     //alert(this.httpUri + '/' + method);
     //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
     //console.log(availableParams);
@@ -80,7 +80,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         cache:true,
         async:true,
         dataType:"json",
-        data:JSON.stringify(finalParams), 
+        data: $.isEmptyObject(finalParams) ? null : JSON.stringify(finalParams),
         contentType:"application/json; charset=utf-8",
         timeout:15000,
         success:function (data, status, xhr) {
@@ -186,6 +186,7 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     //console.log(getStorage("login"));
     setStorage("password", params.Password);
     //console.log(getStorage("password"));
+    params["Method"] = "POST";
     this.execute('login', ["UserName", "Password"
     ], params, callback);
 };
