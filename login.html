@@ -8,11 +8,11 @@
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
     <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.mobile-1.1.1.min.js"></script>
-    <script src="js/jquery.json-2.3.min.js"></script>
     <script src="js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
     <script src="js/helpdesk.js"></script>
+    <script src="js/jquery.mobile-1.1.1.min.js"></script>
+    
 </head>
 <body>
 <div id="container"/>
@@ -25,15 +25,15 @@
             function form_submit(e) {
                 //if(!checkConnection()){return false};
                 //checkConnection();
-				$.mobile.showPageLoadingMsg();
                 $(".submitButton").attr("disabled","disabled");
+				$.mobile.showPageLoadingMsg();
                 var email = $("#email").val().trim();
                 var pass = $("#password").val().trim();
                 if (!email || !pass)
-					{
-                    	$.mobile.hidePageLoadingMsg();
-						tooltip('Please provide login and password!', 'error');
-					}
+				{
+                    $.mobile.hidePageLoadingMsg();
+					tooltip('Please provide login and password!', 'error');
+				}
                 else
                     api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);                
                 return false;
@@ -44,11 +44,12 @@
                 $(".submitButton").removeAttr("disabled");
                     if (data)
                     {
-                        window.location.replace("org_inst.html");
+                        $.mobile.hidePageLoadingMsg();
+					    window.location.replace("org_inst.html");
                     }
                 else
-					{
-                    	$.mobile.hidePageLoadingMsg();
+                    {
+						$.mobile.hidePageLoadingMsg();
 						error("Incorrect login/pass!");
 					}
                 return false;

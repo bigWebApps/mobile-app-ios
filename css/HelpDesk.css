@@ -66,23 +66,23 @@ label {
 	  	  text-shadow: 1px 1px 0px #ffffff;
 	  	  font-family: Arial, sans-serif;
 	  	  }
-  		.error{
+  		.error{			
 			background: #EC1818;
 			border: 2px solid red;
 		}
 		.error p{
 			text-shadow: 1px 1px 0px #7C0000 !important;
 			color: white !important;
+			border: none;
 		}
-		.hdsuccess{
-			text-shadow: 1px 1px 0px #007c00 !important;
-			color: white !important;
+		.hdsuccess{			
 			background: #359946;
 			border: 2px solid #4bb55d;
 		}
 		.hdsuccess p{
-			text-shadow: 1px 1px 0px #7C0000 !important;
+			text-shadow: 1px 1px 0px #007c00 !important;
 			color: white !important;
+			border: none;
 		}
   
 

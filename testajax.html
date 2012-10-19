@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HelpDesk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
+    <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/handlebars-1.0.0.beta.6.js"></script>
+    <script src="js/jquery.mobile-1.1.1.min.js"></script>
+    
+</head>
+<body>
+<div id="container"/>
+<div id="login_page" data-role="page">
+        <div align="center" style="margin-top: 10px;"><img src="img/helpdesk_logo.png"></div>
+
+    <div data-role="content">
+        <script>
+            
+        </script>
+        <form id="loginForm" data-ajax="false" onsubmit="return form_submit();">
+            <p>
+            <label for="email" class="ui-hidden-accessible">Email</label>
+            <input type="email" name="email" id="email" value="" placeholder="email"/>
+            </p>
+            <p>
+            <label for="password" class="ui-hidden-accessible">Password</label>
+            <input type="password" name="password" id="password" value="" placeholder="password"/>
+            </p>
+            <button data-theme="b" onClick="login();">Login to HelpDesk</button>
+            
+        </form>
+        </div>
+    </div>
+</body>
+    <!-- /content -->
+</html>
