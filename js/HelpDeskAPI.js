@@ -71,19 +71,25 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     var error_message;
 
     $.ajax({
-		//beforeSend: function (xhr) {
-		//							xhr.withCredentials = true;
-		//							},
-        url:this.httpUri + '/' + method,
+		beforeSend: function (xhr) {
+									xhr.withCredentials = true;
+									},
+        url:this.httpUri + '/' + method + '?callback=?',
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
         async:true,
-        dataType:"json",
+        dataType:"text",
         data: $.isEmptyObject(finalParams) ? null : JSON.stringify(finalParams),
         contentType:"application/json; charset=utf-8",
         timeout:15000,
         success:function (data, status, xhr) {
+            console.log('success');
+            console.log(data);
+            var textVal = data;
+            textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
+            data = JSON.parse(textVal);
+            console.log(data);
 			if (typeof data.UserKey !== 'undefined')
 			{
 				setStorage('key', data.UserKey);
@@ -93,7 +99,22 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status == 401 || jqXHR.status == 403) {				
+            console.log(jqXHR.status);
+            if (jqXHR.status == 201 ) {
+                console.log(201);
+                var textVal = jqXHR.responseText;
+                textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
+                var data = JSON.parse(textVal);
+                console.log(data);
+                if (typeof data.UserKey !== 'undefined')
+                {
+                    setStorage('key', data.UserKey);
+                }
+
+                if (callback != null)
+                    callback(data);
+            }
+            else if (jqXHR.status == 401 || jqXHR.status == 403) {
                 if (window.location.href.indexOf("login.html") >= 0) {
 					tooltip("Incorrect Password", "error");
                 }
