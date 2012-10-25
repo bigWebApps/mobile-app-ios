@@ -82,9 +82,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         dataType:"text",
         data: $.isEmptyObject(finalParams) ? null : JSON.stringify(finalParams),
         contentType:"application/json; charset=utf-8",
-        timeout:15000,
+        timeout:20000,
         success:function (data, status, xhr) {
-            console.log('success');
+            alert('success');
+            alert(data);
             console.log(data);
             var textVal = data;
             textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
@@ -99,9 +100,11 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR.status);
+            alert(jqXHR.status);
+            alert(data);
             if (jqXHR.status == 201 ) {
-                console.log(201);
+               alert(201);
+                alert(data);
                 var textVal = jqXHR.responseText;
                 textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
                 var data = JSON.parse(textVal);
