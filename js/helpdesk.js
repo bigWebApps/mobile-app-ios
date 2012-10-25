@@ -118,7 +118,7 @@ function checkStorage(changelocation)
         {
             if (window.location.href.indexOf("org_inst.html")<0)
             {
-                window.location.replace("org_inst.html");
+                //window.location.replace("org_inst.html");
                 return false;
             }
         }
@@ -526,7 +526,7 @@ pageReady("organizations", function(){
                 getConfig(function(){$.mobile.changePage("home.html");});
                 return;
             }
-            $.mobile.changePage("org_inst.html#instances_page");
+            $.mobile.changePage("#instances_page");
             return;
         }
 

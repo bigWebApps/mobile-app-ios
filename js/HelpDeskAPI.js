@@ -102,7 +102,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         error:function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status);
             alert(data);
-            if (jqXHR.status == 201 ) {
+            if (jqXHR.status == 201 || jqXHR.status == 0) {
                alert(201);
                 alert(data);
                 var textVal = jqXHR.responseText;
