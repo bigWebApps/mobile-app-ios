@@ -118,8 +118,8 @@ function checkStorage(changelocation)
         {
             if (window.location.href.indexOf("org_inst.html")<0)
             {
-                //$.mobile.changePage("#organizations_page");
-                window.location.replace("org_inst.html");
+                $.mobile.changePage("#organizations_page");
+                //window.location.replace("org_inst.html");
                 return false;
             }
         }
