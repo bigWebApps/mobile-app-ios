@@ -47,6 +47,38 @@
                         $.mobile.hidePageLoadingMsg();
 					    //window.location.replace("org_inst.html");
                         $.mobile.changePage("#organizations_page");
+                        var parseorgs = function (data) {
+                            if (!data)
+                            {
+                                return;
+                            }
+
+                            setStorage("org_list", data);
+
+                            if (data.length == 1)
+                            {
+                                setStorage('organization', data[0].Key);
+                                if (data[0].Instances.length == 1)
+                                {
+                                    setStorage('instance', data[0].Instances[0].Key);
+                                    getConfig(function(){$.mobile.changePage("home.html");});
+                                    return;
+                                }
+                                $.mobile.changePage("#instances_page");
+                                return;
+                            }
+
+                            var org_list = [];//declare array
+                            $.each(data, function (index, org) {
+                                org_list.push({key: org.Key, name: org.Name});
+                            });
+
+                            var t_orgs = Handlebars.compile( $('#ht_organizations_list').html() );
+                            $('#organizations_list').empty().append(t_orgs(org_list) );
+                            $('#organizations_page').trigger('create');
+                        };
+
+                        //api.org_inst({},parseorgs);
                     }
                 else
                     {

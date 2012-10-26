@@ -53,10 +53,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     }
     //finalParams += "}";
     this.key = getStorage('key');
-    if (this.key) {
-        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
-        this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
-    }
+    //if (this.key) {
+    //    var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+    //    this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
+    //}
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
@@ -71,7 +71,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     var error_message;
 
-    if (requestType == 'GET')
+    if (requestType == 'GET1')
     {
     var req = new XMLHttpRequest();
     req.open("GET", this.httpUri + '/' + method + '?callback=?', true);
