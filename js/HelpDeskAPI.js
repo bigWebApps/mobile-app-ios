@@ -71,55 +71,26 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     var error_message;
 
-    if (requestType == 'GET1')
-    {
-    var req = new XMLHttpRequest();
-    req.open("GET", this.httpUri + '/' + method + '?callback=?', true);
-
-    req.onreadystatechange = function() {
-        if (req.readyState == 4) {
-            if (req.status == 201 || req.status == 200 || req.status == 0) {
-                var data = req.responseText;
-                alert(data);
-                var textVal = data;
-                textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
-                data = JSON.parse(textVal);
-                //console.log(data);
-                if (typeof data.UserKey !== 'undefined')
-                {
-                    setStorage('key', data.UserKey);
-                }
-
-                if (callback != null)
-                    callback(data);
-            }
-        }
-        else
-           alert(req.readyState + ":" + req.status);
-    };
-    req.send(null);
-    }
-    else
     $.ajax({
-		beforeSend: function (xhr) {
-									xhr.withCredentials = true;
-									},
-        url:this.httpUri + '/' + method + '?callback=?',
+		//beforeSend: function (xhr) {
+		//							xhr.withCredentials = true;
+		//							},
+        url:this.httpUri + '/' + method, //+ '?callback=?',
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
         async:true,
-        dataType:"text",
+        dataType:"json",
         data: $.isEmptyObject(finalParams) ? null : JSON.stringify(finalParams),
         contentType:"application/json; charset=utf-8",
         timeout:20000,
         success:function (data, status, xhr) {
             alert('success');
-            alert(data);
+            //alert(data);
             //console.log(data);
-            var textVal = data;
-            textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
-            data = JSON.parse(textVal);
+            //var textVal = data;
+            //textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
+            //data = JSON.parse(textVal);
             //console.log(data);
 			if (typeof data.UserKey !== 'undefined')
 			{
