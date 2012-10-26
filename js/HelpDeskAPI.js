@@ -52,7 +52,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         }
     }
     //finalParams += "}";
-
+    this.key = getStorage('key');
     if (this.key) {
         var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
         this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
@@ -71,6 +71,33 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     var error_message;
 
+    if (requestType == 'GET')
+    {
+    var req = new XMLHttpRequest();
+    req.open("GET", this.httpUri + '/' + method + '?callback=?', true);
+
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+            if (req.status == 201 || req.status == 200 || req.status == 0) {
+                var data = req.responseText;
+                alert(data);
+                var textVal = data;
+                textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
+                data = JSON.parse(textVal);
+                //console.log(data);
+                if (typeof data.UserKey !== 'undefined')
+                {
+                    setStorage('key', data.UserKey);
+                }
+
+                if (callback != null)
+                    callback(data);
+            }
+        }
+    };
+    req.send(null);
+    }
+    else
     $.ajax({
 		beforeSend: function (xhr) {
 									xhr.withCredentials = true;
@@ -78,8 +105,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         url:this.httpUri + '/' + method + '?callback=?',
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
-        cache:false,
-        async:false,
+        cache:true,
+        async:true,
         dataType:"text",
         data: $.isEmptyObject(finalParams) ? null : JSON.stringify(finalParams),
         contentType:"application/json; charset=utf-8",
