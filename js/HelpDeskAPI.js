@@ -94,6 +94,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                     callback(data);
             }
         }
+        else
+           alert(req.readyState + ":" + req.status);
     };
     req.send(null);
     }
