@@ -60,7 +60,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
-    //console.log(this.key);
+    console.log(this.key);
     //console.log(requestType);
     //console.log(finalParams.length);
     //alert(this.httpUri + '/' + method);
@@ -73,9 +73,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     $.ajax({
 		//beforeSend: function (xhr) {
-		//							xhr.withCredentials = true;
-		//							},
-        url:this.httpUri + '/' + method, //+ '?callback=?',
+        //    if (this.key) {xhr.withCredentials = true;
+        //                   xhr.setRequestHeader('Authorization', 'Basic ' + btoa(this.key + ':' + 'x'));
+        //    }},
+        url:this.httpUri + '/' + method + (this.key ? '?Id='+this.key : ''), //+ '?callback=?',
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
