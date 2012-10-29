@@ -25,6 +25,7 @@ var HelpDeskAPI = function (options) {
     this.secure = false;//options.secure || false;
     this.packageInfo = options.packageInfo;
     this.httpHost = 'api.beta.helpdesk.bigwebapps.com/api.ashx';//'app.bigwebapps.com/api';//'api.beta.helpdesk.bigwebapps.com';
+    //this.httpHost = 'localhost:11763/API Web/api.ashx';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
@@ -76,7 +77,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         //    if (this.key) {xhr.withCredentials = true;
         //                   xhr.setRequestHeader('Authorization', 'Basic ' + btoa(this.key + ':' + 'x'));
         //    }},
-        url:this.httpUri + '/' + method + (this.key ? '?Id='+this.key : ''), //+ '?callback=?',
+        url:this.httpUri + '/' + method, //+ '?callback=?',
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
@@ -213,7 +214,7 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     setStorage("password", params.Password);
     //console.log(getStorage("password"));
     params["Method"] = "POST";
-    this.execute('login', ["UserName", "Password"
+    this.execute('auth/credentials', ["UserName", "Password", "RememberMe"
     ], params, callback);
 };
 

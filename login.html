@@ -35,7 +35,7 @@
 					tooltip('Please provide login and password!', 'error');
 				}
                 else
-                    api.login({"UserName": $('#email').val(), "Password":$('#password').val()}, login_check);                
+                    api.login({"UserName": $('#email').val(), "Password":$('#password').val(), "RememberMe": true}, login_check);
                 return false;
                 }
 
@@ -63,7 +63,7 @@
             </p>
             <p>
             <label for="password" class="ui-hidden-accessible">Password</label>
-            <input type="password" name="password" id="password" value="" placeholder="password"/>
+            <input type="password" name="password" id="password" value="vader" placeholder="password"/>
             </p>
             <input type="submit" data-theme="b" name="submit" value="Login" class="ui-btn-hidden submitButton" aria-disabled="false">
             
