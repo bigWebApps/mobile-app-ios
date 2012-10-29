@@ -15,10 +15,6 @@ var HelpDeskAPI = function (options) {
     if (!options)
         var options = {};
 
-    //if (!email || !pass)
-    //    throw 'You have to provide an login and pass for this to work.';
-
-    this.key = getStorage('key');
     this.version = '1.0';
     this.email = getStorage('login');
     this.pass = getStorage('password');
@@ -42,43 +38,22 @@ var HelpDeskAPI = function (options) {
  */
 HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, callback) {
 
-    var finalParams = {};//"";
+    var finalParams = {};
 
-    //finalParams = "{";
     for (var i = 0; i < availableParams.length; i++) {
         var currentParam = availableParams[i];
         if (typeof givenParams[currentParam] !== 'undefined') {
             finalParams[currentParam] = givenParams[currentParam];
-            //finalParams += '"' + currentParam + '":"' + givenParams[i] + '", ';
         }
     }
-    //finalParams += "}";
-    this.key = getStorage('key');
-    //if (this.key) {
-    //    var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
-    //    this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
-    //}
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
-    console.log(this.key);
-    //console.log(requestType);
-    //console.log(finalParams.length);
-    //alert(this.httpUri + '/' + method);
-    //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
-    //console.log(availableParams);
-    //console.log(givenParams);
-    //console.log(finalParams);
 
     var error_message;
 
     $.ajax({
-		//beforeSend: function (xhr) {
-        //    if (this.key) {xhr.withCredentials = true;
-        //                   xhr.setRequestHeader('Authorization', 'Basic ' + btoa(this.key + ':' + 'x'));
-        //    }},
-        url:this.httpUri + '/' + method, //+ '?callback=?',
-        //beforeSend:function(){$.mobile.showPageLoadingMsg();},
+        url:this.httpUri + '/' + method,
         type:requestType,
         cache:true,
         async:true,
@@ -87,35 +62,17 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         contentType:"application/json; charset=utf-8",
         timeout:20000,
         success:function (data, status, xhr) {
-            alert('success');
-            //alert(data);
-            //console.log(data);
-            //var textVal = data;
-            //textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
-            //data = JSON.parse(textVal);
-            //console.log(data);
-			if (typeof data.UserKey !== 'undefined')
-			{
-				setStorage('key', data.UserKey);
-			}
-				
+            console.log('success');
             if (callback != null)
                 callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.status);
-            alert(data);
+            console.log(jqXHR.status);
+            console.log(data);
             if (jqXHR.status == 201 || jqXHR.status == 0) {
-               alert(201);
-                alert(data);
                 var textVal = jqXHR.responseText;
                 textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
                 var data = JSON.parse(textVal);
-                //console.log(data);
-                if (typeof data.UserKey !== 'undefined')
-                {
-                    setStorage('key', data.UserKey);
-                }
 
                 if (callback != null)
                     callback(data);
@@ -147,15 +104,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             }
             else
             {
-			//console.log(jqXHR.status);
-			//console.log(textStatus);
-			//console.log(errorThrown);
                 error_message = errorThrown + ' ';
-                //error('Unknown error ('+errorThrown+').\n\nPlease check your Internet connection.');
             }
-            //callback({ 'error':'Unable to connect to the  HelpDeskAPI endpoint.', 'code':'xxx' });
-            //clearStorage();
-            //window.location.replace("login.html")
         },
         complete:function(){
             $.mobile.hidePageLoadingMsg();
