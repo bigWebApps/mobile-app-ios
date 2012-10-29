@@ -151,8 +151,8 @@ function logout() {
 pageLoad("login", function() {
     {
         var form = $("#loginForm");
-        //$("#email", form).val(getStorage("login"));
-        //$("#password", form).val(getStorage("password"));
+        $("#email", form).val(getStorage("login"));
+        $("#password", form).val(getStorage("password"));
     }
 });
 
