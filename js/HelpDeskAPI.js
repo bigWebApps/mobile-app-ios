@@ -15,13 +15,14 @@ var HelpDeskAPI = function (options) {
     if (!options)
         var options = {};
 
+    this.key = getStorage('key');
     this.version = '1.0';
     this.email = getStorage('login');
     this.pass = getStorage('password');
     this.secure = false;//options.secure || false;
     this.packageInfo = options.packageInfo;
     this.httpHost = 'api.beta.helpdesk.bigwebapps.com/api.ashx';//'app.bigwebapps.com/api';//'api.beta.helpdesk.bigwebapps.com';
-    //this.httpHost = 'localhost:11763/API Web/api.ashx';
+    //this.httpHost = 'localhost:44302/api.ashx';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
@@ -52,10 +53,26 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
     var error_message;
 
+   // if (typeof finalParams.UserName !== 'undefined')
+    //    finalParams['UserName'] = getStorage('pid');
+    this.key = getStorage('key');
+    console.log(this.key);
+    //if (this.key) {
+    //    var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+    //    this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
+    //}
     $.ajax({
+        beforeSend: function(xhr) {
+        //ss-id=; ss-pid=FAqJVzjbYUSMFtsB3RRUVg==; ss-opt=perm
+            if (this.key)
+            {
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(this.key + ':' + 'x'));
+            }
+        },
         url:this.httpUri + '/' + method,
         type:requestType,
-        cache:true,
+        cache:false,
         async:true,
         dataType:"json",
         data: $.isEmptyObject(finalParams) ? null : JSON.stringify(finalParams),
@@ -63,22 +80,35 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         timeout:20000,
         success:function (data, status, xhr) {
             console.log('success');
+            if (typeof data.UserKey !== 'undefined')
+            {
+                setStorage('key', data.UserKey);
+            }
+            console.log(data.UserKey);
+            //console.log(xhr.getAllResponseHeaders());
             if (callback != null)
                 callback(data);
         },
         error:function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.status);
-            console.log(data);
+            //console.log(data);
             if (jqXHR.status == 201 || jqXHR.status == 0) {
                 var textVal = jqXHR.responseText;
+                if (textVal){
                 textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
                 var data = JSON.parse(textVal);
-
+                if (typeof data.UserKey !== 'undefined')
+                {
+                    setStorage('key', data.UserKey);
+                }
                 if (callback != null)
                     callback(data);
             }
+                else
+                    alert('data empty');
+            }
             else if (jqXHR.status == 401 || jqXHR.status == 403) {
-                if (window.location.href.indexOf("login.html") >= 0) {
+                if (window.location.href && window.location.href.indexOf("login.html") >= 0) {
 					tooltip("Incorrect Password", "error");
                 }
                 else
@@ -116,8 +146,8 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 $.ajax({
                     url:this.httpUri + '/ping',
                     type:'GET',
-                    cache:false,
-                    async:false,
+                    cache:true,
+                    async:true,
                     dataType:"json",
                     contentType:"application/json; charset=utf-8",
                     timeout:15000,
@@ -164,7 +194,7 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     setStorage("password", params.Password);
     //console.log(getStorage("password"));
     params["Method"] = "POST";
-    this.execute('auth/credentials', ["UserName", "Password", "RememberMe"
+    this.execute('login', ["UserName", "Password", "RememberMe"
     ], params, callback);
 };
 
