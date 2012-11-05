@@ -22,9 +22,9 @@ var HelpDeskAPI = function (options) {
     this.version = '1.0';
     this.email = getStorage('login');
     this.pass = getStorage('password');
-    this.secure = true;//options.secure || false;
+    this.secure = false;//options.secure || false;
     this.packageInfo = options.packageInfo;
-    this.httpHost = 'app.bigwebapps.com/api';//'api.beta.helpdesk.bigwebapps.com';
+    this.httpHost = 'api.beta.helpdesk.bigwebapps.com/api.ashx'; // 'app.bigwebapps.com/api';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
@@ -53,10 +53,10 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     }
     //finalParams += "}";
 
-    if (this.key) {
-        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
-        this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
-    }
+    //if (this.key) {
+    //    var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+    //    this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
+    //}
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
@@ -208,7 +208,7 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     setStorage("password", params.Password);
     //console.log(getStorage("password"));
     params["Method"] = "POST";
-    this.execute('login', ["UserName", "Password"
+    this.execute('auth/credentials', ["UserName", "Password", "RememberMe"
     ], params, callback);
 };
 
