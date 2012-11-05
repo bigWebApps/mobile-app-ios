@@ -19,9 +19,10 @@ var HelpDeskAPI = function (options) {
     this.version = '1.0';
     this.email = getStorage('login');
     this.pass = getStorage('password');
-    this.secure = false;//options.secure || false;
+    this.secure = true;//options.secure || false;
     this.packageInfo = options.packageInfo;
-    this.httpHost = 'api.beta.helpdesk.bigwebapps.com/api.ashx';//'app.bigwebapps.com/api';//'api.beta.helpdesk.bigwebapps.com';
+    this.httpHost = 'app.bigwebapps.com/api';
+        //this.httpHost = 'api.beta.helpdesk.bigwebapps.com/api.ashx';
     //this.httpHost = 'localhost:44302/api.ashx';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
@@ -55,22 +56,21 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
 
    // if (typeof finalParams.UserName !== 'undefined')
     //    finalParams['UserName'] = getStorage('pid');
-    this.key = getStorage('key');
-    console.log(this.key);
-    //if (this.key) {
-    //    var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
-    //    this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
-    //}
+
+    if (this.key) {
+        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+        this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
+    }
     $.ajax({
-        beforeSend: function(xhr) {
+        //beforeSend: function(xhr) {
         //ss-id=; ss-pid=FAqJVzjbYUSMFtsB3RRUVg==; ss-opt=perm
-            if (this.key)
-            {
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(this.key + ':' + 'x'));
-            }
-        },
-        url:this.httpUri + '/' + method,
+            //if (this.key)
+            //{
+                //xhr.withCredentials = true;
+                //xhr.setRequestHeader('Authorization', 'Basic ' + btoa(this.key + ':' + 'x'));
+           // }
+        //},
+        url:this.httpUri + '/' + method, //+ (this.key ? '?Id='+this.key : ''),
         type:requestType,
         cache:false,
         async:true,
@@ -194,7 +194,7 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     setStorage("password", params.Password);
     //console.log(getStorage("password"));
     params["Method"] = "POST";
-    this.execute('login', ["UserName", "Password", "RememberMe"
+    this.execute('login', ["UserName", "Password"//, "RememberMe"
     ], params, callback);
 };
 
