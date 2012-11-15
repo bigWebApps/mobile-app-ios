@@ -223,6 +223,8 @@
                 if (data) {
                     if ($("#transfer_me_alternate").is(":checked"))
                         setTimeout(attachAltTech_ticket_submit (), 2000);
+                    else
+                        attachAltTech_ticket_postback({data:1});
                     return false;
                 }
                 else

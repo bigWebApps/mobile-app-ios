@@ -22,9 +22,9 @@ var HelpDeskAPI = function (options) {
     this.version = '1.0';
     this.email = getStorage('login');
     this.pass = getStorage('password');
-    this.secure = false;//options.secure || false;
+    this.secure = true;//options.secure || false;
     this.packageInfo = options.packageInfo;
-    this.httpHost = 'api.beta.helpdesk.bigwebapps.com/api.ashx'; // 'app.bigwebapps.com/api';
+    this.httpHost = 'app.bigwebapps.com/api';//'api.beta.helpdesk.bigwebapps.com/api.ashx';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
@@ -52,16 +52,15 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         }
     }
     //finalParams += "}";
-
-    //if (this.key) {
-    //    var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
-    //    this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
-    //}
+    if (this.key) {
+        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+        this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
+    }
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
-    console.log(requestType);
-    console.log(finalParams.length);
+    //console.log(requestType);
+    //console.log(finalParams.length);
     //alert(this.httpUri + '/' + method);
     //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
     //console.log(availableParams);
@@ -71,25 +70,15 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     var error_message;
 
     $.ajax({
-		beforeSend: function (xhr) {
-									xhr.withCredentials = true;
-									},
-        url:this.httpUri + '/' + method + '?callback=?',
-        //beforeSend:function(){$.mobile.showPageLoadingMsg();},
+        url:this.httpUri + '/' + method,
         type:requestType,
-        cache:true,
+        cache:false,
         async:true,
-        dataType:"text",
+        dataType:"json",
         data: $.isEmptyObject(finalParams) ? null : JSON.stringify(finalParams),
         contentType:"application/json; charset=utf-8",
         timeout:15000,
         success:function (data, status, xhr) {
-            console.log('success');
-            console.log(data);
-            var textVal = data;
-            textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
-            data = JSON.parse(textVal);
-            console.log(data);
 			if (typeof data.UserKey !== 'undefined')
 			{
 				setStorage('key', data.UserKey);
@@ -105,7 +94,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 var textVal = jqXHR.responseText;
                 textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
                 var data = JSON.parse(textVal);
-                console.log(data);
+                //console.log(data);
                 if (typeof data.UserKey !== 'undefined')
                 {
                     setStorage('key', data.UserKey);
@@ -208,7 +197,7 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     setStorage("password", params.Password);
     //console.log(getStorage("password"));
     params["Method"] = "POST";
-    this.execute('auth/credentials', ["UserName", "Password", "RememberMe"
+    this.execute('login', ["UserName", "Password", "RememberMe"
     ], params, callback);
 };
 
