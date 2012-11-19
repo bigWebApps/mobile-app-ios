@@ -118,8 +118,8 @@ function checkStorage(changelocation)
         {
             if (window.location.href.indexOf("org_inst.html")<0)
             {
-                //$.mobile.changePage("login.html#organizations_page");
-                window.location.replace("org_inst.html");
+                $.mobile.changePage("#organizations_page");
+                //window.location.replace("org_inst.html");
                 return false;
             }
         }
@@ -273,6 +273,7 @@ pageReady("ticket_transfer", function(){
 });
 
 pageReady("ticket_addtime", function(){
+
     mainloaded = false;
     var t_tickettypes = Handlebars.compile( $('#ht_task_type_list').html() );
 
@@ -527,7 +528,7 @@ pageReady("organizations", function(){
                 getConfig(function(){$.mobile.changePage("home.html");});
                 return;
             }
-            $.mobile.changePage("org_inst.html#instances_page");
+            $.mobile.changePage("#instances_page");
             return;
         }
 
@@ -805,4 +806,3 @@ function htmlEscape(str) {
 }
 
 //endregion Helper functions
-

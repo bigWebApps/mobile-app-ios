@@ -4,16 +4,20 @@
 	<title>HelpDesk</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
         <meta name="format-detection" content="telephone=no">
-        <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.1.1.min.css">
         <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
-        <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
+        <link rel="stylesheet" type="text/css" href="js/lib/jquery.mobile.iscrollview.css">
+        <link rel="stylesheet" type="text/css" href="js/lib/jquery.mobile.iscrollview-pull.css">
+        
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery.mobile-1.1.1.min.js"></script>
+        <script src="js/lib/iscroll.js"></script>
+        <script src="js/lib/jquery.mobile.iscrollview.js"></script>
         <script src="js/moment.min.js"></script>
         <script src="js/jquery.url.js"></script>
         <script src="js/handlebars-1.0.0.beta.6.js"></script>
-        <script src="js/HelpDeskAPI.js"></script>
-        <script src="js/templates.js"></script>
+		<script src="js/templates.js"></script>        
+        <script src="js/HelpDeskAPI.js"></script>        
         <script src="js/helpdesk.js"></script>
     </head>
     <body>
@@ -21,8 +25,12 @@
     <input id="ticketMakeMeUserId" type="hidden"/>
     <input id="ticketMakeMeUserName" type="hidden"/>
     <div id="container"/>
-<div id="create_ticket_page" data-role="page">
-	<div data-role="content" data-theme="d">
+<div id="create_ticket_page" data-role="page" >
+	<div data-role="header" data-theme="h" role="banner">
+		<h1>Create a Ticket</h1>
+	</div><!-- /header -->
+	
+	<div data-role="content" data-theme="d" data-iscroll>
         <script>
             var classes;
 
@@ -110,7 +118,7 @@
                 */
 
                     //console.log(ticket);
-                tooltip("Please wait a moment. Processing request ...");
+                tooltip('Please wait a moment. Processing request ...', 'message');
                 api.ticket_create({"Ticket": ticket,"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": "", "Password":$('#password').val()}, create_ticket_postback);
 
                 return false;
@@ -169,11 +177,11 @@
                     $.mobile.changePage("home.html");
                 }
                 else
-                    error("Error!");
+                    tooltip('There was a problem.', 'error');
                 return false;
             }
         </script>
-    	<div align="center" style="margin-top: 10px;"><img src="img/helpdesk_logo.png"></div>		
+        	
 		<form data-ajax="false" onsubmit="return create_ticket_submit();">
 			
             <p>
@@ -183,7 +191,7 @@
 			
             <p class="create_ticket_show">
             <label>Account</label>
-            <select id="account_list" >
+            <select id="account_list">
 			</select>
             <script id="ht_account_list" type="text/x-handlebars-template">
                 {{#each this}}
@@ -218,7 +226,7 @@
             <textarea name="details" id="details" placeholder="Details"></textarea>
             </p>
             <p class="create_ticket_show">
-            <label><input type="checkbox" id="transfer_me_alternate" data-role="none" /> Make me the alternate </label>
+            <label><input type="checkbox" id="transfer_me_alternate" /> Make me the alternate </label>
             </p>
             <button type="submit" data-theme="b" name="submit" value="submit-value" >
                 Submit Ticket
@@ -226,10 +234,10 @@
 			</form>
             <br>
 	</div><!-- /content -->
-    
-    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
+   <div data-role="footer" data-theme="h" data-tap-toggle="false">
     	<a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Cancel</a>		
-	</div>
+	</div> 
+
 
 </div><!-- /page -->
 

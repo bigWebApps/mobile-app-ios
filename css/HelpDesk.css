@@ -31,56 +31,7 @@ label {
    color: #666;  
 }
 
-/*--- Pop up Container ---*/
 
-.popupcontainer {
-		margin-right: 5%;
-		margin-left: 5%;
-		margin-top: 25%;
-		width: 85%;
-		position: fixed;
-		padding: 5px;
-		text-align: center;
-		background-color: #F8F8F8;
-		opacity: 0.99;
-		-webkit-border-radius: 12px;
-		border-radius: 12px;
-		-webkit-box-shadow: 0px 0px 400px 0px rgba(0, 0, 0, .8);
-		box-shadow: 0px 0px 400px 0px rgba(0, 0, 0, .8);
-		z-index: 9999999;
-		border: 2px solid #e7e7e7;
-		}
-		.popupcontainer p {
-	  	  font-size: 16px;
-	  	  font-weight: bold;
-	  	  color: #222;
-	  	  font-family: Arial, sans-serif;
-	  	  }
-  		.error{			
-			background: #EC1818;
-			border: 2px solid red;
-		}
-		.error p{
-			color: white !important;
-			border: none;
-		}
-		.hdsuccess{			
-			background: #359946;
-			border: 2px solid #4bb55d;
-		}
-		.hdsuccess p{
-			color: white !important;
-			border: none;
-		}
-  		
-		.message{			
-			background: #FFFBCC;
-			border: 2px solid #E6B855;
-		}
-		.message p{
-			color: #666452 !important;
-			border: none;
-		}
 
 /*--- Overrides ---*/
 .ui-page {

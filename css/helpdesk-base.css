@@ -221,246 +221,52 @@
 }
 
 
-/* Structure */
+/*--- Pop up Container ---*/
 
-/* links within "buttons" 
------------------------------------------------------------------------------------------------------------*/
-
-a.ui-link-inherit {
-	text-decoration: none !important;
-}
-
-
-
-
-/* button inner top highlight
------------------------------------------------------------------------------------------------------------*/
-
-
-
-
-/* corner rounding classes
------------------------------------------------------------------------------------------------------------*/
-
-/* Form field separator
------------------------------------------------------------------------------------------------------------*/
-.ui-br {
-	border-bottom: rgb(130,130,130);
-	border-bottom: rgba(130,130,130,.3);
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-/* Interaction cues
------------------------------------------------------------------------------------------------------------*/
-.ui-disabled {
-	opacity: 							.3;
-}
-.ui-disabled,
-.ui-disabled a {
-	cursor: default !important;
-	pointer-events: none;
-}
-.ui-disabled .ui-btn-text {
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=30)";
-	filter: alpha(opacity=30);
-	zoom: 1;
-}
-
-/* Icons
------------------------------------------------------------------------------------------------------------*/
-
-.ui-icon,
-.ui-icon-searchfield:after {
-	background: #666666 /*{global-icon-color}*/;
-	background: rgba(0,0,0,.4) /*{global-icon-disc}*/;
-	background-image: url(images/icons-18-white.png) /*{global-icon-set}*/;
-	background-repeat: no-repeat;
-	-moz-border-radius: 				9px;
-	-webkit-border-radius: 				9px;
-	border-radius: 						9px;
-}
-
-
-/* Alt icon color
------------------------------------------------------------------------------------------------------------*/
-
-.ui-icon-alt {
-	background: 						#fff;
-	background: 						rgba(255,255,255,.3);
-	background-image: url(images/icons-18-black.png);
-	background-repeat: no-repeat;
-}
-
-/* HD/"retina" sprite
------------------------------------------------------------------------------------------------------------*/
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-       only screen and (min--moz-device-pixel-ratio: 1.5),
-       only screen and (min-resolution: 240dpi) {
-	
-	.ui-icon-plus, .ui-icon-minus, .ui-icon-delete, .ui-icon-arrow-r,
-	.ui-icon-arrow-l, .ui-icon-arrow-u, .ui-icon-arrow-d, .ui-icon-check,
-	.ui-icon-gear, .ui-icon-refresh, .ui-icon-forward, .ui-icon-back,
-	.ui-icon-grid, .ui-icon-star, .ui-icon-alert, .ui-icon-info, .ui-icon-home, .ui-icon-search, .ui-icon-searchfield:after, 
-	.ui-icon-checkbox-off, .ui-icon-checkbox-on, .ui-icon-radio-off, .ui-icon-radio-on {
-		background-image: url(images/icons-36-white.png) /*{global-large-icon-set}*/;
-		-moz-background-size: 776px 18px;
-		-o-background-size: 776px 18px;
-		-webkit-background-size: 776px 18px;
-		background-size: 776px 18px;
-	}
-	.ui-icon-alt {
-		background-image: url(images/icons-36-black.png);
-	}
-}
-
-/* plus minus */
-.ui-icon-plus {
-	background-position: 	-0 50%;
-}
-.ui-icon-minus {
-	background-position: 	-36px 50%;
-}
-
-/* delete/close */
-.ui-icon-delete {
-	background-position: 	-72px 50%;
-}
-
-/* arrows */
-.ui-icon-arrow-r {
-	background-position: 	-108px 50%;
-}
-.ui-icon-arrow-l {
-	background-position: 	-144px 50%;
-}
-.ui-icon-arrow-u {
-	background-position: 	-180px 50%;
-}
-.ui-icon-arrow-d {
-	background-position: 	-216px 50%;
-}
-
-/* misc */
-.ui-icon-check {
-	background-position: 	-252px 50%;
-}
-.ui-icon-gear {
-	background-position: 	-288px 50%;
-}
-.ui-icon-refresh {
-	background-position: 	-324px 50%;
-}
-.ui-icon-forward {
-	background-position: 	-360px 50%;
-}
-.ui-icon-back {
-	background-position: 	-396px 50%;
-}
-.ui-icon-grid {
-	background-position: 	-432px 50%;
-}
-.ui-icon-star {
-	background-position: 	-468px 50%;
-}
-.ui-icon-alert {
-	background-position: 	-504px 50%;
-}
-.ui-icon-info {
-	background-position: 	-540px 50%;
-}
-.ui-icon-home {
-	background-position: 	-576px 50%;
-}
-.ui-icon-search,
-.ui-icon-searchfield:after {
-	background-position: 	-612px 50%;
-}
-.ui-icon-checkbox-off {
-	background-position: 	-684px 50%;
-}
-.ui-icon-checkbox-on {
-	background-position: 	-648px 50%;
-}
-.ui-icon-radio-off {
-	background-position: 	-756px 50%;
-}
-.ui-icon-radio-on {
-	background-position: 	-720px 50%;
-}
-
-
-/* checks,radios */
-.ui-checkbox .ui-icon {
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-.ui-icon-checkbox-off,
-.ui-icon-radio-off {
-	background-color: transparent;	
-}
-.ui-checkbox-on .ui-icon,
-.ui-radio-on .ui-icon {
-	background-color: #f7931e /*{global-active-background-color}*/; /* NOTE: this hex should match the active state color. It's repeated here for cascade */
-}
-
-/* loading icon */
-.ui-icon-loading {
-	background: url(images/ajax-loader.gif);
-	background-size: 46px 46px;
-}
-
-
-/* Button corner classes
------------------------------------------------------------------------------------------------------------*/
-
-
-/* Overlay / modal
------------------------------------------------------------------------------------------------------------*/
-
-.ui-overlay {
-	background: #666;
-	opacity: .5;
-	filter: Alpha(Opacity=50);
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-
-
-.ui-icon-shadow {
-
-}
-
-/* Focus state - set here for specificity (note: these classes are added by JavaScript)
------------------------------------------------------------------------------------------------------------*/
-
-.ui-btn:focus {
-	outline: 0;
-}
-
-.ui-focus,
-.ui-btn:focus {
-	-moz-box-shadow: 0px 0px 12px #f7931e /*{global-active-background-color}*/;
-	-webkit-box-shadow: 0px 0px 12px #f7931e /*{global-active-background-color}*/;
-	box-shadow: 0px 0px 12px #f7931e /*{global-active-background-color}*/;
-}
-
-/* unset box shadow in browsers that don't do it right
------------------------------------------------------------------------------------------------------------*/
-
-.ui-mobile-nosupport-boxshadow * {
-	-moz-box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-	box-shadow: none !important;
-}
-
-/* ...and bring back focus */
-.ui-mobile-nosupport-boxshadow .ui-focus,
-.ui-mobile-nosupport-boxshadow .ui-btn:focus {
-	outline-width: 1px;
-	outline-style: dotted;
-}
-			
+.popupcontainer {
+		margin-right: 5%;
+		margin-left: 5%;		
+		width: 85%;
+		margin-top: 100px;
+		padding: 5px;
+		position: fixed;
+		text-align: center;
+		background-color: #F8F8F8;
+		opacity: 0.9;
+		-webkit-box-shadow: 0px 0px 400px 0px rgba(0, 0, 0, .8);
+		box-shadow: 0px 0px 400px 0px rgba(0, 0, 0, .8);
+		z-index: 99999;
+		border: 2px solid #e7e7e7;
+		}
+		.popupcontainer p {
+	  	  font-size: 16px;
+	  	  font-weight: bold;
+	  	  color: #222;
+	  	  font-family: Arial, sans-serif;
+		  z-index: 199999;
+	  	  }
+  		.error{			
+			background: #EC1818;
+			border: 2px solid red;
+		}
+		.error p{
+			color: white !important;
+			border: none;
+		}
+		.hdsuccess{			
+			background: #359946;
+			border: 2px solid #4bb55d;
+		}
+		.hdsuccess p{
+			color: white !important;
+			border: none;
+		}
+  		
+		.message{			
+			background: #FFFBCC;
+			border: 2px solid #E6B855;
+		}
+		.message p{
+			color: #666452 !important;
+			border: none;
+		}			

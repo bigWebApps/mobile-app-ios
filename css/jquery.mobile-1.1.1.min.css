@@ -7,7 +7,14 @@
 * http://jquery.org/license
 *
 */
-
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=search],
+input[type=email],
+textarea {
+	-webkit-user-modify: read-write-plaintext-only;
+	}
 
 /* Swatches */
 /* A
@@ -80,7 +87,7 @@
 	border: 1px solid 		#111 /*{a-bup-border}*/;
 	background: 			#333 /*{a-bup-background-color}*/;
 	font-weight: bold;
-	color: 					#fff /*{a-bup-color}*/;	
+	color: 					#fff /*{a-bup-color}*/;
 }
 .ui-btn-up-a:visited,
 .ui-btn-up-a a.ui-link-inherit {
@@ -90,7 +97,7 @@
 	border: 1px solid 		#000 /*{a-bhover-border}*/;
 	background: 			#444 /*{a-bhover-background-color}*/;
 	font-weight: bold;
-	color: 					#fff /*{a-bhover-color}*/;	
+	color: 					#fff /*{a-bhover-color}*/;
 }
 .ui-btn-hover-a:visited,
 .ui-btn-hover-a:hover,
@@ -101,7 +108,7 @@
 	border: 1px solid 		#000 /*{a-bdown-border}*/;
 	background: 			#222 /*{a-bdown-background-color}*/;
 	font-weight: bold;
-	color: 					#fff /*{a-bdown-color}*/;	
+	color: 					#fff /*{a-bdown-color}*/;
 }
 .ui-btn-down-a:visited,
 .ui-btn-down-a:hover,
@@ -120,7 +127,7 @@
 	border: 1px solid 		#456f9a /*{b-bar-border}*/;
 	background: 			#5e87b0 /*{b-bar-background-color}*/;
 	color: 					#fff /*{b-bar-color}*/;
-	font-weight: bold;	
+	font-weight: bold;
 }
 .ui-bar-b,
 .ui-bar-b input,
@@ -151,7 +158,6 @@
 	background: 			#f3f3f3 /*{b-body-background-color}*/;
 	color: 					#222 /*{b-body-color}*/;
 	font-weight: normal;
-	
 }
 .ui-overlay-b {
 	background-image: none;
@@ -184,7 +190,7 @@
 	border: 1px solid 		#044062 /*{b-bup-border}*/;
 	background: 			#396b9e /*{b-bup-background-color}*/;
 	font-weight: bold;
-	color: 					#fff /*{b-bup-color}*/;	
+	color: 					#fff /*{b-bup-color}*/;
 }
 .ui-btn-up-b:visited,
 .ui-btn-up-b a.ui-link-inherit {
@@ -194,7 +200,7 @@
 	border: 1px solid 		#00415e /*{b-bhover-border}*/;
 	background: 			#4b88b6 /*{b-bhover-background-color}*/;
 	font-weight: bold;
-	color: 					#fff /*{b-bhover-color}*/;	
+	color: 					#fff /*{b-bhover-color}*/;
 }
 .ui-btn-hover-b:visited,
 .ui-btn-hover-b:hover,
@@ -205,7 +211,7 @@
 	border: 1px solid 		#225377 /*{b-bdown-border}*/;
 	background: 			#4e89c5 /*{b-bdown-background-color}*/;
 	font-weight: bold;
-	color: 					#fff /*{b-bdown-color}*/;	
+	color: 					#fff /*{b-bdown-color}*/;
 }
 .ui-btn-down-b:visited,
 .ui-btn-down-b:hover,
@@ -215,7 +221,7 @@
 .ui-btn-up-b,
 .ui-btn-hover-b,
 .ui-btn-down-b {
-	font-family: Arial, sans-serif /*{global-font-family}*/;
+	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* C
@@ -253,7 +259,7 @@
 .ui-overlay-c {
 	border: 1px solid 		#aaa /*{c-body-border}*/;
 	color: 					#333 /*{c-body-color}*/;
-	background: 			#f9f9f9 /*{c-body-background-color}*/;	
+	background: 			#f9f9f9 /*{c-body-background-color}*/;
 }
 .ui-overlay-c {
 	background-image: none;
@@ -286,7 +292,7 @@
 	border: 1px solid 		#ccc /*{c-bup-border}*/;
 	background: 			#eee /*{c-bup-background-color}*/;
 	font-weight: bold;
-	color: 					#222 /*{c-bup-color}*/;	
+	color: 					#222 /*{c-bup-color}*/;
 }
 .ui-btn-up-c:visited,
 .ui-btn-up-c a.ui-link-inherit {
@@ -296,7 +302,7 @@
 	border: 1px solid 		#bbb /*{c-bhover-border}*/;
 	background: 			#dfdfdf /*{c-bhover-background-color}*/;
 	font-weight: bold;
-	color: 					#222 /*{c-bhover-color}*/;	
+	color: 					#222 /*{c-bhover-color}*/;
 }
 .ui-btn-hover-c:visited,
 .ui-btn-hover-c:hover,
@@ -317,7 +323,7 @@
 .ui-btn-up-c,
 .ui-btn-hover-c,
 .ui-btn-down-c {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* D
@@ -550,12 +556,16 @@ a.ui-link-inherit {
 /* button inner top highlight
 -----------------------------------------------------------------------------------------------------------*/
 .ui-btn-inner {
-	
+	border-top: 1px solid 	#fff;
+	border-color: 			rgba(255,255,255,.3);
 }
 /* corner rounding classes
 -----------------------------------------------------------------------------------------------------------*/
-
-
+.ui-corner-none {
+	-moz-border-radius: 				   0;
+	-webkit-border-radius: 				   0;
+	border-radius: 						   0;
+}
 /* Form field separator
 -----------------------------------------------------------------------------------------------------------*/
 .ui-br {
@@ -722,20 +732,31 @@ a.ui-link-inherit {
 	height: 100%;
 }
 .ui-overlay-shadow {
+	-moz-box-shadow: 0px 0px 12px 			rgba(0,0,0,.6);
+	-webkit-box-shadow: 0px 0px 12px 		rgba(0,0,0,.6);
+	box-shadow: 0px 0px 12px 				rgba(0,0,0,.6);
 }
 .ui-shadow {
-
+	-moz-box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/ 			rgba(0,0,0,.3) /*{global-box-shadow-color}*/;
+	-webkit-box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/ 		rgba(0,0,0,.3) /*{global-box-shadow-color}*/;
+	box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/ 				rgba(0,0,0,.3) /*{global-box-shadow-color}*/;
 }
 .ui-bar-a .ui-shadow,
 .ui-bar-b .ui-shadow ,
 .ui-bar-c .ui-shadow  {
-
+	-moz-box-shadow: 0px 1px 0 				rgba(255,255,255,.3);
+	-webkit-box-shadow: 0px 1px 0 			rgba(255,255,255,.3);
+	box-shadow: 0px 1px 0 					rgba(255,255,255,.3);
 }
 .ui-shadow-inset {
-
+	-moz-box-shadow: inset 0px 1px 4px 		rgba(0,0,0,.2);
+	-webkit-box-shadow: inset 0px 1px 4px 	rgba(0,0,0,.2);
+	box-shadow: inset 0px 1px 4px 			rgba(0,0,0,.2);
 }
 .ui-icon-shadow {
-
+	-moz-box-shadow: 0px 1px 0 				rgba(255,255,255,.4) /*{global-icon-shadow}*/;
+	-webkit-box-shadow: 0px 1px 0 			rgba(255,255,255,.4) /*{global-icon-shadow}*/;
+	box-shadow: 0px 1px 0 					rgba(255,255,255,.4) /*{global-icon-shadow}*/;
 }
 /* Focus state - set here for specificity (note: these classes are added by JavaScript)
 -----------------------------------------------------------------------------------------------------------*/
@@ -743,23 +764,26 @@ a.ui-link-inherit {
 	outline: 0;
 }
 .ui-btn.ui-focus {
-	z-index: 1;
+	z-index: 0;
 }
 .ui-focus,
 .ui-btn:focus {
-
+	-moz-box-shadow: inset 0px 0px 3px 		#387bbe /*{global-active-background-color}*/, 0px 0px 9px 		#387bbe /*{global-active-background-color}*/;
+	-webkit-box-shadow: inset 0px 0px 3px 	#387bbe /*{global-active-background-color}*/, 0px 0px 9px 		#387bbe /*{global-active-background-color}*/;
+	box-shadow: inset 0px 0px 3px 			#387bbe /*{global-active-background-color}*/, 0px 0px 9px 		#387bbe /*{global-active-background-color}*/;
 }
-select:focus,
 .ui-input-text.ui-focus,
 .ui-input-search.ui-focus {
-	-moz-box-shadow: 0px 0px 12px 			#ff9f00 /*{global-active-background-color}*/;
-	-webkit-box-shadow: 0px 0px 12px 		#ff9f00 /*{global-active-background-color}*/;
-	box-shadow: 0px 0px 12px 					#ff9f00 /*{global-active-background-color}*/;	
+	-moz-box-shadow: 0px 0px 12px 			#387bbe /*{global-active-background-color}*/;
+	-webkit-box-shadow: 0px 0px 12px 		#387bbe /*{global-active-background-color}*/;
+	box-shadow: 0px 0px 12px 					#387bbe /*{global-active-background-color}*/;	
 }
 /* unset box shadow in browsers that don't do it right
 -----------------------------------------------------------------------------------------------------------*/
 .ui-mobile-nosupport-boxshadow * {
-
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
 }
 /* ...and bring back focus */
 .ui-mobile-nosupport-boxshadow .ui-focus,
@@ -915,6 +939,7 @@ div.ui-mobile-viewport { overflow-x: hidden; }
 	-moz-animation-name: popout;
 }
 @-webkit-keyframes popin {
+
     from {
         -webkit-transform: scale(.8);
         opacity: 0;
