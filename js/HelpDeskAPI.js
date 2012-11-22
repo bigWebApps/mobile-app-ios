@@ -22,9 +22,9 @@ var HelpDeskAPI = function (options) {
     this.version = '1.0';
     this.email = getStorage('login');
     this.pass = getStorage('password');
-    this.secure = false;//options.secure || false;
+    this.secure = true;//options.secure || false;
     this.packageInfo = options.packageInfo;
-    this.httpHost = 'api.beta.helpdesk.bigwebapps.com/api.ashx'; // 'app.bigwebapps.com/api';
+    this.httpHost = 'app.bigwebapps.com/api';//'app.helpdesk.bigwebapps.com/api'; // ;
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
