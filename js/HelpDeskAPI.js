@@ -24,7 +24,9 @@ var HelpDeskAPI = function (options) {
     this.pass = getStorage('password');
     this.secure = true;//options.secure || false;
     this.packageInfo = options.packageInfo;
-    this.httpHost = 'app.bigwebapps.com/api';//'app.helpdesk.bigwebapps.com/api'; // ;
+    //this.httpHost = 'app.bigwebapps.com/api';
+    //this.httpHost = 'localhost:44305/api';
+    this.httpHost = 'app.helpdesk.bigwebapps.com/api';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
@@ -53,10 +55,13 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     }
     //finalParams += "}";
 
-    //if (this.key) {
-    //    var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
-    //    this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
-    //}
+    this.key = getStorage('key');
+
+    if (this.key) {
+        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+        this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
+        console.log(this.httpUri);
+    }
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
@@ -69,12 +74,17 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     //console.log(finalParams);
 
     var error_message;
+    var key = this.key;
+    var url = this.httpUri;
 
     $.ajax({
-		beforeSend: function (xhr) {
+		/*beforeSend: function (xhr) {
 									xhr.withCredentials = true;
+                                    if (key)
+                                        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(key + ':' + 'x'));
 									},
-        url:this.httpUri + '/' + method + '?callback=?',
+        */
+        url:url + '/' + method + '?callback=?',// + (this.key ? '&userkey='+this.key : ''),
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
@@ -158,7 +168,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             {
                 //check Ping
                 $.ajax({
-                    url:this.httpUri + '/ping',
+                    url:url + '/ping',
                     type:'GET',
                     cache:false,
                     async:false,
@@ -208,7 +218,7 @@ HelpDeskAPI.prototype.login = function (params, callback) {
     setStorage("password", params.Password);
     //console.log(getStorage("password"));
     params["Method"] = "POST";
-    this.execute('auth/credentials', ["UserName", "Password", "RememberMe"
+    this.execute('login', ["UserName", "Password", "RememberMe"
     ], params, callback);
 };
 
