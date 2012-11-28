@@ -47,7 +47,9 @@
                     {
                         $.mobile.hidePageLoadingMsg();
 					    //window.location.replace("org_inst.html");
+						setTimeout( function() {
                         $.mobile.changePage("#organizations_page");
+						}, 3000 );
                     }
                 else
                     {
