@@ -18,10 +18,10 @@ var HelpDeskAPI = function (options) {
     //if (!email || !pass)
     //    throw 'You have to provide an login and pass for this to work.';
 
-    this.key = getStorage('key');
+    //this.key = getStorage('key');
     this.version = '1.0';
-    this.email = getStorage('login');
-    this.pass = getStorage('password');
+    //this.email = getStorage('login');
+    //this.pass = getStorage('password');
     this.secure = true;//options.secure || false;
     this.packageInfo = options.packageInfo;
     //this.httpHost = 'app.bigwebapps.com/api';
@@ -55,18 +55,17 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     }
     //finalParams += "}";
 
-    this.key = getStorage('key');
-
-    if (this.key) {
-        var basicUrl = this.key + ':' + 'x' + '@' + this.httpHost;
+    var key = getStorage('key');
+    if (key) {
+        var basicUrl = key + ':' + 'x' + '@' + this.httpHost;
         this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
         console.log(this.httpUri);
     }
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
     delete finalParams['Method'];
-    console.log(requestType);
-    console.log(finalParams.length);
+    //console.log(requestType);
+    //console.log(finalParams.length);
     //alert(this.httpUri + '/' + method);
     //console.log(this.login + ':' + this.pass + '=' + base64.encode(this.login + ':' + this.pass));
     //console.log(availableParams);
@@ -74,7 +73,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     //console.log(finalParams);
 
     var error_message;
-    var key = this.key;
+    //
     var url = this.httpUri;
 
     $.ajax({
@@ -84,7 +83,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                                         xhr.setRequestHeader('Authorization', 'Basic ' + btoa(key + ':' + 'x'));
 									},
         */
-        url:url + '/' + method + '?callback=?',// + (this.key ? '&userkey='+this.key : ''),
+        url:url + '/' + method + '?callback=?' & (key ? '&userkey='+ key : ''),
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
