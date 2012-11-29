@@ -17,11 +17,11 @@ function program1(depth0,data) {
 function program2(depth0,data) {
   
   var buffer = "", stack1, stack2, foundHelper;
-  buffer += "\r\n<li data-corners=\"false\" data-shadow=\"false\" data-icon=\"arrow-r\" data-iconpos=\"right\">\r\n	<a href=\"ticket_detail.html?id=";
+  buffer += "\r\n<li data-corners=\"false\" data-shadow=\"false\" data-icon=\"arrow-r\" data-iconpos=\"right\">\r\n	<a href=\"#\" onclick=\"ticket_details(";
   foundHelper = helpers.Id;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.Id; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "\" rel=\"external\">\r\n	<div class=\"ticket-num-title\">\r\n		<div class=\"ticket-num left\">";
+  buffer += escapeExpression(stack1) + ")\">\r\n	<div class=\"ticket-num-title\">\r\n		<div class=\"ticket-num left\">";
   foundHelper = helpers.TicketNumber;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.TicketNumber; stack1 = typeof stack1 === functionType ? stack1() : stack1; }

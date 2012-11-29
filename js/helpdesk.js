@@ -193,9 +193,7 @@ pageReady("ticketlist", function(){
         $('ul#tickets_list').handlebars('ht_tickets_list', {objects:data} );
     };
 
-    var url = $.url(document.location);
-
-    var queueid = url.param("id");
+    var queueid = getStorage('queueid');
 
     if (queueid > 0)
         api.queue_ticket_list({"refresh": "ul#tickets_list", "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
@@ -203,6 +201,20 @@ pageReady("ticketlist", function(){
         api.ticket_list({"refresh": "ul#tickets_list","OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
 
 });
+
+function ticket_details(ticketid)
+{
+    setStorage('ticketid', ticketid);
+    window.location.replace("ticket_detail.html");
+    return false;
+}
+
+function queue_list(queueid)
+{
+    setStorage('queueid', queueid);
+    window.location.replace("ticket_list.html");
+    return false;
+}
 
 pageReady("ticket_detail_main", function(){
 
@@ -240,9 +252,7 @@ pageReady("ticket_detail_main", function(){
         });
     };
 
-    var url = $.url(document.location);
-
-    var ticketid = url.param("id");
+    var ticketid = getStorage('ticketid');
 
     if (ticketid > 0)
         api.ticket_detail({refresh: "ul#ticket_detail_response_list","OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : ticketid},parseticketdetail);

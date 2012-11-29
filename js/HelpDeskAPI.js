@@ -59,7 +59,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     if (key) {
         var basicUrl = key + ':' + 'x' + '@' + this.httpHost;
         this.httpUri = (this.secure) ? 'https://' + basicUrl /*+ ':443'*/ : 'http://' + basicUrl;
-        console.log(this.httpUri);
+        //console.log(this.httpUri);
     }
 
     var requestType = typeof finalParams.Method !== 'undefined' ? finalParams['Method'] : 'POST';
@@ -94,11 +94,11 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
         timeout:15000,
         success:function (data, status, xhr) {
             console.log('success');
-            console.log(data);
+            //console.log(data);
             var textVal = data;
             textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
             data = JSON.parse(textVal);
-            console.log(data);
+            //console.log(data);
 			if (typeof data.UserKey !== 'undefined')
 			{
 				setStorage('key', data.UserKey);

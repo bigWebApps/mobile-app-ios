@@ -29,7 +29,7 @@
         <script id="ht_tickets_queue_list" type="text/x-handlebars-template">
             {{#if this}}
             {{#each this}}
-            <li><a href="ticket_list.html?id={{Id}}" rel="external" data-ajax="false">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
+            <li><a href="#" onclick="queue_list({{Id}})">{{FullName}} <span class="ui-li-count">{{TicketsCount}}</span></a></li>
             {{/each}}
             {{else}}
 			<li data-corners="false" data-shadow="false" data-icon="arrow-l" data-iconpos="left">
