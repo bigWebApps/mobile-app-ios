@@ -252,9 +252,7 @@
                 {
                     tooltip("Ticket #" + $('#ticketNumber').val() + " transfered successfully!", 'hdsuccess');
                     
-					setTimeout ( function() {
-						 window.history.go($.mobile.urlHistory.stack.length * -1);
-						 }, 900 );
+					setTimeout (queue_list(-1), 900 );
                 }
                 else
                     error("Error!");
@@ -409,9 +407,7 @@
                 {
                     $('#closedetails').val('');
                     tooltip("Ticket #" + $('#ticketNumber').val() + " closed successfully!", 'hdsuccess');
-					 setTimeout ( function() {
-						 window.history.go($.mobile.urlHistory.stack.length * -1);
-						 }, 900 );
+					setTimeout (queue_list(-1), 900 );
                     
                     window.location.replace("org_inst.html");
                 }
