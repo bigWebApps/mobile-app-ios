@@ -83,7 +83,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                                         xhr.setRequestHeader('Authorization', 'Basic ' + btoa(key + ':' + 'x'));
 									},
         */
-        url:url + '/' + method + '?callback=?' & (key ? '&userkey='+ key : ''),
+        url:url + '/' + method + '?callback=?' + (key ? '&userkey='+ key : ''),
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
