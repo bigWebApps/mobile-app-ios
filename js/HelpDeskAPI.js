@@ -24,9 +24,9 @@ var HelpDeskAPI = function (options) {
     //this.pass = getStorage('password');
     this.secure = true;//options.secure || false;
     this.packageInfo = options.packageInfo;
-    //this.httpHost = 'app.bigwebapps.com/api';
+    this.httpHost = 'app.bigwebapps.com/api';
     //this.httpHost = 'localhost:44305/api';
-    this.httpHost = 'app.helpdesk.bigwebapps.com/api';
+    //this.httpHost = 'app.helpdesk.bigwebapps.com/api';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
@@ -77,13 +77,13 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
     var url = this.httpUri;
 
     $.ajax({
-		/*beforeSend: function (xhr) {
+		beforeSend: function (xhr) {
 									xhr.withCredentials = true;
                                     if (key)
                                         xhr.setRequestHeader('Authorization', 'Basic ' + btoa(key + ':' + 'x'));
 									},
-        */
-        url:url + '/' + method + '?callback=?' + (key ? '&userkey='+ key : ''),
+
+        url:url + '/' + method + '?callback=?',// + (key ? '&userkey='+ key : ''),
         //beforeSend:function(){$.mobile.showPageLoadingMsg();},
         type:requestType,
         cache:true,
@@ -114,7 +114,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
                 var textVal = jqXHR.responseText;
                 textVal = textVal.substring(textVal.indexOf("(") + 1, textVal.lastIndexOf(")"));
                 var data = JSON.parse(textVal);
-                console.log(data);
+                //console.log(data);
                 if (typeof data.UserKey !== 'undefined')
                 {
                     setStorage('key', data.UserKey);
