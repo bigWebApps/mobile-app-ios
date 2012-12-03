@@ -12,6 +12,7 @@ input[type=password],
 input[type=number],
 input[type=search],
 input[type=email],
+input[type=radio],
 textarea {
 	-webkit-user-modify: read-write-plaintext-only;
 	}
