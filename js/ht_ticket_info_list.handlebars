@@ -10,11 +10,19 @@
     <strong>{{dateFormat SLAComplete format="utc"}} ({{dateFormat SLAComplete format="fromNow-"}})</strong>
 </li>
 {{/if}}
-{{#if SLARespose}}
+
+{{#if SLAResponseUsed}}
 <li>
     <p>SLA Response Date:</p>
-    <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLARespose format="fromNow-"}})</strong>
+    <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLAResponseUsed format="minutes"}})</strong>
 </li>
+{{else}}
+  {{#if SLARespose}}
+    <li>
+    <p>SLA Response Date:</p>
+    <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLARespose format="fromNow-"}})</strong>
+    </li>
+  {{/if}}
 {{/if}}
 <li>
     <p>Hours:</p>

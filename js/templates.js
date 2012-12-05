@@ -227,15 +227,42 @@ function program5(depth0,data) {
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
   buffer += escapeExpression(stack1) + " (";
-  stack1 = depth0.SLARespose;
+  stack1 = depth0.SLAResponseUsed;
   stack2 = {};
-  stack2['format'] = "fromNow-";
+  stack2['format'] = "minutes";
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
   buffer += escapeExpression(stack1) + ")</strong>\r\n</li>\r\n";
   return buffer;}
 
 function program7(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\r\n  ";
+  stack1 = depth0.SLARespose;
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(8, program8, data)});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n";
+  return buffer;}
+function program8(depth0,data) {
+  
+  var buffer = "", stack1, stack2, foundHelper;
+  buffer += "\r\n    <li>\r\n    <p>SLA Response Date:</p>\r\n    <strong>";
+  stack1 = depth0.SLARespose;
+  stack2 = {};
+  stack2['format'] = "utc";
+  foundHelper = helpers.dateFormat;
+  stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
+  buffer += escapeExpression(stack1) + " (";
+  stack1 = depth0.SLARespose;
+  stack2 = {};
+  stack2['format'] = "fromNow-";
+  foundHelper = helpers.dateFormat;
+  stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
+  buffer += escapeExpression(stack1) + ")</strong>\r\n    </li>\r\n  ";
+  return buffer;}
+
+function program10(depth0,data) {
   
   var buffer = "", stack1, stack2, foundHelper;
   buffer += "\r\n<li>\r\n    <p>Days Old/Work Day Timer:</p>\r\n    <strong>";
@@ -247,7 +274,7 @@ function program7(depth0,data) {
   buffer += escapeExpression(stack1) + "</strong>\r\n</li>\r\n";
   return buffer;}
 
-function program9(depth0,data) {
+function program12(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
   buffer += "\r\n<li>\r\n    <p>Project:</p>\r\n    <strong>";
@@ -257,7 +284,7 @@ function program9(depth0,data) {
   buffer += escapeExpression(stack1) + "</strong>\r\n</li>\r\n";
   return buffer;}
 
-function program11(depth0,data) {
+function program14(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
   buffer += "\r\n<li>\r\n    <p>Assets:</p>\r\n    <strong>";
@@ -268,7 +295,7 @@ function program11(depth0,data) {
   buffer += "</strong>\r\n</li>\r\n";
   return buffer;}
 
-function program13(depth0,data) {
+function program16(depth0,data) {
   
   var buffer = "", stack1, stack2, foundHelper;
   buffer += "\r\n<li>\r\n    <p>Request Completion Date:</p>\r\n    <strong>";
@@ -280,7 +307,7 @@ function program13(depth0,data) {
   buffer += escapeExpression(stack1) + "</strong>\r\n</li>\r\n";
   return buffer;}
 
-function program15(depth0,data) {
+function program18(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
   buffer += "\r\n<li>\r\n    <p>Custom Fields:</p>\r\n    <p><strong>";
@@ -298,9 +325,9 @@ function program15(depth0,data) {
   stack1 = depth0.SLAComplete;
   stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(3, program3, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n";
-  stack1 = depth0.SLARespose;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(5, program5, data)});
+  buffer += "\r\n\r\n";
+  stack1 = depth0.SLAResponseUsed;
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.program(7, program7, data),fn:self.program(5, program5, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n<li>\r\n    <p>Hours:</p>\r\n    <strong>";
   foundHelper = helpers.TotalHours;
@@ -308,23 +335,23 @@ function program15(depth0,data) {
   else { stack1 = depth0.TotalHours; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
   buffer += escapeExpression(stack1) + " hr</strong>\r\n</li>\r\n";
   stack1 = depth0.CreateTime;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(7, program7, data)});
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(10, program10, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
   stack1 = depth0.ProjectName;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(9, program9, data)});
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(12, program12, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
   stack1 = depth0.Assets;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(11, program11, data)});
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(14, program14, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
   stack1 = depth0.RequestCompletionDate;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(13, program13, data)});
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(16, program16, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
   stack1 = depth0.CustomFieldsXML;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(15, program15, data)});
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(18, program18, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   return buffer;});
 templates['ht_ticket_short_header'] = template(function (Handlebars,depth0,helpers,partials,data) {
