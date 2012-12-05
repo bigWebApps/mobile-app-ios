@@ -511,7 +511,7 @@ pageBeforeshow("alert_menu", function(){
 
 pageBeforeshow("home", function(){
 
-    console.log('pageBeforeshow("home"');
+    //console.log('pageBeforeshow("home"');
     var ticket_q_list = $("#ticket_q_list");
     //console.log(getStorage("User.IsTechOrAdmin"));
     //logic to show only correspondent actions: Transfer, PickUp and Cancel
