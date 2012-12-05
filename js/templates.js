@@ -211,7 +211,7 @@ function program3(depth0,data) {
   buffer += escapeExpression(stack1) + " (";
   stack1 = depth0.SLAComplete;
   stack2 = {};
-  stack2['format'] = "fromNow";
+  stack2['format'] = "fromNow-";
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
   buffer += escapeExpression(stack1) + ")</strong>\r\n</li>\r\n";
@@ -229,7 +229,7 @@ function program5(depth0,data) {
   buffer += escapeExpression(stack1) + " (";
   stack1 = depth0.SLARespose;
   stack2 = {};
-  stack2['format'] = "fromNow";
+  stack2['format'] = "fromNow-";
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
   buffer += escapeExpression(stack1) + ")</strong>\r\n</li>\r\n";
@@ -241,7 +241,7 @@ function program7(depth0,data) {
   buffer += "\r\n<li>\r\n    <p>Days Old/Work Day Timer:</p>\r\n    <strong>";
   stack1 = depth0.CreateTime;
   stack2 = {};
-  stack2['format'] = "fromNow+";
+  stack2['format'] = "fromNow";
   foundHelper = helpers.dateFormat;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2}) : helperMissing.call(depth0, "dateFormat", stack1, {hash:stack2});
   buffer += escapeExpression(stack1) + "</strong>\r\n</li>\r\n";

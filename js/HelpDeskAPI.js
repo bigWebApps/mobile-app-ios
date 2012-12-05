@@ -442,7 +442,7 @@ HelpDeskAPI.prototype.addtime_ticket = function (params, callback, completed) {
 
     if (typeof params == 'function') callback = params, params = {};
     this.execute(params.OrganizationKey + '/' + params.InstanceKey + '/tickets/' + params.Id, ["Method",
-        "TaskTypeId","Hours","HoursOffset","Id","Action","NoteText","OrganizationKey","InstanceKey"
+        "TaskTypeId","Hours","Id","Action","NoteText","OrganizationKey","InstanceKey"
     ], params, callback, completed);
 };
 

@@ -17,6 +17,7 @@ $(document).one("mobileinit", function () {
 //endregion
 
 api = new HelpDeskAPI();
+var timeZoneOffset = -5;
 
 //region Connection
 function checkConnection() {
@@ -189,6 +190,7 @@ pageReady("ticketlist", function(){
             return;
         }
 
+        timeZoneOffset = getStorage("TimeZoneOffset");
         //wrapper needed for this
         $('ul#tickets_list').handlebars('ht_tickets_list', {objects:data} );
     };
@@ -253,6 +255,8 @@ pageReady("ticket_detail_main", function(){
     };
 
     var ticketid = getStorage('ticketid');
+
+    timeZoneOffset = getStorage("TimeZoneOffset");
 
     if (ticketid > 0)
         api.ticket_detail({refresh: "ul#ticket_detail_response_list","OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : ticketid},parseticketdetail);
@@ -563,6 +567,7 @@ function getConfig(callback){
             return;
         }
         setStorage("User.IsTechOrAdmin", data.User.IsTechOrAdmin);
+        setStorage("TimeZoneOffset", data.TimeZoneOffset);
         if (callback != null)
             callback();
     };
@@ -712,6 +717,30 @@ function error(message)
     );
 };
 
+function calcBusinessDays(dDate1, dDate2) { // input given as Date objects
+    var iWeeks, iDateDiff, iAdjust = 0;
+    if (dDate2 < dDate1) return -1; // error code if dates transposed
+    var iWeekday1 = dDate1.getDay(); // day of week
+    var iWeekday2 = dDate2.getDay();
+    iWeekday1 = (iWeekday1 == 0) ? 7 : iWeekday1; // change Sunday from 0 to 7
+    iWeekday2 = (iWeekday2 == 0) ? 7 : iWeekday2;
+    if ((iWeekday1 > 5) && (iWeekday2 > 5)) iAdjust = 1; // adjustment if both days on weekend
+    iWeekday1 = (iWeekday1 > 5) ? 5 : iWeekday1; // only count weekdays
+    iWeekday2 = (iWeekday2 > 5) ? 5 : iWeekday2;
+
+    // calculate differnece in weeks (1000mS * 60sec * 60min * 24hrs * 7 days = 604800000)
+    iWeeks = Math.floor((dDate2.getTime() - dDate1.getTime()) / 604800000)
+
+    if (iWeekday1 <= iWeekday2) {
+        iDateDiff = (iWeeks * 5) + (iWeekday2 - iWeekday1)
+    } else {
+        iDateDiff = ((iWeeks + 1) * 5) - (iWeekday1 - iWeekday2)
+    }
+
+    iDateDiff -= iAdjust // take into account both days on weekend
+
+    return (iDateDiff + 1); // add 1 because dates are inclusive
+}
 // format an ISO date using Moment.js
 // http://momentjs.com/
 // moment syntax example: moment(Date("2011-07-18T15:50:52")).format("MMMM YYYY")
@@ -720,58 +749,68 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
     if (window.moment) {
         if (!context)
             return "";
-        var f = block.hash.format || "MMM Do, YYYY";
+        //console.log(timeZoneOffset);
+        var zone =  1*timeZoneOffset;
+        var usertime = moment(context).add("h", zone);
+        var f = block.hash.format || "Do MMM YYYY";
         if (f == "calendar")
-            return moment(context).calendar();
+            return usertime.calendar();
         else if (f == "utc")
         {
-            var utc_string = moment(context).format("(UTCZZ)").replace(/0/g,"");
-            return moment(context).format("MM/DD/YYYY, hh:mmA ") + utc_string;
+            var utc_string = "(UTC)";
+            if (zone > 0)
+               utc_string = "(UTC+" + zone + ")";
+            else if (zone <0)
+                utc_string = "(UTC" + zone + ")";
+            return moment(context).format("DD-MMM-YYYY hh:mmA ") + utc_string;
         }
         else if (f.indexOf("fromNow") >= 0)
         {
-            var positive = f.indexOf("+") > 0;
+            var sign = f.indexOf("-") > 0 ? "-": "";
             var fromnow_string = "";
-            context = moment(context);
-            var minutes = context.diff(new Date(),"minutes");
+            var userNow = moment(moment.utc()).add("h", zone);//moment.utc();//moment(new Date()).add("h", zone);
+            var slaspan = moment.duration(userNow.diff(usertime));
+            /*console.log(context);
+            console.log(userNow);
+            console.log(usertime);
+            console.log(slaspan);*/
+            var minutes = userNow.diff(usertime,"minutes");
             if (minutes < 5 && minutes > -5)
             {
                 return "Just Now";
             }
-            var days = context.diff(new Date(),"days");
+            var days = slaspan.days();
             if (days != 0)
             {
-                fromnow_string += days + 'd ';
-                context = context.add("d",-1*days);
+                fromnow_string += sign + days + 'd ';
             }
-            var hours = context.diff(new Date(),"hours");
+            var hours = slaspan.hours();
             if (hours != 0)
             {
-                fromnow_string += '-' + hours + 'h ';
-                context = context.add("h", -1*hours);
+                fromnow_string += sign + hours + 'h ';
             }
-            minutes = context.diff(new Date(),"minutes");
+            minutes = slaspan.minutes();
             if (minutes != 0)
             {
-                fromnow_string += '-' + minutes + 'm';
+                fromnow_string += sign + minutes + 'm';
             }
-            return !positive ? fromnow_string : fromnow_string.replace(/-/g, '');
+            return fromnow_string;
         }else
-            return moment(context).format(f);
+            return usertime.format(f);
     }else{
         return context; // moment plugin not available. return data as is.
     }
 });
 
 Handlebars.registerHelper('customFields', function(context) {
-    if (window.moment) {
+    if (context) {
         var str = "";
         $(context).find("field").each(function (){
             str += $(this).text() + "<br/>";
         });
         return str.replace(/\?/g, '? &mdash; ');
     }else{
-        return context; // moment plugin not available. return data as is.
+        return context;
     }
 });
 

@@ -318,7 +318,7 @@
                     return false;
                 }
                 else
-                    api.addtime_ticket({"TaskTypeId": $("select#task_type_list").val(),"Hours":hours,"HoursOffset":moment().zone()/60,"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, ticket_addtime_postback);
+                    api.addtime_ticket({"TaskTypeId": $("select#task_type_list").val(),"Hours":hours,"Id": $('#ticketId').val(),"OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "NoteText": notes, "Password":$('#password').val()}, ticket_addtime_postback);
                 return false;
             }
 

@@ -7,13 +7,13 @@
 {{#if SLAComplete}}
 <li>
     <p>SLA Completion Date:</p>
-    <strong>{{dateFormat SLAComplete format="utc"}} ({{dateFormat SLAComplete format="fromNow"}})</strong>
+    <strong>{{dateFormat SLAComplete format="utc"}} ({{dateFormat SLAComplete format="fromNow-"}})</strong>
 </li>
 {{/if}}
 {{#if SLARespose}}
 <li>
     <p>SLA Response Date:</p>
-    <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLARespose format="fromNow"}})</strong>
+    <strong>{{dateFormat SLARespose format="utc"}} ({{dateFormat SLARespose format="fromNow-"}})</strong>
 </li>
 {{/if}}
 <li>
@@ -23,7 +23,7 @@
 {{#if CreateTime}}
 <li>
     <p>Days Old/Work Day Timer:</p>
-    <strong>{{dateFormat CreateTime format="fromNow+"}}</strong>
+    <strong>{{dateFormat CreateTime format="fromNow"}}</strong>
 </li>
 {{/if}}
 {{#if ProjectName}}
