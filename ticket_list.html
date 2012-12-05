@@ -5,36 +5,47 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 	
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css"/>
-    <link rel="stylesheet" type="text/css" href="js/lib/jquery.mobile.iscrollview.css">
-    <link rel="stylesheet" type="text/css" href="js/lib/jquery.mobile.iscrollview-pull.css">
     <link rel="stylesheet" type="text/css" href="css/helpdesk-base.css">
     <link rel="stylesheet" type="text/css" href="css/HelpDesk.css">
     
     <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.mobile-1.1.1.min.js"></script>
-    <script src="js/lib/iscroll.js"></script>
-    <script src="js/lib/jquery.mobile.iscrollview.js"></script>
+	<script src="js/jquery.mobile-1.1.1.min.js"></script>
     <script src="js/moment.min.js"></script>
     <script src="js/jquery.url.js"></script>
     <script src="js/handlebars-1.0.0.beta.6.js"></script>
     <script src="js/HelpDeskAPI.js"></script>
     <script src="js/templates.js"></script>
     <script src="js/helpdesk.js"></script>
-    
+    <script src="js/lib/list.js"></script>
+    <script>
+     $(document).ready(function() {
+       window.setTimeout(function(){
+           var options = {
+                valueNames: [ 'ticket-num', 'ticket-subject', 'customer', 'status', 'tech-name', 'account', 'date', 'class-name' ]
+            };        
+            var featureList = new List('ticketlist', options);           
+           },5000);      
+     });       
+    </script>   
 </head> 
 <body>
 <div id="container"/>
 <div id="ticketlist_page" data-role="page">
-
-	<div data-role="content" data-iscroll>	
-		<ul id="tickets_list" data-role="listview" data-theme="d" data-filter="true" data-filter-placeholder="Search Ticket List" data-filter-theme="h">
-        </ul>
+	<div id="ticketlist" data-role="content">
+    <div class="topSearch">
+    	<input type="text" class="search" placeholder="Search Tickets" data-role="none" />	
+    </div>
+    	    	
+   	  <ul class="list" id="tickets_list">
+      
+  	  </ul>
     </div>
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="h">
-    	<a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Back</a>		
+    	<a href="home.html" data-role="button" data-inline="true" data-theme="g" data-icon="back">Back</a>	
 	</div>
 
 </div><!-- /page -->
+
 
 </body>
 </html>
