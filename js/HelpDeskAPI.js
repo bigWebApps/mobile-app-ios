@@ -189,7 +189,7 @@ HelpDeskAPI.prototype.execute = function (method, availableParams, givenParams, 
             {
             if (givenParams.refresh  !== 'undefined')
             {
-            //$(givenParams.refresh).listview('refresh');
+            $(givenParams.refresh +':visible').listview('refresh');
             }
             }
           }

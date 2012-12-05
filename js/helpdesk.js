@@ -198,10 +198,10 @@ pageReady("ticketlist", function(){
     var queueid = getStorage('queueid');
 
     if (queueid > 0)
-        api.queue_ticket_list({"refresh": "ul#tickets_list", "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
-    else
+       { api.queue_ticket_list({"refresh": "ul#tickets_list", "OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance"), "Id" : queueid},parsetickets);
+	   } else {
         api.ticket_list({"refresh": "ul#tickets_list","OrganizationKey": getStorage("organization"),"InstanceKey": getStorage("instance")},parsetickets);
-
+	   };
 });
 
 function ticket_details(ticketid)
