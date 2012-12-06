@@ -21,6 +21,19 @@ label {
 
 }
 
+input#email,
+input#password {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid #cccccc;
+	}
+	input#email:focus,
+	input#password:focus {
+		outline-color: #044062;
+		}
+
 #select_customer_name::-webkit-input-placeholder  {
    color: #333;
 }
