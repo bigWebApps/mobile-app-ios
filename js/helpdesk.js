@@ -117,8 +117,11 @@ function checkStorage(changelocation)
     {
         if (!selected_org || !selected_inst)
         {
-                window.location.replace("login.html#organizations_page");
+            if (window.location.href.indexOf("login.html")<0)
+            {
+                window.location.replace("login.html");
                 return false;
+            }
         }
         else
         {
@@ -579,7 +582,7 @@ pageReady("instances", function(){
 
         var org_key =  getStorage("organization");
         if (!org_key || !result) {
-            $.mobile.changePage("#organizations_page");
+            window.location.replace("login.html");
             return;
         }
         //console.log('parseinsts');
