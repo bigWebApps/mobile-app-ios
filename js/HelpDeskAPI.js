@@ -26,7 +26,7 @@ var HelpDeskAPI = function (options) {
     this.packageInfo = options.packageInfo;
     this.httpHost = 'app.bigwebapps.com/api';
     //this.httpHost = 'localhost:44305/api';
-    //this.httpHost = 'app.helpdesk.bigwebapps.com/api';
+    this.httpHost = 'app.helpdesk.bigwebapps.com/api';
     this.httpUri = (this.secure) ? 'https://' + this.httpHost /*+ ':443'*/ : 'http://' + this.httpHost;
 };
 
