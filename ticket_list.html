@@ -10,15 +10,18 @@
     
     <script src="js/jquery.min.js"></script>
 	<script src="js/jquery.mobile-1.1.1.min.js"></script>
+	<script src="js/lib/list.js"></script>
     <script src="js/moment.min.js"></script>
     <script src="js/jquery.url.js"></script>
     <script src="js/handlebars-1.0.0.beta.6.js"></script>
+	
     <script src="js/HelpDeskAPI.js"></script>
     <script src="js/templates.js"></script>
     <script src="js/helpdesk.js"></script>
-    <script src="js/lib/list.js"></script>
-    <script>
-     $(document).ready(function() {
+    
+    <script>	
+	
+	$(document).ready(function() {
        window.setTimeout(function(){
            var options = {
                 valueNames: [ 'ticket-num', 'ticket-subject', 'customer', 'status', 'tech-name', 'account', 'date', 'class-name' ]
