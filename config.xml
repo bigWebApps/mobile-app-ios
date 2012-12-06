@@ -2,14 +2,10 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.bigwebapps.helpdesk"
-        versionCode="9"
-        version   = "0.9.0"><!-- versionCode is optional and Android only -->
+        versionCode="10"
+        version   = "1.0.0"><!-- versionCode is optional and Android only -->
 
 	    <access origin="*" />
-	
-	    <gap:platforms>
-	        <gap:platform name="ios"/>
-	    </gap:platforms>
 	
 	    <name>HelpDesk</name>
 	
@@ -24,7 +20,8 @@
 		<preference name="orientation" value="portrait" />
 		<preference name="target-device" value="handset" />
 		<preference name="prerendered-icon" value="true" />
-		<preference name="webviewbounce" value="false" />	
+		<preference name="webviewbounce" value="false" />
+		<preference name="show-splash-screen-spinner" value="false" />	
 		
 		<!-- IOS only icons -->
 		<icon src="img/icons/ios/icon.png" gap:platform="ios" width="57" height="57" />
@@ -36,7 +33,7 @@
 		<gap:splash src="img/splash/ios/Default_at_2x.png" width="640" height="960" />
 		
 		<!-- Android Specific -->
-		<preference name="android-minSdkVersion" value="9" />
+		<preference name="android-minSdkVersion" value="8" />
 		<preference name="android-installLocation" value="internalOnly" />
 
 		<!-- Android Icons -->
