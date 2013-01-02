@@ -568,6 +568,7 @@ function getConfig(callback){
         setStorage("User.IsTechOrAdmin", data.User.IsTechOrAdmin);
         setStorage("User.IsUseWorkDaysTimer", data.User.IsUseWorkDaysTimer);
         setStorage("TimeZoneOffset", data.TimeZoneOffset);
+        setStorage("BusinessDayLength", data.BusinessDayLength);
         if (callback != null)
             callback();
     };
@@ -765,10 +766,10 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
             {
                 return "Just Now";
             }
-            var days = slaspan.days();
+            var days = slaspan.asDays();
             if (days != 0)
             {
-                fromnow_string += sign + days + 'd ';
+                fromnow_string += sign +parseInt(days) + 'd ';
             }
             var hours = slaspan.hours();
             if (hours != 0)
@@ -784,21 +785,21 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
         }
         else if (f == "minutes")
         {
+            var businessDayLength =  1*getStorage("BusinessDayLength");
             var fromnow_string = "";
-            var slaspan = moment.duration({
-                minutes: context
-            });
-            var days = slaspan.days();
+            console.log(context);
+            console.log(businessDayLength);
+            var days =  context / businessDayLength;
+            var hours = (context % businessDayLength) / 60;
+            var minutes = (context % businessDayLength) % 60;
             if (days != 0)
             {
-                fromnow_string += days + 'd ';
+                fromnow_string += parseInt(days) + 'd ';
             }
-            var hours = slaspan.hours();
             if (hours != 0)
             {
-                fromnow_string += hours + 'h ';
+                fromnow_string +=parseInt(hours) + 'h ';
             }
-            var minutes = slaspan.minutes();
             if (minutes != 0)
             {
                 fromnow_string += minutes + 'm';
