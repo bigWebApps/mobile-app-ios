@@ -787,8 +787,8 @@ Handlebars.registerHelper('dateFormat', function(context, block) {
         {
             var businessDayLength =  1*getStorage("BusinessDayLength");
             var fromnow_string = "";
-            console.log(context);
-            console.log(businessDayLength);
+            //console.log(context);
+            //console.log(businessDayLength);
             var days =  context / businessDayLength;
             var hours = (context % businessDayLength) / 60;
             var minutes = (context % businessDayLength) % 60;
