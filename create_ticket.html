@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+﻿<!DOCTYPE html> 
 <html> 
 	<head> 
 	<title>HelpDesk</title>
@@ -60,6 +60,7 @@
             });
 
             function create_ticket_submit() {
+                
                 if ($("select#class_list").val()<1)
                   //|| $("#class_list option:selected").attr("data-last-child") == 'false')
                 {
@@ -83,6 +84,10 @@
                     tooltip('Details should be less 5000 chars!', 'error');
                     return false;
                 }
+                if ($(".submitButton1").attr("disabled") == "disabled")
+			return false;
+
+                $(".submitButton1").attr("disabled","disabled");
 
                     var ticket = {};
                     ticket["TechnicianId"] = $("#tech_list").val();
@@ -154,7 +159,10 @@
                     return false;
                 }
                 else
+                {
+                    $(".submitButton1").removeAttr("disabled");
                     error("Error!");
+                }
                 return false;
             }
 
@@ -177,8 +185,10 @@
                 {
                     $.mobile.changePage("home.html");
                 }
-                else
+                else{
+                    $(".submitButton1").removeAttr("disabled");
                     tooltip('There was a problem.', 'error');
+                }
                 return false;
             }
         </script>
@@ -229,7 +239,7 @@
             <p class="create_ticket_show">
             <label><input type="checkbox" id="transfer_me_alternate" /> Make me the alternate </label>
             </p>
-            <button type="submit" data-theme="b" name="submit" value="submit-value" >
+            <button type="submit" data-theme="b" name="submit" value="submit-value" class="submitButton1" >
                 Submit Ticket
             </button>
 			</form>
